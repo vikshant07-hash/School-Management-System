@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us - School</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* ================= BASE ================= */
+*{
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Poppins, sans-serif;
+  background:#f4f7fb;
+  margin:0;
+}
+
+/* ================= CONTACT CONTAINER ================= */
+.contact-container{
+  max-width:1100px;
+  margin:40px auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+  padding:20px;
+}
+
+/* ================= CONTACT INFO ================= */
+.contact-info{
+  background:linear-gradient(135deg,#070c50,#501846,#631e46);
+  color:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.4);
+}
+
+.contact-info h2{
+  margin-bottom:20px;
+}
+
+.info-item{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  background:rgba(255,255,255,0.1);
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:12px;
+  transition:0.3s;
+}
+
+.info-item:hover{
+  transform:translateX(6px);
+  background:rgba(255,255,255,0.2);
+}
+
+.info-icon{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#00c6ff,#0072ff);
+  font-size:18px;
+}
+
+.info-text strong{
+  display:block;
+  font-size:14px;
+  color:#00c6ff;
+}
+
+.info-text span{
+  font-size:15px;
+}
+
+/* ================= FORM ================= */
+.contact-form{
+  background:#fff;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:5px 10px 30px rgba(0,0,0,0.1);
+}
+
+.contact-form h2{
+  margin-bottom:20px;
+}
+
+.contact-form input,
+.contact-form textarea{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+.contact-form textarea{
+  resize:none;
+  height:120px;
+}
+
+.contact-form button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:25px;
+  background:linear-gradient(135deg,#6a11cb,#1e3c72);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.contact-form button:hover{
+  transform:scale(1.05);
+}
+
+.success{
+  color:green;
+  text-align:center;
+  margin-top:10px;
+}
+
+/* ================= MAP ================= */
+.map-section{
+  margin-top:50px;
+  text-align:center;
+}
+
+.map-title{
+  font-size:24px;
+  margin-bottom:15px;
+  color:#333;
+}
+
+.map-container{
+  position:relative;
+  width:100%;
+  height:350px;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.map-container iframe{
+  width:100%;
+  height:100%;
+  border:none;
+}
+
+/* MAP BUTTONS */
+.map-buttons{
+  margin-top:15px;
+  display:flex;
+  gap:15px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:40px;
+}
+
+.map-buttons a{
+  padding:10px 18px;
+  border-radius:25px;
+  text-decoration:none;
+  color:white;
+  font-weight:500;
+  background:linear-gradient(135deg,#6a11cb,#1e3c72);
+  transition:0.3s;
+}
+
+.map-buttons a:hover{
+  transform:translateY(-3px) scale(1.05);
+}
+
+/* ================= HEADER ================= */
+.contact-header{ position:relative; text-align:center; margin:30px auto; padding:18px 30px; width:fit-content; min-width:250px; border-radius:14px; /* 🔥 ANIMATED BACKGROUND */ background: linear-gradient( 270deg, #0f172a, #1e293b, #312e81, #0f172a ); background-size:400% 400%; animation:bgMove 10s ease infinite; color:white; overflow:hidden; z-index:1; box-shadow:0 10px 35px rgba(0,0,0,0.5); } /* 🔥 HEADING */ .contact-header h1{ font-size:20px; margin:0; font-weight:600; background: linear-gradient(45deg,#38bdf8,#a78bfa,#f472b6); -webkit-background-clip: text; /* Chrome, Safari */ background-clip: text; /* Standard */ -webkit-text-fill-color: transparent; } /* SUBTEXT */ .contact-header p{ font-size:12px; color:#cbd5e1; margin-top:5px; } /* 🌈 GLOW BORDER */ .contact-header::before{ content:""; position:absolute; inset:-2px; border-radius:16px; background:linear-gradient( 90deg, #d73bf6, #eae733, #76ec48, #3b82f6 ); background-size:300% 100%; animation:borderMove 4s linear infinite; z-index:-1; } /* INNER DARK LAYER */ .contact-header::after{ content:""; position:absolute; inset:2px; border-radius:14px; background:rgba(15,23,42,0.85); z-index:-1; } /* 🔄 BACKGROUND ANIMATION */ @keyframes bgMove{ 0%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } 100%{ background-position:0% 50%; } } /* 🔄 BORDER ANIMATION */ @keyframes borderMove{ 0%{ background-position:0% 50%; } 100%{ background-position:300% 50%; } } /* ✨ HOVER EFFECT */ .contact-header:hover{ transform:translateY(-4px) scale(1.03); box-shadow:0 20px 50px rgba(0,0,0,0.7); transition:0.3s; }
+
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* ================= CAPTCHA ================= */
+.captcha-box{
+  margin:15px 0;
+  text-align:center;
+}
+
+#captchaCanvas{
+  width:160px;
+  height:50px;
+  border-radius:10px;
+  background:#111;
+  display:block;
+  margin:0 auto 10px;
+}
+
+.captcha-actions{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+}
+
+.captcha-actions input{
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  width:150px;
+}
+
+.captcha-actions button{
+  padding:10px 14px;
+  border:none;
+  border-radius:8px;
+  background:#6a11cb;
+  color:white;
+  cursor:pointer;
+}
+
+
+
+/* MOBILE */
+@media(max-width:768px){
+
+  .contact-container{
+    grid-template-columns:1fr;
+    padding:10px;
+  }
+
+  .contact-info,
+  .contact-form{
+    padding:20px;
+  }
+
+  .map-container{
+    height:250px;
+  }
+
+  .map-buttons{
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .map-buttons a{
+    width:80%;
+    text-align:center;
+  }
+
+  .glass-container{
+    grid-template-columns:1fr;
+  }
+
+  .captcha-actions{
+    flex-direction:column;
+  }
+
+  .captcha-actions input{
+    width:100%;
+  }
+
+  .contact-header h1{
+    font-size:18px;
+  }
+}
+
+/* SMALL MOBILE */
+@media(max-width:480px){
+
+  .contact-header{
+    min-width:auto;
+    padding:15px;
+  }
+
+  .contact-header h1{
+    font-size:16px;
+  }
+
+  .map-container{
+    height:220px;
+  }
+
+  .glass-box{
+    padding:15px;
+  }
+}
+
+
+
+/* ================= FOOTER BASE ================= */
+.glass-footer {
+  position: relative;
+  overflow: hidden;
+
+background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #fff;
+  padding: 50px 20px 20px;
+
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  font-family: "Poppins", sans-serif;
+}
+
+/* ================= RGB TOP LIGHT ================= */
+.glass-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+
+  background: linear-gradient(
+    90deg,
+    #ff004c,
+    #ffcc00,
+    #00ffcc,
+    #0066ff,
+    #ff00ff,
+    #ff004c
+  );
+
+  background-size: 400% 100%;
+  animation: rgbMove 6s linear infinite;
+
+  box-shadow: 0 0 15px rgba(255, 0, 100, 0.6),
+              0 0 25px rgba(0, 255, 200, 0.4);
+}
+
+/* RGB animation */
+@keyframes rgbMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* ================= CONTAINER ================= */
+.glass-container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* ================= MAIN BOX ================= */
+.glass-box.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+/* ================= BRAND FLEX ================= */
+.brand-flex {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  background: rgba(255, 255, 255, 0.06);
+  padding: 20px;
+  border-radius: 16px;
+
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+
+  max-width: 800px;
+  width: 100%;
+}
+
+/* ================= LOGO ================= */
+.school-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ================= TEXT ================= */
+.brand-flex h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.brand-flex p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ================= FOOTER BOTTOM ================= */
+.glass-bottom {
+  margin-top: 25px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+/* ================= DEVELOPER CREDIT ================= */
+.dev-credit {
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dev-credit span {
+  color: #ff4d6d;
+  font-weight: 600;
+}
+
+/* ================= HOVER EFFECT ================= */
+.brand-flex:hover {
+  transform: translateY(-3px);
+  transition: 0.3s ease;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px) {
+  .brand-flex {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .school-logo {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+
+/* =========================
+   ANIMATION
+========================= */
+@keyframes glowMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:18px;
+  margin-bottom:15px;
+  margin-left:20px;
+  padding:7px 14px;
+
+  background:#5b0570;
+  color:#fff;
+
+  text-decoration:none;
+  font-size:14px;
+  font-weight:500;
+
+  border-radius:8px;
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
+
+  animation:fadeInLeft 0.6s ease;
+}
+
+/* hover */
+.back-btn:hover{
+  background:#000;
+  transform:translateX(-6px);
+  box-shadow:0 8px 18px rgba(0,0,0,0.2);
+}
+
+/* ripple */
+.back-btn::after{
+  content:"";
+  position:absolute;
+  width:0;
+  height:0;
+  background:rgba(255,255,255,0.3);
+  border-radius:50%;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  transition:width 0.5s ease, height 0.5s ease;
+}
+
+.back-btn:hover::after{
+  width:200px;
+  height:200px;
+}
+
+/* animation */
+@keyframes fadeInLeft{
+  from{opacity:0; transform:translateX(-20px);}
+  to{opacity:1; transform:translateX(0);}
+}
+
+@media(max-width:768px){
+
+  .back-btn{
+    padding:8px;
+    width:38px;
+    height:38px;
+    justify-content:center;
+    border-radius:50%;
+    font-size:0;
+    margin-left:10px;
+  }
+
+  .back-btn::before{
+    content:"←";
+    font-size:18px;
+    color:white;
+  }
+
+  /* hide ripple overflow issue fix */
+  .back-btn span{
+    display:none;
+  }
+}
+</style>
+</head>
+
+<body>
+  <a href="../index.html" class="back-btn">← Back</a>
+
+ <div class="contact-header">
+  <span></span>
+  <span></span>
+
+  <h1>Contact Us</h1>
+  <p>Get in touch with Govt Sr. Sec. School Shilla</p>
+</div>
+
+<div class="contact-container">
+
+  <!-- LEFT CARD -->
+  <div class="contact-info">
+    <h2>📞 Contact Info</h2>
+
+    <div class="info-item">
+      <div class="info-icon">🏫</div>
+      <div class="info-text">
+        <strong>School Name</strong>
+        <span id="schoolName"></span>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <div class="info-icon">📍</div>
+      <div class="info-text">
+        <strong>Address</strong>
+        <span id="address"></span>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <div class="info-icon">📞</div>
+      <div class="info-text">
+        <strong>Phone</strong>
+        <span id="phone"></span>
+      </div>
+    </div>
+
+    <div class="info-item">
+      <div class="info-icon">✉️</div>
+      <div class="info-text">
+        <strong>Email</strong>
+        <span id="email"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT FORM -->
+  <div class="contact-form">
+    <h2>Send Message</h2>
+
+    <form id="contactForm">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="email" id="emailInput" placeholder="Your Email" required>
+      <textarea id="message" placeholder="Your Message" required></textarea>
+      <div class="captcha-box">
+
+  <canvas id="captchaCanvas"></canvas>
+
+  <div class="captcha-actions">
+    <input type="text" id="captchaInput" placeholder="Enter CAPTCHA" required>
+    <button type="button" id="refreshCaptcha">↻</button>
+  </div>
+
+</div>
+      <button type="submit">Send Message</button>
+     
+ 
+    </form>
+
+    <div class="success" id="successMsg"></div>
+  </div>
+
+</div>
+
+
+  <!-- GOOGLE MAP -->
+<div class="map-section">
+
+  <h2 class="map-title">📍 Our Location</h2>
+
+  <div class="map-container">
+
+    <!-- GOOGLE MAP -->
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d322.9277195506766!2d77.70109137720713!3d30.960744857674893!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390f59cf7b1b7e75%3A0xec97618a85710546!2sSchool!5e1!3m2!1sen!2sin!4v1778048964394!5m2!1sen!2sin" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      loading="lazy">
+    </iframe>
+
+    <!-- CUSTOM MARKER -->
+    <div class="custom-marker">
+      <img src="../1777958395321-Picture1.png" alt="School Logo">
+      <span class="pulse"></span>
+    </div>
+
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="map-buttons">
+    <a href="https://maps.app.goo.gl/D55aZ9Z6pAqicyru9">
+      🌍 Open in Maps
+    </a>
+
+    <a href="https://www.google.com/maps/dir/?api=1&destination=
+Government+Primary+School+Shilla+राजकीय+प्राथमिक+विद्यालय+शिल्ला" target="_blank">
+      🚗 Get Directions
+    </a>
+  </div>
+
+</div>
+
+
+<footer class="glass-footer">
+
+  <div class="glass-container">
+
+    <div class="glass-box brand">
+
+  <div class="brand-flex">
+    <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo" class="school-logo">
+
+    <div>
+      <h2>Govt Sr. Sec. School</h2>
+      <p>Empowering students with knowledge, discipline & excellence.</p>
+    </div>
+ 
+
+
+
+  <div class="glass-bottom">
+    © 2026 Govt. Sr. Sec. School Shilla | All Rights Reserved
+  </div>
+  <div class="dev-credit">
+  <p>Developed by <span>Vikshant Kralta</span></p>
+</div>
+
+</footer>
+
+<script>
+
+let captchaText = "";
+
+function generateCaptcha(){
+  const canvas = document.getElementById("captchaCanvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = 160;
+  canvas.height = 50;
+
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  captchaText = "";
+
+  // 🔥 random text generate
+  for(let i=0; i<6; i++){
+    captchaText += chars.charAt(Math.floor(Math.random()*chars.length));
+  }
+
+  // background
+  ctx.fillStyle = "#111";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // text draw (distorted)
+  for(let i=0; i<captchaText.length; i++){
+    const x = 20 + i*20;
+    const y = 30 + Math.random()*10;
+
+    ctx.font = `${20 + Math.random()*5}px Arial`;
+    ctx.fillStyle = `hsl(${Math.random()*360},100%,70%)`;
+
+    ctx.save();
+    ctx.translate(x,y);
+    ctx.rotate((Math.random()-0.5)*0.5);
+    ctx.fillText(captchaText[i],0,0);
+    ctx.restore();
+  }
+
+  // noise lines
+  for(let i=0; i<5; i++){
+    ctx.strokeStyle = `rgba(255,255,255,0.3)`;
+    ctx.beginPath();
+    ctx.moveTo(Math.random()*160, Math.random()*50);
+    ctx.lineTo(Math.random()*160, Math.random()*50);
+    ctx.stroke();
+  }
+}
+
+generateCaptcha();
+
+// 🔄 refresh button
+document.getElementById("refreshCaptcha").addEventListener("click", generateCaptcha);
+
+/* LOAD CONTACT INFO */
+async function loadContactInfo(){
+  try{
+    const res = await fetch("http://localhost:3000/admin/contact/info");
+    const data = await res.json();
+
+    document.getElementById("schoolName").innerText = data.school_name;
+    document.getElementById("address").innerText = data.address;
+    document.getElementById("phone").innerText = data.phone;
+    document.getElementById("email").innerText = data.email;
+
+  }catch(err){
+    console.error("Error loading contact info", err);
+  }
+}
+loadContactInfo();
+
+/* FORM SUBMIT */
+document.getElementById("contactForm").addEventListener("submit", async (e)=>{
+  e.preventDefault();  // 🔥 VERY IMPORTANT
+
+  // ✅ CAPTCHA CHECK
+  const userCaptcha = document.getElementById("captchaInput").value.trim();
+
+  if(userCaptcha !== captchaText){
+    alert("❌ Wrong CAPTCHA!");
+    generateCaptcha();  // new captcha
+    return; // ⛔ STOP HERE (message send nahi hoga)
+  }
+
+  // ✅ AGAR CAPTCHA SAHI HAI TABHI AAGE BADHEGA
+  const data = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("emailInput").value,
+    message: document.getElementById("message").value
+  };
+
+  try{
+    const res = await fetch("http://localhost:3000/contact",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    document.getElementById("successMsg").innerText = result.message;
+
+    document.getElementById("contactForm").reset();
+
+    generateCaptcha(); // 🔄 new captcha after success
+
+  }catch(err){
+    console.error(err);
+  }
+});
+</script>
+
+</body>
+</html>
+
+
+

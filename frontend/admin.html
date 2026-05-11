@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0f0f1a;
+color:white;
+}
+
+.header{
+padding:15px;
+text-align:center;
+background:#1e1e2f;
+}
+
+.container{
+padding:20px;
+}
+
+button{
+padding:8px 12px;
+margin:5px;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:#1c1c2b;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #333;
+text-align:center;
+}
+
+.view{background:#3498db;color:white;}
+.ok{background:#2ecc71;color:white;}
+.no{background:#e74c3c;color:white;}
+
+.modal{
+display:none;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.7);
+}
+
+.box{
+width:420px;
+background:white;
+color:black;
+margin:10% auto;
+padding:20px;
+border-radius:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h2>Admin Dashboard</h2>
+</div>
+
+<div class="container">
+
+<button onclick="load('pending')">Pending</button>
+<button onclick="load('approved')">Approved</button>
+<button onclick="load('correction')">Correction</button>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Class</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="tb"></tbody>
+</table>
+
+</div>
+
+<div class="modal" id="modal">
+<div class="box">
+<span onclick="closeM()" style="float:right;cursor:pointer">X</span>
+<div id="det"></div>
+</div>
+</div>
+
+<script>
+
+async function load(status){
+
+const res=await fetch("http://localhost:3000/api/admin/students?status="+status);
+const json=await res.json();
+const data=json.data;
+
+let html="";
+
+data.forEach(s=>{
+html+=`
+<tr>
+<td>${s.name}</td>
+<td>${s.email}</td>
+<td>${s.class}</td>
+<td>${s.status}</td>
+<td>
+<button class="view" onclick='view(${JSON.stringify(s)})'>View</button>
+<button class="ok" onclick="approve(${s.id})">Approve</button>
+<button class="no" onclick="correction(${s.id})">Reject</button>
+</td>
+</tr>`;
+});
+
+document.getElementById("tb").innerHTML=html;
+}
+
+function view(s){
+
+document.getElementById("modal").style.display="block";
+
+document.getElementById("det").innerHTML=`
+<h3>${s.name}</h3>
+<p>Email: ${s.email}</p>
+<p>Phone: ${s.phone}</p>
+<p>Class: ${s.class}</p>
+<p>Subjects: ${s.subjects}</p>
+<p>Address: ${s.address}</p>
+<p>Status: ${s.status}</p>
+<p style="color:red">${s.remark||""}</p>
+`;
+}
+
+function closeM(){
+document.getElementById("modal").style.display="none";
+}
+
+async function approve(id){
+await fetch("http://localhost:3000/api/admin/approve/"+id,{method:"PUT"});
+load("pending");
+}
+
+async function correction(id){
+
+let remark=prompt("Enter remark");
+
+await fetch("http://localhost:3000/api/admin/correction/"+id,{
+method:"PUT",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({remark})
+});
+
+load("pending");
+}
+
+load("pending");
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Govt Sr. Sec. School Shilla</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" href="1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+
+  <!-- LOGO -->
+  <div class="logo">
+    <img src="1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo">
+    <span>Govt Sr. Sec. School Shilla</span>
+  </div>
+
+  <!-- NAV LINKS -->
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#">Home</a></li>
+    <li><a href="public/pub-notif.html">Notices</a></li>
+    <li><a href="public/result.html">Results</a></li>
+    <li><a href="public/downloads.html">Downloads</a></li>
+    <li><a href="public/contact.html">Contact</a></li>
+  </ul>
+
+  <!-- LOGIN (LAST RIGHT PC) -->
+  <div class="login-dropdown">
+    <button class="login-btn" id="loginBtn">
+      <span class="login-icon">🔐</span>
+      <span class="login-text">Login</span>
+    </button>
+
+    <!-- DROPDOWN -->
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="#" data-link="admin/login.html">🛠️ Admin</a>
+      <a href="#" data-link="student.html">🎓 Student</a>
+      <a href="#" data-link="teacher.html">👨‍🏫 Teacher</a>
+    </div>
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div class="menu-toggle" id="menuToggle">☰</div>
+
+</header>
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- SLIDER -->
+  <div id="slider" class="slider">
+
+    <!-- arrows -->
+    <div id="prev" class="arrow left">&#10094;</div>
+    <div id="next" class="arrow right">&#10095;</div>
+
+  </div>
+
+  <!-- dots -->
+  <div id="dots" class="dots"></div>
+
+  <div class="overlay"></div>
+
+  <!-- CONTENT -->
+  <div class="hero-content">
+    <h2 style="color:#66a3ff;">WELCOME TO</h2>
+    <h1 class="main-heading">GOVT. SR. SEC. SCHOOL SHILLA</h1>
+    <p>Quality Education • Discipline • Excellence 🇮🇳</p>
+
+    <div class="hero-buttons">
+  <a href="public/pub-gallery.html">Gallery</a>
+  <a href="public/faculity.html">Faculty</a>
+  <a href="https://hpbose.org/result.aspx">🎓 Results</a>
+</div>
+  </div>
+
+</section>
+
+<footer class="glass-footer">
+
+  <div class="glass-container">
+
+    <div class="glass-box brand">
+
+  <div class="brand-flex">
+    <img src="1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo" class="school-logo">
+
+    <div>
+      <h2>GSS SCHOOL SHILLA</h2>
+      <p>Empowering students with knowledge, discipline & excellence.</p>
+    </div>
+  </div>
+
+</div>
+
+    <div class="glass-box">
+      <h3>🔗 Quick Links</h3>
+      <a href="#">Home</a>
+      <a href="public/pub-notif.html">Notices</a>
+      <a href="public/contact.html">Contact</a>
+      <a href="https://www.hpbose.org/Result.aspx">Results</a>
+    </div>
+
+    <div class="glass-box">
+      <h3>📌 Important</h3>
+      <a href="https://www.hpbose.org/">HPBOSE</a>
+      <a href="https://scholarships.gov.in/">NSP SCHOLARSHIP</a>
+      <a href="https://hpcalendar.co.in/">Calendar</a>
+      <a href="https://www.mygov.in/">My Govt.</a>
+    </div>
+
+    <div class="glass-box">
+    
+      <p> “Education is the key to success and a brighter future.  
+  We inspire students to learn with confidence, discipline, and creativity.  
+  Together, we build responsible leaders for tomorrow.” </p>
+      
+    </div>
+
+  </div>
+
+
+
+  
+  
+
+<div class="visitor-box">
+  👥 Visitors:
+  <span id="count">0</span>
+
+  
+</div>
+
+
+
+
+
+  <div class="glass-bottom">
+    © 2026 Govt School | All Rights Reserved  <a href="school_privacy_policy.pdf" style="color: red;"> Privacy & Policy</a>
+  </div>
+  <div class="dev-credit">
+  <p>Developed by <span>Vikshant Kralta</span></p>
+</div>
+
+</footer>
+<!-- ================= JS ================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ================= LOGIN DROPDOWN ================= */
+
+  const loginBtn = document.getElementById("loginBtn");
+  const dropdown = document.getElementById("dropdownMenu");
+  const items = document.querySelectorAll(".dropdown-menu a");
+
+  // OPEN / CLOSE
+  loginBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle("show");
+  });
+
+  // ITEM CLICK
+  items.forEach(item => {
+    item.addEventListener("click", (e) => {
+
+      e.preventDefault();
+      e.stopPropagation(); // 🔥 MOST IMPORTANT
+
+      // ACTIVE STATE
+      items.forEach(i => i.classList.remove("active"));
+      item.classList.add("active");
+
+      console.log("Selected:", item.innerText);
+
+      // REDIRECT
+      const link = item.getAttribute("data-link");
+      if (link) {
+        window.location.href = link;
+      }
+
+      // CLOSE AFTER SELECT
+      dropdown.classList.remove("show");
+    });
+  });
+
+  // OUTSIDE CLICK
+  document.addEventListener("click", (e) => {
+    if (!dropdown.contains(e.target) && e.target !== loginBtn) {
+      dropdown.classList.remove("show");
+    }
+  });
+
+
+  
+menuToggle.addEventListener("click", () => {
+  navLinks.classList.toggle("active");
+
+  if(navLinks.classList.contains("active")){
+    document.body.style.overflow = "hidden";
+    menuToggle.innerHTML = "✕";
+  } else {
+    document.body.style.overflow = "auto";
+    menuToggle.innerHTML = "☰";
+  }
+});
+
+  /* ================= SLIDER ================= */
+
+  const slider = document.getElementById("slider");
+  const dotsContainer = document.getElementById("dots");
+
+  let slides = [];
+  let index = 0;
+  let interval;
+
+  fetch("http://localhost:3000/images")
+    .then(res => res.json())
+    .then(data => {
+
+      if (!data || data.length === 0) {
+        slider.innerHTML = "<p style='color:white;text-align:center'>No Images</p>";
+        return;
+      }
+
+      // arrows
+      slider.innerHTML = `
+        <div id="prev" class="arrow left">&#10094;</div>
+        <div id="next" class="arrow right">&#10095;</div>
+      `;
+
+      dotsContainer.innerHTML = "";
+
+      data.forEach((img, i) => {
+
+        const image = document.createElement("img");
+        image.src = "http://localhost:3000/uploads/" + img.filename;
+
+        if (i === 0) image.classList.add("active");
+
+        slider.appendChild(image);
+
+        const dot = document.createElement("span");
+        if (i === 0) dot.classList.add("active");
+
+        dot.addEventListener("click", () => {
+          index = i;
+          showSlide(index);
+        });
+
+        dotsContainer.appendChild(dot);
+      });
+
+      slides = document.querySelectorAll("#slider img");
+
+      document.getElementById("next").addEventListener("click", nextSlide);
+      document.getElementById("prev").addEventListener("click", prevSlide);
+
+      startSlider();
+    })
+    .catch(err => console.error("Fetch Error:", err));
+
+
+  function showSlide(i) {
+    if (slides.length === 0) return;
+
+    slides.forEach(s => s.classList.remove("active"));
+    document.querySelectorAll("#dots span").forEach(d => d.classList.remove("active"));
+
+    slides[i].classList.add("active");
+    document.querySelectorAll("#dots span")[i].classList.add("active");
+  }
+
+  function nextSlide() {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+  }
+
+  function prevSlide() {
+    index = (index - 1 + slides.length) % slides.length;
+    showSlide(index);
+  }
+
+  function startSlider() {
+    interval = setInterval(nextSlide, 4000);
+  }
+
+});
+
+
+
+
+
+
+
+
+/* =========================
+   TRACK UNIQUE VISITOR
+========================= */
+
+fetch(
+  "http://localhost:3000/analytics/track"
+)
+
+.then(res => res.json())
+
+.then(data => {
+
+  console.log(data);
+
+  /* GET STATS */
+
+  return fetch(
+    "http://localhost:3000/analytics/stats"
+  );
+
+})
+
+.then(res => res.json())
+
+.then(data => {
+
+  /* SHOW TOTAL */
+
+  document.getElementById(
+    "count"
+  ).innerText =
+    data.total;
+
+})
+
+.catch(err => {
+
+  console.log(
+    "Visitor Error:",
+    err
+  );
+
+});
+
+
+</script>
+
+</body>
+</html>

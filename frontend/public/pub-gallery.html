@@ -1,0 +1,631 @@
+<style>
+/* ================= ROOT THEME ================= */
+:root{
+  --navy1:#070b1a;
+  --navy2:#0b1430;
+  --navy3:#111b3a;
+
+  --purple:#8b5cf6;
+  --pink:#ec4899;
+  --light:#e5e7eb;
+  --muted:#a1a1aa;
+}
+
+/* ================= GLOBAL ================= */
+body{
+  margin:0;
+  font-family:"Poppins",sans-serif;
+  background: radial-gradient(circle at top, #070b1a, #050712);
+  color:var(--light);
+}
+
+/* ================= SECTION ================= */
+.gallery-section{
+  padding:50px 20px;
+  min-height:100vh;
+  background: linear-gradient(-45deg,var(--navy1),var(--navy2),var(--navy3));
+  background-size:400% 400%;
+  animation:bgMove 14s ease infinite;
+  position:relative;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* ================= HEADER ================= */
+.gallery-header{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.gallery-header h2{
+  font-size:42px;
+  background: linear-gradient(90deg,var(--purple),var(--pink));
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:transparent;
+  display:inline-block;
+
+  text-decoration:none;   /* 🔥 underline fix */
+  border-bottom:0;        /* extra safety */
+}
+
+.gallery-header p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* ================= HERO SLIDER ================= */
+.hero-gallery{
+  width:100%;
+  height:60vh;
+  position:relative;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+}
+
+/* IMPORTANT FIX: FULL IMAGE SHOW (NO CROP) */
+.hero-slide{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#050712;
+}
+
+.hero-slide img{
+  width:100%;
+  height:100%;
+  object-fit:contain;   /* 🔥 IMPORTANT FIX */
+  background:#050712;
+  transition:0.6s ease;
+}
+
+/* optional hover zoom (safe) */
+.hero-slide img:hover{
+  transform:scale(1.03);
+}
+
+/* ================= HERO TEXT ================= */
+.hero-text{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:15px;
+  font-size:14px;
+  background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);
+}
+
+/* ================= NAV BUTTONS ================= */
+.nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  border:none;
+  padding:12px 14px;
+  border-radius:12px;
+  cursor:pointer;
+
+  color:#ffffff; /* 🔥 high contrast */
+  font-size:18px;
+  font-weight:bold;
+
+  background: linear-gradient(135deg, rgba(139,92,246,0.9), rgba(236,72,153,0.9));
+  box-shadow:0 8px 25px rgba(139,92,246,0.4);
+
+  backdrop-filter: blur(10px);
+  transition:0.3s ease;
+  z-index:10;
+}
+
+.nav:hover{
+  transform:translateY(-50%) scale(1.15);
+  box-shadow:0 10px 35px rgba(236,72,153,0.6);
+}
+
+/* LEFT */
+.prev{
+  left:12px;
+}
+
+/* RIGHT */
+.next{
+  right:12px;
+}
+
+/* optional glow animation */
+.nav::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:12px;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  opacity:0.2;
+  filter:blur(8px);
+  z-index:-1;
+}
+/* ================= DOTS ================= */
+.dots{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+}
+
+.dots span{
+  width:8px;
+  height:8px;
+  margin:4px;
+  display:inline-block;
+  border-radius:50%;
+  background:rgba(255,255,255,0.3);
+  transition:0.3s;
+}
+
+.dots .active{
+  background:var(--pink);
+  transform:scale(1.3);
+}
+
+/* ================= GRID ================= */
+.gallery-grid{
+  columns:4 200px;
+  column-gap:15px;
+  margin-top:25px;
+}
+
+.gallery-item{
+  margin-bottom:15px;
+  break-inside:avoid;
+}
+
+.image-wrapper{
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  background:#0a1024;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  transition:0.4s;
+}
+
+.image-wrapper:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 15px 35px rgba(139,92,246,0.25);
+}
+
+.image-wrapper img{
+  width:100%;
+  display:block;
+  transition:0.5s;
+  object-fit:cover;
+}
+
+.image-wrapper:hover img{
+  transform:scale(1.06);
+}
+
+/* overlay */
+.overlay{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:8px;
+  font-size:12px;
+  color:white;
+  background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);
+}
+
+/* ================= LIGHTBOX ================= */
+.lightbox{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.95);
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  backdrop-filter:blur(10px);
+}
+
+.lightbox img{
+  max-width:95%;
+  max-height:95%;
+  border-radius:12px;
+  box-shadow:0 0 50px rgba(139,92,246,0.4);
+}
+
+/* buttons */
+.lightbox-close,
+.lightbox-download{
+  position:absolute;
+  top:15px;
+  border:none;
+  padding:10px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  color:white;
+  transition:0.3s;
+}
+
+.lightbox-close{
+  right:15px;
+  background:#ef4444;
+}
+
+.lightbox-download{
+  left:15px;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+}
+
+.lightbox-close:hover,
+.lightbox-download:hover{
+  transform:scale(1.1);
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:768px){
+  .hero-gallery{height:40vh;}
+  .gallery-grid{columns:2 140px;}
+  .gallery-header h2{font-size:30px;}
+}
+
+
+
+/* ================= FOOTER BASE ================= */
+.glass-footer {
+  position: relative;
+  overflow: hidden;
+
+background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #fff;
+  padding: 50px 20px 20px;
+
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  font-family: "Poppins", sans-serif;
+}
+
+/* ================= RGB TOP LIGHT ================= */
+.glass-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+
+  background: linear-gradient(
+    90deg,
+    #ff004c,
+    #ffcc00,
+    #00ffcc,
+    #0066ff,
+    #ff00ff,
+    #ff004c
+  );
+
+  background-size: 400% 100%;
+  animation: rgbMove 6s linear infinite;
+
+  box-shadow: 0 0 15px rgba(255, 0, 100, 0.6),
+              0 0 25px rgba(0, 255, 200, 0.4);
+}
+
+/* RGB animation */
+@keyframes rgbMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* ================= CONTAINER ================= */
+.glass-container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* ================= MAIN BOX ================= */
+.glass-box.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+/* ================= BRAND FLEX ================= */
+.brand-flex {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  background: rgba(255, 255, 255, 0.06);
+  padding: 20px;
+  border-radius: 16px;
+
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+
+  max-width: 800px;
+  width: 100%;
+}
+
+/* ================= LOGO ================= */
+.school-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ================= TEXT ================= */
+.brand-flex h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.brand-flex p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ================= FOOTER BOTTOM ================= */
+.glass-bottom {
+  margin-top: 25px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+/* ================= DEVELOPER CREDIT ================= */
+.dev-credit {
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dev-credit span {
+  color: #ff4d6d;
+  font-weight: 600;
+}
+
+/* ================= HOVER EFFECT ================= */
+.brand-flex:hover {
+  transform: translateY(-3px);
+  transition: 0.3s ease;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px) {
+  .brand-flex {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .school-logo {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+
+/* =========================
+   ANIMATION
+========================= */
+@keyframes glowMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+</style>
+
+<!-- ================= HTML ================= -->
+<section class="gallery-section">
+
+  <div class="gallery-header">
+    <h2>📸 School Gallery</h2>
+    <p>Moments & Memories</p>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero-gallery">
+    <div class="hero-slide" id="heroSlide"></div>
+    <button class="nav prev" onclick="prevSlide()">❮</button>
+    <button class="nav next" onclick="nextSlide()">❯</button>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <!-- GRID -->
+  <div id="galleryGrid" class="gallery-grid"></div>
+
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="outsideClose(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-download" onclick="downloadImage()">⬇</button>
+  <img id="lightboxImg">
+</div>
+
+
+
+
+<footer class="glass-footer">
+
+  <div class="glass-container">
+
+    <div class="glass-box brand">
+
+  <div class="brand-flex">
+    <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo" class="school-logo">
+
+    <div>
+      <h2>Govt Sr. Sec. School</h2>
+      <p>Empowering students with knowledge, discipline & excellence.</p>
+    </div>
+ 
+
+
+
+  <div class="glass-bottom">
+    © 2026 Govt. Sr. Sec. School Shilla | All Rights Reserved
+  </div>
+  <div class="dev-credit">
+  <p>Developed by <span>Vikshant Kralta</span></p>
+</div>
+
+</footer>
+
+<script>
+
+
+
+let allImages = [];
+let sliderImages = [];
+let gridImages = [];
+let index = 0;
+let currentImage = "";
+
+/* ================= INIT ================= */
+async function init() {
+
+  const res = await fetch("http://localhost:3000/gallery");
+  allImages = await res.json();
+
+  // ✅ SLIDER (position 1-3)
+  sliderImages = allImages
+    .filter(img => img.position > 0 && img.position <= 3)
+    .sort((a, b) => a.position - b.position);
+
+  // ✅ GRID (बाकी सब)
+  gridImages = allImages.filter(img => img.position === 0);
+
+  // safety check
+  if (!sliderImages.length) return;
+
+  showSlide(0);
+  renderDots();
+  renderGrid();
+
+  setInterval(nextSlide, 3000);
+}
+
+/* ================= SLIDER ================= */
+function showSlide(i) {
+  index = i;
+
+  const img = sliderImages[i];
+
+  document.getElementById("heroSlide").innerHTML = `
+    <img src="http://localhost:3000/uploads/${img.image}"
+         onclick="openLightbox('${img.image}')">
+
+    <div class="hero-text">
+      <h2>${img.title || "School Moment"}</h2>
+    </div>
+  `;
+
+  updateDots();
+}
+
+function nextSlide() {
+  index = (index + 1) % sliderImages.length;
+  showSlide(index);
+}
+
+function prevSlide() {
+  index = (index - 1 + sliderImages.length) % sliderImages.length;
+  showSlide(index);
+}
+
+/* ================= DOTS ================= */
+function renderDots() {
+  document.getElementById("dots").innerHTML =
+    sliderImages.map((_, i) =>
+      `<span onclick="showSlide(${i})"></span>`
+    ).join("");
+}
+
+function updateDots() {
+  document.querySelectorAll(".dots span").forEach((d, i) => {
+    d.classList.toggle("active", i === index);
+  });
+}
+
+/* ================= GRID ================= */
+function renderGrid() {
+
+  const g = document.getElementById("galleryGrid");
+
+  g.innerHTML = gridImages.map(img => `
+    <div class="gallery-item">
+      <div class="image-wrapper" onclick="openLightbox('${img.image}')">
+        <img src="http://localhost:3000/uploads/${img.image}">
+        <div class="overlay">${img.title || ""}</div>
+      </div>
+    </div>
+  `).join("");
+}
+
+/* ================= LIGHTBOX ================= */
+function openLightbox(img) {
+
+  currentImage = img;
+
+  document.getElementById("lightbox").style.display = "flex";
+  document.getElementById("lightboxImg").src =
+    "http://localhost:3000/uploads/" + img;
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").style.display = "none";
+}
+
+function outsideClose(e) {
+  if (e.target.id === "lightbox") closeLightbox();
+}
+
+/* ================= DOWNLOAD ================= */
+function downloadImage() {
+
+  const url = "http://localhost:3000/uploads/" + currentImage;
+
+  fetch(url)
+    .then(res => res.blob())
+    .then(blob => {
+
+      const blobUrl = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = blobUrl;
+
+      a.download = "gsssShilla_" + Date.now() + ".jpg";
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+    });
+}
+
+/* ================= START ================= */
+init();
+
+</script>
+

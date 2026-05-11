@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Faculty System</title>
+<style>
+/* ================= ROOT ================= */
+:root{
+  --bg1:#070b1a;
+  --bg2:#0b1430;
+  --bg3:#111b3a;
+
+  --purple:#8b5cf6;
+  --pink:#ec4899;
+
+  --text:#e5e7eb;
+  --muted:#a1a1aa;
+}
+
+/* ================= BODY ================= */
+body{
+  font-family:Arial, sans-serif;
+  margin:0;
+  background: radial-gradient(circle at top,#070b1a,#050712);
+  color:var(--text);
+}
+
+/* ================= TITLE ================= */
+.title{
+  text-align:center;
+  font-size:32px;
+  margin:25px 0;
+
+  background: linear-gradient(90deg,var(--purple),var(--pink));
+  -webkit-background-clip:text;
+  background-clip:text; /* 🔥 add this */
+  -webkit-text-fill-color:transparent;
+  color:transparent;     /* 🔥 important fix */
+
+  display:block;         /* better than inline-block */
+  font-weight:bold;
+  text-decoration:none;  /* 🔥 removes underline if inherited */
+}
+
+/* ================= PRINCIPAL ================= */
+.principal-box{
+  text-align:center;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  padding:22px;
+  margin:15px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  border:1px solid rgba(139,92,246,0.2);
+  transition:0.3s;
+}
+
+.principal-box:hover{
+  transform:translateY(-5px);
+  box-shadow:0 15px 40px rgba(139,92,246,0.25);
+}
+
+.principal-box img{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid var(--purple);
+  box-shadow:0 0 20px rgba(139,92,246,0.4);
+}
+
+/* ================= CONTROLS ================= */
+.controls{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  margin:20px;
+  flex-wrap:wrap;
+}
+
+.controls input,
+.controls select{
+  padding:10px 12px;
+  border-radius:10px;
+
+  background:#0b1430;   /* 🔥 solid dark background */
+  color:#ffffff;        /* 🔥 fully visible text */
+
+  border:1px solid rgba(139,92,246,0.4);
+  outline:none;
+
+  cursor:pointer;
+  appearance:none; /* removes default ugly UI */
+}
+
+/* OPTION FIX */
+.controls select option{
+  background:#0b1430;   /* dropdown background */
+  color:#ffffff;        /* text visible */
+  padding:10px;
+}
+
+/* hover/focus */
+.controls select:focus{
+  border-color:#ec4899;
+  box-shadow:0 0 10px rgba(236,72,153,0.3);
+}
+
+.controls input:focus,
+.controls select:focus{
+  border-color:var(--purple);
+  box-shadow:0 0 10px rgba(139,92,246,0.3);
+}
+
+/* ================= GRID ================= */
+.faculty-list{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:18px;
+  padding:20px;
+}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .faculty-list{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:600px){
+  .faculty-list{grid-template-columns:1fr;}
+}
+
+/* ================= CARD ================= */
+.faculty-card{
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  padding:18px;
+  border-radius:14px;
+  text-align:center;
+  cursor:pointer;
+  transition:0.4s ease;
+  border:1px solid rgba(139,92,246,0.15);
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:190px;
+}
+
+.faculty-card:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 15px 35px rgba(236,72,153,0.2);
+  border-color:var(--pink);
+}
+
+/* IMAGE */
+.faculty-card img{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-bottom:10px;
+
+  border:3px solid var(--purple);
+  box-shadow:0 0 15px rgba(139,92,246,0.4);
+}
+
+/* ================= MODAL ================= */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(8px);
+}
+
+.modal-content{
+  background: linear-gradient(145deg,#0b1430,#070b1a);
+  width:90%;
+  max-width:500px;
+  margin:10% auto;
+  padding:22px;
+  border-radius:14px;
+  position:relative;
+  color:var(--text);
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  border:1px solid rgba(139,92,246,0.2);
+  animation:pop 0.3s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(0.8); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+#close{
+  position:absolute;
+  right:15px;
+  top:10px;
+  font-size:22px;
+  cursor:pointer;
+  color:var(--pink);
+  transition:0.3s;
+}
+
+#close:hover{
+  transform:scale(1.2);
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:600px){
+  .controls{
+    flex-direction:column;
+    align-items:center;
+  }
+}
+
+.no-result{
+  grid-column:1 / -1;
+  text-align:center;
+  padding:40px 20px;
+
+  font-size:18px;
+  color:#ffffff;
+background: rgba(10,16,36,0.75);
+border: 1px solid transparent;
+border-radius:12px;
+
+background-image:
+  linear-gradient(rgba(10,16,36,0.75), rgba(10,16,36,0.75)),
+  linear-gradient(90deg,#231a79,#4064db,#da2dd1,#4e0c40);
+
+background-origin: border-box;
+background-clip: padding-box, border-box;
+
+  backdrop-filter:blur(10px);
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+.principal-heading{
+  font-size:22px;
+  font-weight:bold;
+  text-align:center;
+  margin-bottom:12px;
+
+  color:#f8e21a; /* 🔥 clean purple color */
+
+  letter-spacing:2px;
+  text-decoration:none;
+  border:none;
+
+  text-shadow:
+    0 0 8px rgba(192,132,252,0.6),
+    0 0 18px rgba(236,72,153,0.4);
+}
+
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+
+  margin-top:15px;
+  margin-bottom:12px;
+  margin-left:15px;
+
+  padding:5px 10px;   /* 👈 reduced */
+  font-size:13px;     /* 👈 smaller text */
+
+  background:#913fd4;
+  color:#fff;
+
+  text-decoration:none;
+  font-weight:500;
+
+  border-radius:6px;  /* slightly smaller radius */
+
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
+}
+/* hover */
+.back-btn:hover{
+  background:#000;
+  transform:translateX(-6px);
+  box-shadow:0 8px 18px rgba(0,0,0,0.2);
+}
+
+/* ripple */
+.back-btn::after{
+  content:"";
+  position:absolute;
+  width:0;
+  height:0;
+  background:rgba(255,255,255,0.3);
+  border-radius:50%;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  transition:width 0.5s ease, height 0.5s ease;
+}
+
+.back-btn:hover::after{
+  width:200px;
+  height:200px;
+}
+
+/* animation */
+@keyframes fadeInLeft{
+  from{opacity:0; transform:translateX(-20px);}
+  to{opacity:1; transform:translateX(0);}
+}
+
+@media(max-width:768px){
+
+  @media(max-width:768px){
+  .back-btn{
+    padding:6px 8px;
+    font-size:12px;
+    margin-left:10px;
+  }
+}
+  .back-btn::before{
+    content:"←";
+    font-size:18px;
+    color:white;
+  }
+
+  /* hide ripple overflow issue fix */
+  .back-btn span{
+    display:none;
+  }
+}
+
+
+
+
+/* ================= FOOTER BASE ================= */
+.glass-footer {
+  position: relative;
+  overflow: hidden;
+
+background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #fff;
+  padding: 50px 20px 20px;
+
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  font-family: "Poppins", sans-serif;
+}
+
+/* ================= RGB TOP LIGHT ================= */
+.glass-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+
+  background: linear-gradient(
+    90deg,
+    #ff004c,
+    #ffcc00,
+    #00ffcc,
+    #0066ff,
+    #ff00ff,
+    #ff004c
+  );
+
+  background-size: 400% 100%;
+  animation: rgbMove 6s linear infinite;
+
+  box-shadow: 0 0 15px rgba(255, 0, 100, 0.6),
+              0 0 25px rgba(0, 255, 200, 0.4);
+}
+
+/* RGB animation */
+@keyframes rgbMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* ================= CONTAINER ================= */
+.glass-container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* ================= MAIN BOX ================= */
+.glass-box.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+/* ================= BRAND FLEX ================= */
+.brand-flex {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  background: rgba(255, 255, 255, 0.06);
+  padding: 20px;
+  border-radius: 16px;
+
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+
+  max-width: 800px;
+  width: 100%;
+}
+
+/* ================= LOGO ================= */
+.school-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ================= TEXT ================= */
+.brand-flex h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.brand-flex p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ================= FOOTER BOTTOM ================= */
+.glass-bottom {
+  margin-top: 25px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+/* ================= DEVELOPER CREDIT ================= */
+.dev-credit {
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dev-credit span {
+  color: #ff4d6d;
+  font-weight: 600;
+}
+
+/* ================= HOVER EFFECT ================= */
+.brand-flex:hover {
+  transform: translateY(-3px);
+  transition: 0.3s ease;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px) {
+  .brand-flex {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .school-logo {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+
+/* =========================
+   ANIMATION
+========================= */
+@keyframes glowMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+
+</style>
+</head>
+
+<body>
+
+<section class="faculty-section">
+  <a href="../index.html" class="back-btn">← Back</a>
+
+  <h2 class="title">🏫 Our Faculty</h2>
+
+  <!-- PRINCIPAL -->
+   
+
+  <div  id="principalBox" class="principal-box"> </div>
+
+  <!-- SEARCH + FILTER -->
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search by name or subject ...">
+
+    <select id="subjectFilter">
+      <option value="">All Subjects</option>
+    </select>
+  </div>
+
+  <!-- STAFF LIST -->
+  <div id="facultyList" class="faculty-list"></div>
+
+</section>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span id="close">&times;</span>
+    <div id="detailBox"></div>
+  </div>
+</div>
+
+
+
+<footer class="glass-footer">
+
+  <div class="glass-container">
+
+    <div class="glass-box brand">
+
+  <div class="brand-flex">
+    <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo" class="school-logo">
+
+    <div>
+      <h2>Govt Sr. Sec. School</h2>
+      <p>Empowering students with knowledge, discipline & excellence.</p>
+    </div>
+ 
+
+
+
+  <div class="glass-bottom">
+    © 2026 Govt. Sr. Sec. School Shilla | All Rights Reserved
+  </div>
+  <div class="dev-credit">
+  <p>Developed by <span>Vikshant Kralta</span></p>
+</div>
+
+</footer>
+
+<script>
+let allFaculty = [];
+
+/* PRINCIPAL */
+fetch("http://localhost:3000/faculty/principal")
+.then(res => res.json())
+.then(p => {
+
+  const img = p.photo
+    ? `http://localhost:3000/uploads/${p.photo}`
+    : "https://via.placeholder.com/120";
+
+  document.getElementById("principalBox").innerHTML = `
+
+    <div class="principal-heading">
+      PRINCIPAL
+    </div>
+
+    <img src="${img}">
+
+    <h3>${p.name}</h3>
+
+    <p>${p.qualification}</p>
+
+    <p>${p.message}</p>
+
+  `;
+});
+
+/* STAFF */
+fetch("http://localhost:3000/faculty/staff")
+.then(res => res.json())
+.then(data => {
+
+  allFaculty = data || [];
+  render(allFaculty);
+
+  let subjects = [...new Set(allFaculty.map(s => s.subject).filter(Boolean))];
+  let select = document.getElementById("subjectFilter");
+
+  subjects.forEach(sub => {
+    select.innerHTML += `<option value="${sub}">${sub}</option>`;
+  });
+});
+
+/* RENDER */
+function render(data){
+  let box = document.getElementById("facultyList");
+  box.innerHTML = "";
+
+  /* NO RESULT */
+  if(!data || data.length === 0){
+    box.innerHTML = `
+      <div class="no-result">
+        😕 No Result Found, Try again!
+      </div>
+    `;
+    return;
+  }
+
+  data.forEach(f => {
+
+    const img = f.photo
+      ? `http://localhost:3000/uploads/${f.photo}`
+      : "https://via.placeholder.com/80";
+
+    box.innerHTML += `
+      <div class="faculty-card" onclick="openFaculty(${f.id})">
+
+        <img src="${img}" onerror="this.src='https://via.placeholder.com/80'">
+
+        <h3>${f.name}</h3>
+        <p>${f.subject}</p>
+
+      </div>
+    `;
+  });
+}
+
+/* ================= SEARCH + FILTER (IMPROVED) ================= */
+document.getElementById("search").addEventListener("input", filterData);
+document.getElementById("subjectFilter").addEventListener("change", filterData);
+
+function filterData(){
+
+  let search = document.getElementById("search").value.toLowerCase().trim();
+  let subject = document.getElementById("subjectFilter").value;
+
+  let filtered = allFaculty.filter(f => {
+
+    let nameMatch = (f.name || "").toLowerCase().includes(search);
+    let subjectMatch = (f.subject || "").toLowerCase().includes(search);
+
+    let subjectFilterMatch = (subject === "" || f.subject === subject);
+
+    /* 🔥 FINAL LOGIC:
+       - search box matches name OR subject
+       - dropdown filter also applies
+    */
+    let searchMatch = search === "" || nameMatch || subjectMatch;
+
+    return searchMatch && subjectFilterMatch;
+  });
+
+  render(filtered);
+}
+
+/* MODAL */
+function openFaculty(id){
+
+  fetch(`http://localhost:3000/faculty/${id}`)
+  .then(res => res.json())
+  .then(f => {
+
+    const img = f.photo
+      ? `http://localhost:3000/uploads/${f.photo}`
+      : "https://via.placeholder.com/120";
+
+    document.getElementById("modal").style.display = "block";
+
+    document.getElementById("detailBox").innerHTML = `
+      <img src="${img}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;">
+      <h2>${f.name}</h2>
+      
+      <p><b>Subject:</b> ${f.subject}</p>
+      <p><b>Qualification:</b> ${f.qualification}</p>
+      <p><b>Experience:</b> ${f.experience}</p>
+    `;
+  });
+}
+
+/* CLOSE MODAL */
+document.getElementById("close").onclick = () => {
+  document.getElementById("modal").style.display = "none";
+};
+</script>
+
+</body>
+</html>

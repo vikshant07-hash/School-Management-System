@@ -1,0 +1,250 @@
+<style>
+
+body{
+  font-family:Arial;
+  background:#f8fafc;
+  padding:20px;
+}
+
+/* FORM */
+form{
+  max-width:600px;
+  margin:auto;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+input,select,textarea{
+  width:100%;
+  padding:8px;
+  margin:6px 0;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+
+button{
+  padding:6px 10px;
+  border:none;
+  background:#ff6f00;
+  color:#fff;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#000;
+}
+
+/* LIST */
+#adminList div{
+  display:flex;
+  justify-content:space-between;
+  background:#fff;
+  padding:10px;
+  margin:10px auto;
+  max-width:600px;
+  border-radius:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.5);
+}
+
+.modal-content{
+  background:#fff;
+  padding:20px;
+  width:90%;
+  max-width:500px;
+  margin:10% auto;
+  border-radius:10px;
+}</style>
+
+<h2>🏫 Faculty Admin Panel</h2>
+
+<!-- FORM -->
+<form id="facultyForm" enctype="multipart/form-data">
+
+  <input name="name" placeholder="Name" required>
+
+  <select name="type">
+    <option value="principal">Principal</option>
+    <option value="staff">Staff</option>
+  </select>
+
+  <input name="subject" placeholder="Subject">
+
+  <input name="qualification" placeholder="Qualification">
+
+  <input name="experience" placeholder="Experience">
+
+  <input name="previous_school" placeholder="Previous School">
+
+  <textarea name="message" placeholder="Message"></textarea>
+
+  <input type="file" name="photo">
+
+  <button type="submit">Add Faculty</button>
+
+</form>
+
+<hr>
+
+<!-- LIST -->
+<div id="adminList"></div>
+
+<!-- EDIT MODAL -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+
+    <span onclick="closeModal()" style="float:right;cursor:pointer;">✖</span>
+
+    <h3>Edit Faculty</h3>
+
+    <form id="editForm">
+
+      <input name="id" type="hidden">
+
+      <input name="name" placeholder="Name">
+
+      <select name="type">
+        <option value="principal">Principal</option>
+        <option value="staff">Staff</option>
+      </select>
+
+      <input name="subject" placeholder="Subject">
+
+      <input name="qualification" placeholder="Qualification">
+
+      <input name="experience" placeholder="Experience">
+
+      <input name="previous_school" placeholder="Previous School">
+
+      <textarea name="message" placeholder="Message"></textarea>
+
+      <button type="submit">Update</button>
+
+    </form>
+
+  </div>
+</div>
+
+<script>
+const form = document.getElementById("facultyForm");
+const editForm = document.getElementById("editForm");
+
+/* ================= ADD ================= */
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = new FormData(form);
+
+  await fetch("http://localhost:3000/admin/faculty/add", {
+    method: "POST",
+    body: data
+  });
+
+  form.reset();
+  loadFaculty();
+});
+
+/* ================= LOAD ================= */
+function loadFaculty(){
+  fetch("http://localhost:3000/faculty")
+  .then(res => res.json())
+  .then(data => {
+
+    let box = document.getElementById("adminList");
+    box.innerHTML = "";
+
+    data.forEach(f => {
+
+      box.innerHTML += `
+        <div>
+
+          <div>
+            <b>${f.name}</b> (${f.type}) - ${f.subject}
+          </div>
+
+          <div>
+            <button onclick="editFaculty(${f.id})">Edit</button>
+            <button onclick="deleteFaculty(${f.id})">Delete</button>
+          </div>
+
+        </div>
+      `;
+    });
+
+  });
+}
+
+/* ================= DELETE ================= */
+function deleteFaculty(id){
+  fetch(`http://localhost:3000/admin/faculty/delete/${id}`, {
+    method: "DELETE"
+  })
+  .then(() => loadFaculty());
+}
+
+/* ================= EDIT OPEN ================= */
+function editFaculty(id){
+
+  fetch(`http://localhost:3000/faculty/${id}`)
+  .then(res => res.json())
+  .then(f => {
+
+    document.getElementById("editModal").style.display = "block";
+
+    editForm.id.value = f.id;
+    editForm.name.value = f.name;
+    editForm.type.value = f.type;
+    editForm.subject.value = f.subject;
+    editForm.qualification.value = f.qualification;
+    editForm.experience.value = f.experience;
+    editForm.previous_school.value = f.previous_school;
+    editForm.message.value = f.message;
+  });
+}
+
+/* ================= UPDATE ================= */
+editForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const id = editForm.id.value;
+
+  const data = {
+    name: editForm.name.value,
+    type: editForm.type.value,
+    subject: editForm.subject.value,
+    qualification: editForm.qualification.value,
+    experience: editForm.experience.value,
+    previous_school: editForm.previous_school.value,
+    message: editForm.message.value
+  };
+
+  await fetch(`http://localhost:3000/admin/faculty/update/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  closeModal();
+  loadFaculty();
+});
+
+/* ================= MODAL CLOSE ================= */
+function closeModal(){
+  document.getElementById("editModal").style.display = "none";
+}
+
+/* INIT */
+loadFaculty();</script>

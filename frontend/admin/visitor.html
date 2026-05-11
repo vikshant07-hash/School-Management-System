@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Visitor Analytics Dashboard</title>
+
+  <!-- CHART JS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial,sans-serif;
+    }
+
+    /* =========================
+       BODY
+    ========================= */
+
+    body{
+      background:linear-gradient(135deg,#0f172a,#1e1b4b);
+      color:white;
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    /* =========================
+       DASHBOARD
+    ========================= */
+
+    .dashboard{
+      text-align:center;
+      padding:40px 20px;
+    }
+
+    /* =========================
+       TITLE
+    ========================= */
+
+    .dashboard h2{
+      font-size:32px;
+      margin-bottom:30px;
+      color:#38bdf8;
+      text-shadow:0 0 15px rgba(56,189,248,0.5);
+    }
+
+    /* =========================
+       TIME BOX
+    ========================= */
+
+    .time-box{
+
+      width:260px;
+
+      margin:20px auto;
+
+      padding:18px;
+
+      background:rgba(255,255,255,0.06);
+
+      border-radius:16px;
+
+      text-align:center;
+
+      backdrop-filter:blur(12px);
+
+      border:1px solid rgba(255,255,255,0.1);
+
+      box-shadow:
+        0 8px 20px rgba(0,0,0,0.4);
+
+      font-size:16px;
+
+      color:#38bdf8;
+
+      line-height:2;
+
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .cards{
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      flex-wrap:wrap;
+      margin-top:30px;
+    }
+
+    .card{
+
+      width:240px;
+
+      padding:30px 20px;
+
+      border-radius:18px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #5b0570,
+          #ff4d6d
+        );
+
+      box-shadow:
+        0 10px 25px rgba(0,0,0,0.4);
+
+      transition:0.3s ease;
+
+      cursor:pointer;
+
+    }
+
+    .card:hover{
+
+      transform:
+        translateY(-6px)
+        scale(1.03);
+
+    }
+
+    .card h3{
+
+      margin-bottom:12px;
+
+      font-size:20px;
+
+      color:#ffffff;
+
+    }
+
+    .card p{
+
+      font-size:38px;
+
+      font-weight:bold;
+
+    }
+
+    /* =========================
+       CHART
+    ========================= */
+
+    .chart-box{
+
+      width:90%;
+
+      max-width:700px;
+
+      margin:50px auto;
+
+      background:rgba(255,255,255,0.06);
+
+      padding:20px;
+
+      border-radius:18px;
+
+      backdrop-filter:blur(12px);
+
+      border:1px solid rgba(255,255,255,0.1);
+
+      box-shadow:
+        0 10px 25px rgba(0,0,0,0.4);
+
+    }
+
+    canvas{
+
+      width:100% !important;
+
+      height:350px !important;
+
+      background:#ffffff;
+
+      border-radius:12px;
+
+      padding:10px;
+
+    }
+
+    /* =========================
+       RESET BUTTON
+    ========================= */
+
+    .reset-btn{
+
+      margin-top:30px;
+
+      padding:14px 24px;
+
+      border:none;
+
+      border-radius:12px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #ef4444,
+          #dc2626
+        );
+
+      color:white;
+
+      font-size:16px;
+
+      font-weight:600;
+
+      cursor:pointer;
+
+      transition:0.3s ease;
+
+      box-shadow:
+        0 8px 20px rgba(239,68,68,0.4);
+
+    }
+
+    .reset-btn:hover{
+
+      transform:
+        translateY(-3px)
+        scale(1.03);
+
+      box-shadow:
+        0 12px 25px rgba(239,68,68,0.5);
+
+    }
+
+    .reset-btn:active{
+
+      transform:scale(0.96);
+
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media(max-width:768px){
+
+      .dashboard h2{
+        font-size:24px;
+      }
+
+      .card{
+        width:100%;
+        max-width:300px;
+      }
+
+      .time-box{
+        width:100%;
+        max-width:300px;
+      }
+
+      canvas{
+        height:280px !important;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- =========================
+       DASHBOARD
+  ========================= -->
+
+  <div class="dashboard">
+
+    <h2>📊 Visitor Analytics Dashboard</h2>
+
+    <!-- =========================
+         TIME BOX
+    ========================= -->
+
+    <div class="time-box">
+
+      📅 <span id="date"></span>
+      <br>
+
+      ⏰ <span id="time"></span>
+      <br>
+
+      📆 <span id="day"></span>
+
+    </div>
+
+    <!-- =========================
+         VISITOR CARDS
+    ========================= -->
+
+    <div class="cards">
+
+      <div class="card">
+
+        <h3>Today Visitors</h3>
+
+        <p id="today">0</p>
+
+      </div>
+
+      <div class="card">
+
+        <h3>Total Visitors</h3>
+
+        <p id="total">0</p>
+
+      </div>
+
+    </div>
+
+    <!-- =========================
+         RESET BUTTON
+    ========================= -->
+
+    <button class="reset-btn" onclick="resetVisitors()">
+      🔄 Reset Visitors
+    </button>
+
+    <!-- =========================
+         CHART
+    ========================= -->
+
+    <div class="chart-box">
+
+      <canvas id="visitorChart"></canvas>
+
+    </div>
+
+  </div>
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+/* ===============================
+   TRACK VISITOR
+=============================== */
+
+fetch(
+  "http://localhost:3000/analytics/track"
+)
+.then(res => res.json())
+.then(data => {
+
+  console.log(data);
+
+})
+.catch(err => {
+
+  console.log(err);
+
+});
+
+/* ===============================
+   DATE & TIME
+=============================== */
+
+function updateTime(){
+
+  const now = new Date();
+
+  document.getElementById(
+    "date"
+  ).innerText =
+    now.toLocaleDateString();
+
+  document.getElementById(
+    "time"
+  ).innerText =
+    now.toLocaleTimeString();
+
+  const days = [
+
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+
+  ];
+
+  document.getElementById(
+    "day"
+  ).innerText =
+    days[now.getDay()];
+
+}
+
+setInterval(updateTime,1000);
+
+updateTime();
+
+/* ===============================
+   LOAD ANALYTICS
+=============================== */
+
+let chart;
+
+function loadAnalytics(){
+
+  fetch(
+    "http://localhost:3000/analytics/stats"
+  )
+
+  .then(res => res.json())
+
+  .then(data => {
+
+    document.getElementById(
+      "today"
+    ).innerText =
+      data.today;
+
+    document.getElementById(
+      "total"
+    ).innerText =
+      data.total;
+
+    const ctx =
+      document.getElementById(
+        "visitorChart"
+      );
+
+    if(chart){
+
+      chart.destroy();
+
+    }
+
+    chart = new Chart(ctx,{
+
+      type:'line',
+
+      data:{
+
+        labels:[
+          'Today',
+          'Total'
+        ],
+
+        datasets:[{
+
+          label:'Visitors',
+
+          data:[
+            data.today,
+            data.total
+          ],
+
+          borderColor:'#38bdf8',
+
+          backgroundColor:
+            'rgba(56,189,248,0.2)',
+
+          tension:0.4,
+
+          fill:true
+
+        }]
+
+      },
+
+      options:{
+
+        responsive:true,
+
+        scales:{
+
+          y:{
+            beginAtZero:true
+          }
+
+        }
+
+      }
+
+    });
+
+  })
+
+  .catch(err => {
+
+    console.log(err);
+
+  });
+
+}
+
+/* LOAD */
+
+loadAnalytics();
+
+/* ===============================
+   RESET VISITORS
+=============================== */
+
+function resetVisitors(){
+
+  const confirmReset = confirm(
+    "Reset all visitor data?"
+  );
+
+  if(confirmReset){
+
+    fetch(
+      "http://localhost:3000/analytics/reset",
+      {
+        method:"DELETE"
+      }
+    )
+
+    .then(res => res.json())
+
+    .then(data => {
+
+      alert(
+        "Visitors reset successfully!"
+      );
+
+      /* RESET UI */
+
+      document.getElementById(
+        "today"
+      ).innerText = 0;
+
+      document.getElementById(
+        "total"
+      ).innerText = 0;
+
+      if(chart){
+
+        chart.destroy();
+
+      }
+
+      /* RELOAD */
+
+      setTimeout(()=>{
+
+        loadAnalytics();
+
+      },500);
+
+    })
+
+    .catch(err => {
+
+      console.log(err);
+
+    });
+
+  }
+
+}
+
+</script>
+
+</body>
+
+</html>

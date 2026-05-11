@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Dashboard</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:"Segoe UI",sans-serif;
+    }
+
+    /* =========================
+       BODY
+    ========================= */
+
+    body{
+      background:linear-gradient(135deg,#0f172a,#1e1b4b);
+      color:white;
+      overflow-x:hidden;
+    }
+
+    /* =========================
+       DASHBOARD LAYOUT
+    ========================= */
+
+    .dashboard{
+      display:flex;
+      min-height:100vh;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar{
+      width:250px;
+      background:rgba(255,255,255,0.06);
+      backdrop-filter:blur(10px);
+      padding:20px;
+      border-right:1px solid rgba(255,255,255,0.1);
+      transition:0.3s ease;
+    }
+
+    .sidebar h2{
+      margin-bottom:20px;
+      color:#a78bfa;
+    }
+
+    /* SIDEBAR LINKS */
+
+    .sidebar a{
+      display:block;
+      color:#cbd5e1;
+      text-decoration:none;
+      padding:12px;
+      margin:8px 0;
+      border-radius:10px;
+      transition:0.3s;
+      font-size:15px;
+    }
+
+    .sidebar a:hover{
+      background:linear-gradient(90deg,#3b82f6,#7c3aed);
+      color:white;
+      transform:translateX(5px);
+    }
+
+    /* =========================
+       MAIN AREA
+    ========================= */
+
+    .main{
+      flex:1;
+      padding:20px;
+    }
+
+    /* =========================
+       TOPBAR
+    ========================= */
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(255,255,255,0.06);
+      padding:15px 20px;
+      border-radius:14px;
+      margin-bottom:20px;
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+
+    .topbar h3{
+      font-size:20px;
+      color:#ffffff;
+    }
+
+    /* =========================
+       MENU BUTTON
+    ========================= */
+
+    .menu-btn{
+      width:42px;
+      height:42px;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      border:none;
+      cursor:pointer;
+      border-radius:12px;
+      font-size:18px;
+      color:#fff;
+      background:linear-gradient(135deg,#3b82f6,#7c3aed);
+      box-shadow:0 6px 15px rgba(59,130,246,0.3);
+      transition:0.3s ease;
+    }
+
+    .menu-btn:hover{
+      transform:translateY(-2px) scale(1.05);
+    }
+
+    /* =========================
+       LOGOUT BUTTON
+    ========================= */
+
+    #authBtn{
+      background:linear-gradient(135deg,#ef4444,#dc2626);
+      border:none;
+      color:white;
+      padding:10px 16px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      transition:0.3s;
+      box-shadow:0 6px 15px rgba(239,68,68,0.3);
+    }
+
+    #authBtn:hover{
+      transform:scale(1.05);
+      box-shadow:0 0 15px rgba(239,68,68,0.5);
+    }
+
+    .btn-icon{
+      display:none;
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.06);
+      backdrop-filter:blur(12px);
+      padding:22px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.1);
+      transition:0.3s;
+      cursor:pointer;
+    }
+
+    .card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 10px 30px rgba(124,58,237,0.4);
+    }
+
+    .card h3{
+      color:#e9d5ff;
+      margin-bottom:10px;
+    }
+
+    .card p{
+      color:#cbd5e1;
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    /* =========================
+       CLOSE BUTTON
+    ========================= */
+
+    .close-btn{
+      display:none;
+      width:32px;
+      height:32px;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      color:white;
+      margin-bottom:15px;
+      background:linear-gradient(135deg,#ef4444,#b91c1c);
+    }
+
+    /* =========================
+       MOBILE DESIGN
+    ========================= */
+
+    @media(max-width:768px){
+
+      /* MENU BUTTON SHOW */
+
+      .menu-btn{
+        display:flex;
+      }
+
+      /* SIDEBAR */
+
+      .sidebar{
+        position:fixed;
+        left:-260px;
+        top:0;
+        height:100%;
+        z-index:1000;
+      }
+
+      .sidebar.active{
+        left:0;
+      }
+
+      /* CLOSE BUTTON */
+
+      .close-btn{
+        display:inline-block;
+      }
+
+      /* TOPBAR */
+
+      .topbar{
+        display:grid;
+        grid-template-columns:50px 1fr 50px;
+        align-items:center;
+        gap:10px;
+        padding:12px 15px;
+      }
+
+      .topbar h3{
+        font-size:15px;
+        text-align:center;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+
+      /* AUTH BUTTON */
+
+      .btn-text{
+        display:none;
+      }
+
+      .btn-icon{
+        display:inline-block;
+        font-size:18px;
+      }
+
+      #authBtn{
+        width:42px;
+        height:42px;
+        border-radius:50%;
+        justify-content:center;
+        padding:0;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="dashboard">
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+      <h2>🏫 Admin Panel</h2>
+
+      <button class="close-btn" onclick="toggleSidebar()">✖</button>
+
+      <a href="#">📊 Dashboard</a>
+      <a href="admin-notif.html">📢 Notices</a>
+      <a href="admin-downl.html">📄 Downloads</a>
+      <a href="add-image.html">🖼 School Gallery</a>
+      <a href="admin-faculity.html">👨‍🏫 Faculty</a>
+      <a href="admin-contact.html">📞 Contact</a>
+      <a href="admin-img.html">🏠 Home Slider Images</a>
+      <a href="visitor.html">👁 Visitor Counter</a>
+      <a href="#">⚙️ Settings</a>
+
+    </aside>
+
+    <!-- =========================
+         MAIN AREA
+    ========================= -->
+
+    <div class="main">
+
+      <!-- =========================
+           TOPBAR
+      ========================= -->
+
+      <div class="topbar">
+
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+        <h3>Welcome Admin 👋</h3>
+
+        <!-- LOGOUT BUTTON -->
+
+        <button id="authBtn" onclick="handleLogout()">
+
+          <span class="btn-text">Logout</span>
+
+          <span class="btn-icon">🚪</span>
+
+        </button>
+
+      </div>
+
+      <!-- =========================
+           CARDS
+      ========================= -->
+
+      <div class="cards">
+
+        <div class="card">
+          <h3>📢 Notices</h3>
+          <p>Manage school notices and announcements.</p>
+        </div>
+
+        <div class="card">
+          <h3>🎓 Students</h3>
+          <p>View and manage student records.</p>
+        </div>
+
+        <div class="card">
+          <h3>📄 Downloads</h3>
+          <p>Upload files, PDFs, and documents.</p>
+        </div>
+
+        <div class="card">
+          <h3>📊 Reports</h3>
+          <p>Check analytics and dashboard reports.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+    /* SIDEBAR TOGGLE */
+
+    function toggleSidebar(){
+
+      document
+        .getElementById("sidebar")
+        .classList
+        .toggle("active");
+
+    }
+
+    /* LOGOUT FUNCTION */
+
+    function handleLogout(){
+
+      let confirmLogout = confirm(
+        "Are you sure you want to logout?"
+      );
+
+      if(confirmLogout){
+
+        // CLEAR STORAGE
+
+        localStorage.clear();
+        sessionStorage.clear();
+
+        // REDIRECT TO LOGIN PAGE
+
+        window.location.href = "login.html";
+
+      }
+
+    }
+
+  </script>
+
+</body>
+
+</html>

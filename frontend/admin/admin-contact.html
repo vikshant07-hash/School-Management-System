@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Contact Panel</title>
+<style>
+body{
+  font-family:Poppins;
+  background:#f4f7fb;
+  padding:20px;
+}
+
+/* BOX */
+.box{
+  background:white;
+  padding:20px;
+  margin-bottom:30px;
+  border-radius:10px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* INPUT */
+input, textarea{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+/* BUTTON */
+button{
+  padding:10px 20px;
+  border:none;
+  background:#6a11cb;
+  color:white;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+/* TABLE */
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  border:1px solid #ddd;
+  padding:10px;
+}
+
+th{
+  background:#6a11cb;
+  color:white;
+}
+
+.delete-btn{
+  background:red;
+}
+</style>
+</head>
+
+<body>
+
+<h2>📞 Contact Settings</h2>
+
+<div class="box">
+  <input type="text" id="school_name" placeholder="School Name">
+  <textarea id="address" placeholder="Address"></textarea>
+  <input type="text" id="phone" placeholder="Phone">
+  <input type="email" id="email" placeholder="Email">
+
+  <button onclick="updateInfo()">Update</button>
+</div>
+
+<h2>📩 Messages</h2>
+
+<div class="box">
+  <table id="msgTable">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Message</th>
+      <th>Action</th>
+    </tr>
+  </table>
+</div>
+
+<script>
+
+// LOAD INFO
+async function loadInfo(){
+  const res = await fetch("http://localhost:3000/admin/contact/info");
+  const data = await res.json();
+
+  document.getElementById("school_name").value = data.school_name;
+  document.getElementById("address").value = data.address;
+  document.getElementById("phone").value = data.phone;
+  document.getElementById("email").value = data.email;
+}
+
+// UPDATE INFO
+async function updateInfo(){
+  const data = {
+    school_name:document.getElementById("school_name").value,
+    address:document.getElementById("address").value,
+    phone:document.getElementById("phone").value,
+    email:document.getElementById("email").value
+  };
+
+  const res = await fetch("http://localhost:3000/admin/contact/update",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data)
+  });
+
+  const result = await res.json();
+  alert(result.message);
+}
+
+// LOAD MESSAGES
+async function loadMessages(){
+  const res = await fetch("http://localhost:3000/admin/contact/messages");
+  const data = await res.json();
+
+  const table = document.getElementById("msgTable");
+
+  data.forEach(msg => {
+    const row = `
+      <tr>
+        <td>${msg.name}</td>
+        <td>${msg.email}</td>
+        <td>${msg.message}</td>
+        <td>
+          <button class="delete-btn" onclick="deleteMsg(${msg.id})">Delete</button>
+        </td>
+      </tr>
+    `;
+    table.innerHTML += row;
+  });
+}
+
+// DELETE
+async function deleteMsg(id){
+  await fetch(`http://localhost:3000/admin/contact/delete/${id}`,{
+    method:"DELETE"
+  });
+
+  location.reload();
+}
+
+// INIT
+loadInfo();
+loadMessages();
+
+</script>
+
+</body>
+</html>
+

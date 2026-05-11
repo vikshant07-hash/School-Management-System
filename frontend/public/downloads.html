@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Downloads</title>
+
+<style>
+
+/* ================= THEME ================= */
+:root{
+  --bg1:#0f172a;
+  --bg2:#1e1b4b;
+  --purple:#8b5cf6;
+  --blue:#2563eb;
+  --text:#fff;
+}
+
+/* ================= PAGE ================= */
+body{
+  margin:0;
+  font-family:Poppins,sans-serif;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  color:var(--text);
+}
+
+/* ================= SECTION ================= */
+.download-section{
+  padding:40px 20px;
+  min-height:100vh;
+}
+
+/* TITLE */
+.download-section h2{
+  text-align:center;
+  color:#c084fc;
+  margin-bottom:20px;
+}
+
+/* ================= FILTERS ================= */
+.filters{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:25px;
+}
+
+.filters select,
+.filters button{
+  padding:10px 14px;
+  border:none;
+  border-radius:8px;
+  outline:none;
+  font-size:14px;
+}
+
+.filters select{
+  background:#1e293b;
+  color:white;
+}
+
+.filters button{
+  background:linear-gradient(135deg,var(--purple),var(--blue));
+  color:white;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.filters button:hover{
+  transform:scale(1.05);
+}
+
+/* ================= CARD ================= */
+.card{
+  background:rgba(255,255,255,0.05);
+  border-left:4px solid var(--purple);
+  padding:15px;
+  margin:12px auto;
+  border-radius:10px;
+  max-width:600px;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  background:rgba(255,255,255,0.08);
+}
+
+.card h3{
+  margin:0;
+  color:#fff;
+}
+
+.card p{
+  font-size:14px;
+  opacity:0.8;
+}
+
+/* DOWNLOAD BUTTON */
+.card a{
+  display:inline-block;
+  margin-top:10px;
+  padding:8px 14px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  color:white;
+  border-radius:20px;
+  text-decoration:none;
+  transition:0.3s;
+}
+
+.card a:hover{
+  transform:scale(1.05);
+}
+
+/* ================= NO DATA ================= */
+.no-data{
+  text-align:center;
+  margin-top:30px;
+  padding:15px;
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:10px;
+  max-width:300px;
+  margin-left:auto;
+  margin-right:auto;
+  color:#c084fc;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:600px){
+  .filters{
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .card{
+    width:90%;
+  }
+}
+
+h5{
+  color: rgb(240, 255, 34);
+  text-align: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+
+
+/* ================= FOOTER BASE ================= */
+.glass-footer {
+  position: relative;
+  overflow: hidden;
+
+background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #fff;
+  padding: 50px 20px 20px;
+
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  font-family: "Poppins", sans-serif;
+}
+
+/* ================= RGB TOP LIGHT ================= */
+.glass-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+
+  background: linear-gradient(
+    90deg,
+    #ff004c,
+    #ffcc00,
+    #00ffcc,
+    #0066ff,
+    #ff00ff,
+    #ff004c
+  );
+
+  background-size: 400% 100%;
+  animation: rgbMove 6s linear infinite;
+
+  box-shadow: 0 0 15px rgba(255, 0, 100, 0.6),
+              0 0 25px rgba(0, 255, 200, 0.4);
+}
+
+/* RGB animation */
+@keyframes rgbMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* ================= CONTAINER ================= */
+.glass-container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* ================= MAIN BOX ================= */
+.glass-box.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+/* ================= BRAND FLEX ================= */
+.brand-flex {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  background: rgba(255, 255, 255, 0.06);
+  padding: 20px;
+  border-radius: 16px;
+
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+
+  max-width: 800px;
+  width: 100%;
+}
+
+/* ================= LOGO ================= */
+.school-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ================= TEXT ================= */
+.brand-flex h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.brand-flex p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ================= FOOTER BOTTOM ================= */
+.glass-bottom {
+  margin-top: 25px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+/* ================= DEVELOPER CREDIT ================= */
+.dev-credit {
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dev-credit span {
+  color: #ff4d6d;
+  font-weight: 600;
+}
+
+/* ================= HOVER EFFECT ================= */
+.brand-flex:hover {
+  transform: translateY(-3px);
+  transition: 0.3s ease;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px) {
+  .brand-flex {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .school-logo {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+
+/* =========================
+   ANIMATION
+========================= */
+@keyframes glowMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<section class="download-section">
+
+  <h2>📚 Student Study Materials</h2>
+  <h5>PLEASE SELECT COMBINATIONS AS YOU WANT...!</h5>
+
+  <!-- FILTERS -->
+  <div class="filters">
+
+   <select id="class" required>
+  <option value="">Select Class *</option>
+  <option>6</option>
+  <option>7</option>
+  <option>8</option>
+  <option>9</option>
+  <option>10</option>
+  <option>11</option>
+  <option>12</option>
+  
+</select>
+
+<select id="year" required>
+  <option value="">Select Year *</option>
+  <option>2024</option>
+  <option>2025</option>
+  <option>2026</option>
+  <option>2027</option>
+  <option>2028</option>
+  <option>2029</option>
+  
+</select>
+
+<select id="category" required>
+  <option value="">Select Category *</option>
+  <option>Model Paper</option>
+  <option>Syllabus</option>
+  <option>PYQ</option>
+  <option>Other</option>
+</select>
+
+    <button onclick="loadFiles()">Search</button>
+
+  </div>
+
+  <!-- LIST -->
+  <div id="list"></div>
+
+</section>
+
+
+<footer class="glass-footer">
+
+  <div class="glass-container">
+
+    <div class="glass-box brand">
+
+  <div class="brand-flex">
+    <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo" class="school-logo">
+
+    <div>
+      <h2>Govt Sr. Sec. School</h2>
+      <p>Empowering students with knowledge, discipline & excellence.</p>
+    </div>
+ 
+
+
+
+  <div class="glass-bottom">
+    © 2026 Govt. Sr. Sec. School Shilla | All Rights Reserved
+  </div>
+  <div class="dev-credit">
+  <p>Developed by <span>Vikshant Kralta</span></p>
+</div>
+
+</footer>
+
+<script>function loadFiles() {
+
+  const cls = document.getElementById("class").value;
+  const year = document.getElementById("year").value;
+  const category = document.getElementById("category").value;
+
+  // 🔴 ALL REQUIRED CHECK
+  if (!cls || !year || !category) {
+    alert("⚠️ Please select Class, Year and Category first");
+    return;
+  }
+
+  let url = `http://localhost:3000/downloads?class=${cls}&year=${year}&category=${category}`;
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+
+      const box = document.getElementById("list");
+      box.innerHTML = "";
+
+      if (!data.length) {
+        box.innerHTML = "❌ No Results Found";
+        return;
+      }
+
+      data.forEach(d => {
+        box.innerHTML += `
+          <div class="card">
+            <h3>${d.title}</h3>
+            <p>Class: ${d.class} | Year: ${d.year} | ${d.category}</p>
+            <a href="http://localhost:3000/uploads/${d.file}" target="_blank">Download</a>
+          </div>
+        `;
+      });
+
+    });
+}</script>
+
+</body>
+</html>

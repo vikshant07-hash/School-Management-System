@@ -1,0 +1,250 @@
+<style>.admin-gallery {
+  padding: 40px;
+  min-height: 100vh;
+
+  background: radial-gradient(circle at top, #1a1b3a, #0f172a 60%, #0b1020);
+  color: white;
+}
+
+.admin-gallery h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #e9d5ff;
+  font-size: 22px;
+}
+
+/* ================= FORM ================= */
+#galleryForm {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  justify-content: center;
+  margin-bottom: 25px;
+
+  padding: 15px;
+
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+#galleryForm input {
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+
+  background: rgba(255,255,255,0.08);
+  color: white;
+
+  font-size: 13px;
+  flex: 1;
+}
+
+#galleryForm input::placeholder {
+  color: #cbd5e1;
+}
+
+#galleryForm button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#galleryForm button:hover {
+  transform: scale(1.05);
+}
+
+/* ================= GRID ================= */
+#galleryList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+
+  padding: 0 15px;
+}
+
+/* ================= CARD ================= */
+.gallery-card {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+
+  border-radius: 14px;
+  overflow: hidden;
+
+  border: 1px solid rgba(255,255,255,0.1);
+
+  transition: 0.3s;
+}
+
+.gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(139,92,246,0.25);
+}
+
+/* IMAGE */
+.gallery-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+/* INFO */
+.gallery-info {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gallery-info h3 {
+  font-size: 14px;
+  color: #f5d0fe;
+}
+
+/* DELETE BUTTON */
+.gallery-info button {
+  padding: 4px 8px;
+  font-size: 11px;
+
+  border: none;
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: white;
+
+  transition: 0.3s;
+}
+
+.gallery-info button:hover {
+  transform: scale(1.05);
+}
+
+/* ================= NO DATA ================= */
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #c084fc;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+  .admin-gallery {
+    padding: 15px;
+  }
+
+  #galleryForm {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  #galleryForm input,
+  #galleryForm button {
+    width: 100%;
+  }
+
+  #galleryList {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    padding: 0 10px;
+  }
+
+  .gallery-card img {
+    height: 140px;
+  }
+}</style>
+
+<section class="admin-gallery">
+
+  <h2>📸 School Gallery Manager</h2>
+
+  <!-- UPLOAD FORM -->
+  <form id="galleryForm" enctype="multipart/form-data">
+
+    <input type="text" name="title" placeholder="Image Title" required>
+
+    <input type="file" name="image" accept="image/*" required>
+
+    <button type="submit">➕ Add Image</button>
+
+  </form>
+
+  <!-- GALLERY LIST -->
+  <div id="galleryList"></div>
+
+</section>
+
+<script>
+document.getElementById("galleryForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+
+  await fetch("http://localhost:3000/gallery/add", {
+    method: "POST",
+    body: formData
+  });
+
+  e.target.reset();
+  loadGallery();
+});
+
+/* LOAD GALLERY */
+async function loadGallery() {
+
+  const res = await fetch("http://localhost:3000/gallery");
+  const data = await res.json();
+
+  const box = document.getElementById("galleryList");
+  box.innerHTML = "";
+
+  if (!data.length) {
+    box.innerHTML = `<div class="no-data">📭 No Images Found</div>`;
+    return;
+  }
+
+  data.forEach(img => {
+    box.innerHTML += `
+      <div class="gallery-card">
+
+        <img src="http://localhost:3000/uploads/${img.image}" alt="${img.title}">
+
+        <div class="gallery-info">
+          <h3>${img.title}</h3>
+
+          <button onclick="deleteImage(${img.id})">🗑 Delete</button>
+        </div>
+
+      </div>
+    `;
+  });
+}
+
+/* DELETE IMAGE */
+async function deleteImage(id) {
+
+  if (!confirm("Delete this image?")) return;
+
+  await fetch("http://localhost:3000/gallery/" + id, {
+    method: "DELETE"
+  });
+
+  loadGallery();
+}
+
+loadGallery();
+</script>

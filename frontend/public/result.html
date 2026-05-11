@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- WEBSITE ICON -->
+    <link rel="shortcut icon"
+        href="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png"
+        type="image/x-icon">
+
+    <title>Exam Results | Govt. Sr. Sec. School, Shilla</title>
+
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        /* ================= RESET ================= */
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        /* ================= BODY ================= */
+
+        body{
+            min-height:100vh;
+            background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between;
+            overflow-x:hidden;
+            position:relative;
+        }
+
+        /* ================= BACKGROUND GLOW ================= */
+
+        body::before,
+        body::after{
+            content:"";
+            position:absolute;
+            width:400px;
+            height:400px;
+            border-radius:50%;
+            filter:blur(100px);
+            opacity:0.25;
+            z-index:0;
+        }
+
+        body::before{
+            background:#00d4ff;
+            top:-120px;
+            left:-120px;
+        }
+
+        body::after{
+            background:#ff4d6d;
+            bottom:-120px;
+            right:-120px;
+        }
+
+        /* ================= MAIN SECTION ================= */
+
+        .main-section{
+            width:100%;
+            min-height:85vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:30px;
+            position:relative;
+            z-index:2;
+        }
+
+        /* ================= MAIN CARD ================= */
+
+        .container{
+            width:100%;
+            max-width:900px;
+            background:rgba(255,255,255,0.08);
+            backdrop-filter:blur(18px);
+            border:1px solid rgba(255,255,255,0.15);
+            border-radius:28px;
+            padding:45px 35px;
+            text-align:center;
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.4),
+                inset 0 1px 1px rgba(255,255,255,0.1);
+
+            animation:fadeIn 1s ease;
+        }
+
+        /* ================= LOGO ================= */
+
+        .school-logo{
+            width:130px;
+            height:130px;
+            margin:0 auto 25px;
+            border-radius:50%;
+            overflow:hidden;
+            border:4px solid rgba(255,255,255,0.2);
+
+            box-shadow:
+                0 10px 25px rgba(0,0,0,0.4),
+                0 0 20px rgba(255,255,255,0.08);
+
+            animation:float 4s ease-in-out infinite;
+        }
+
+        .school-logo img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        /* ================= SCHOOL NAME ================= */
+
+        .school-name h1{
+            color:#ffffff;
+            font-size:2.4rem;
+            font-weight:700;
+            margin-bottom:12px;
+            text-shadow:0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        .school-name p{
+            color:#cbd5e1;
+            font-size:1rem;
+            margin-bottom:35px;
+        }
+
+        /* ================= MESSAGE ================= */
+
+        .msg h2{
+            color:#ffffff;
+            font-size:2rem;
+            line-height:1.6;
+            margin-bottom:25px;
+            font-weight:600;
+        }
+
+        .msg h3{
+            color:#dbeafe;
+            font-size:1.08rem;
+            line-height:1.9;
+            font-weight:400;
+        }
+
+        /* ================= LINK ================= */
+
+        .msg a{
+            color:#00e5ff;
+            text-decoration:none;
+            font-weight:600;
+            transition:0.3s ease;
+        }
+
+        .msg a:hover{
+            color:#ffffff;
+            text-decoration:underline;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .glass-footer{
+            position:relative;
+            overflow:hidden;
+            margin-bottom: 2px;
+
+            background:linear-gradient(135deg,#0f172a,#1e293b);
+
+            color:#fff;
+            padding:50px 20px 20px;
+
+            backdrop-filter:blur(12px);
+            border-top:1px solid rgba(255,255,255,0.1);
+
+            z-index:2;
+        }
+
+        /* ================= RGB TOP BORDER ================= */
+
+        .glass-footer::before{
+            content:"";
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:4px;
+
+            background:linear-gradient(
+                90deg,
+                #ff004c,
+                #ffcc00,
+                #00ffcc,
+                #0066ff,
+                #ff00ff,
+                #ff004c
+            );
+
+            background-size:400% 100%;
+            animation:rgbMove 6s linear infinite;
+
+            box-shadow:
+                0 0 15px rgba(255,0,100,0.6),
+                0 0 25px rgba(0,255,200,0.4);
+        }
+
+        /* ================= FOOTER CONTAINER ================= */
+
+        .glass-container{
+            max-width:1100px;
+            margin:auto;
+        }
+
+        /* ================= FOOTER FLEX ================= */
+
+        .brand-flex{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:20px;
+
+            background:rgba(255,255,255,0.06);
+
+            padding:20px;
+            border-radius:16px;
+
+            backdrop-filter:blur(10px);
+
+            box-shadow:0 8px 25px rgba(0,0,0,0.3);
+
+            max-width:800px;
+            margin:auto;
+
+            transition:0.3s ease;
+        }
+
+        .brand-flex:hover{
+            transform:translateY(-3px);
+            box-shadow:0 12px 30px rgba(0,0,0,0.5);
+        }
+
+        /* ================= FOOTER LOGO ================= */
+
+        .footer-logo{
+            width:90px;
+            height:90px;
+            object-fit:cover;
+
+            border-radius:12px;
+
+            border:2px solid rgba(255,255,255,0.2);
+        }
+
+        /* ================= FOOTER TEXT ================= */
+
+        .brand-flex h2{
+            margin-bottom:8px;
+            font-size:22px;
+            color:#ffffff;
+        }
+
+        .brand-flex p{
+            font-size:14px;
+            color:rgba(255,255,255,0.7);
+            line-height:1.7;
+        }
+
+        /* ================= FOOTER BOTTOM ================= */
+
+        .glass-bottom{
+            margin-top:30px;
+            text-align:center;
+            font-size:13px;
+            color:rgba(255,255,255,0.65);
+        }
+
+        .dev-credit{
+            margin-top:10px;
+            text-align:center;
+            font-size:13px;
+            color:rgba(255,255,255,0.65);
+        }
+
+        .dev-credit span{
+            color:#ff4d6d;
+            font-weight:600;
+        }
+
+        /* ================= ANIMATIONS ================= */
+
+        @keyframes fadeIn{
+
+            from{
+                opacity:0;
+                transform:translateY(30px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+
+        }
+
+        @keyframes float{
+
+            0%{
+                transform:translateY(0px);
+            }
+
+            50%{
+                transform:translateY(-10px);
+            }
+
+            100%{
+                transform:translateY(0px);
+            }
+
+        }
+
+        @keyframes rgbMove{
+
+            0%{
+                background-position:0% 50%;
+            }
+
+            100%{
+                background-position:100% 50%;
+            }
+
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:768px){
+
+            .container{
+                padding:35px 22px;
+            }
+
+            .school-name h1{
+                font-size:1.8rem;
+            }
+
+            .msg h2{
+                font-size:1.5rem;
+            }
+
+            .msg h3{
+                font-size:1rem;
+            }
+
+            .school-logo{
+                width:110px;
+                height:110px;
+            }
+
+            .brand-flex{
+                flex-direction:column;
+                text-align:center;
+            }
+
+        }
+
+        @media(max-width:480px){
+
+            .main-section{
+                padding:18px;
+            }
+
+            .school-name h1{
+                font-size:1.4rem;
+            }
+
+            .school-name p{
+                font-size:0.9rem;
+            }
+
+            .msg h2{
+                font-size:1.2rem;
+            }
+
+            .msg h3{
+                font-size:0.92rem;
+                line-height:1.7;
+            }
+
+            .glass-bottom,
+            .dev-credit{
+                font-size:12px;
+            }
+
+            .footer-logo{
+                width:70px;
+                height:70px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ================= MAIN SECTION ================= -->
+
+    <section class="main-section">
+
+        <div class="container">
+
+            <!-- SCHOOL LOGO -->
+
+            <div class="school-logo">
+                <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png"
+                    alt="School Logo">
+            </div>
+
+            <!-- SCHOOL NAME -->
+
+            <div class="school-name">
+                <h1>Govt. Senior Secondary School, Shilla</h1>
+                <p>Our School's Examination Result Portal</p>
+            </div>
+
+            <!-- MESSAGE SECTION -->
+
+            <div class="msg">
+
+                <h2>
+                    The result page is currently unavailable.
+                    <br>
+                    Please check again later.
+                </h2>
+
+                <h3>
+                    This portal displays examination results only for
+                    Classes 6th to 9th and 11th.
+                    <br><br>
+
+                    To check the results for Classes 10th and 12th,
+                    Please visit the official
+                    <a href="https://hpbose.org/result.aspx" target="_blank">
+                        HPBOSE Result
+                    </a>  Website.
+                </h3>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="glass-footer">
+
+        <div class="glass-container">
+
+            <div class="brand-flex">
+
+                <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png"
+                    alt="School Logo"
+                    class="footer-logo">
+
+                <div>
+
+                    <h2>Govt. Sr. Sec. School, Shilla</h2>
+
+                    <p>
+                        Empowering students with knowledge,
+                        discipline, and excellence.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- FOOTER COPYRIGHT -->
+
+            <div class="glass-bottom">
+                © 2026 Govt. Sr. Sec. School, Shilla | All Rights Reserved
+            </div>
+
+            <!-- DEVELOPER CREDIT -->
+
+            <div class="dev-credit">
+                Developed by <span>Vikshant Kralta</span>
+            </div>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
