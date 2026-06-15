@@ -1,65 +1,76 @@
-
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
+const verifyToken =
+  require("./middleware/authMiddleware");
 
-app.use(cors());
+
+/* ================= MIDDLEWARE ================= */
+
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-/* STATIC FOLDER */
+
+/* ================= STATIC FILES ================= */
+
 app.use("/uploads", express.static("uploads"));
 
-/* ROUTES */
-const imageRoutes = require("./routes/images");
-app.use("/images", imageRoutes);
+/* ================= ROUTES ================= */
 
-/* ✅ THIS LINE MUST EXIST */
-const notificationRoutes = require("./routes/notifications");
-app.use("/notifications", notificationRoutes);
+app.use("/images", require("./routes/images"));
+app.use("/notifications", require("./routes/notifications"));
+app.use("/downloads", require("./routes/downloads"));
 
 
-const downloadRoutes = require("./routes/downloads");
-app.use("/downloads", downloadRoutes);
+app.use(
+  "/api/gallery",
+  require("./routes/galleryRoutes")
+);
 
-const galleryRoutes = require("./routes/galleryRoutes");
-app.use("/gallery", galleryRoutes);
 
-// Faculty
-const facultyRoutes = require("./routes/facultyRoutes");
-app.use("/faculty", facultyRoutes);
+app.use("/faculty", require("./routes/facultyRoutes"));
+app.use("/admin/faculty", require("./routes/adminFacultyRoutes"));
 
-// Admin Faculty
-const adminRoutes = require("./routes/adminFacultyRoutes");
-app.use("/admin/faculty", adminRoutes);
-
-// Contact
 app.use("/contact", require("./routes/contactRoutes"));
+app.use("/admin/contact", require("./routes/contactAdmin"));
 
-// Admin Contact
-const contactAdminRoutes = require("./routes/contactAdmin");
-app.use("/admin/contact", contactAdminRoutes);
+app.use("/", require("./routes/auth"));
 
-
-const authRoutes = require("./routes/auth");
-app.use("/", authRoutes);
+app.use("/analytics", require("./routes/analytics"));
 
 
-
-
-
-const analyticsRoutes = require("./routes/analytics");
-app.use("/analytics", analyticsRoutes);
-
-
-
-app.use("/api/student", require("./routes/studentRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
 
+/* ================= HEALTH CHECK ================= */
 
+app.get("/", (req, res) => {
+  res.send("Backend is running successfully 🚀");
+});
 
-/* ================= START SERVER ================= */
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+app.get(
+  "/verify-admin",
+  verifyToken,
+  (req, res) => {
+
+    res.json({
+      success: true,
+      user: req.user
+    });
+
+  }
+);
+
+/* ================= PORT ================= */
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

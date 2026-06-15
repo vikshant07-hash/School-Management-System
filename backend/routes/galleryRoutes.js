@@ -1,22 +1,38 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
-const controller = require("../controllers/galleryController");
 
-/* MULTER */
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) =>
-    cb(null, Date.now() + "-" + file.originalname)
-});
+const upload =
+require("../middleware/uploadGallery");
 
-const upload = multer({ storage });
+const gallery =
+require("../controllers/galleryController");
 
-/* ROUTES */
-router.post("/add", upload.single("image"), controller.addImage);
+router.post(
+  "/",
+  upload.single("image"),
+  gallery.createGallery
+);
 
-router.get("/", controller.getImages);
+router.get("/", gallery.getGallery);
 
-router.delete("/:id", controller.deleteImage);
+router.get(
+  "/featured",
+  gallery.getFeatured
+);
+
+router.get(
+  "/single/:id",
+  gallery.getSingle
+);
+
+router.get(
+  "/download/:id",
+  gallery.downloadImage
+);
+
+router.delete(
+  "/:id",
+  gallery.deleteGallery
+);
 
 module.exports = router;

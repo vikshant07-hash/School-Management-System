@@ -1,206 +1,124 @@
 const express = require("express");
-
 const router = express.Router();
-
 const db = require("../config/db");
 
 /* =========================
-   TRACK VISITOR
+   TRACK VISITOR (EVERY HIT COUNT)
 ========================= */
 
-router.get("/track",(req,res)=>{
+router.get("/track", (req, res) => {
 
   let ip =
     req.headers['x-forwarded-for'] ||
     req.socket.remoteAddress ||
     req.ip;
 
-  const today =
-    new Date()
-    .toISOString()
-    .slice(0,10);
+  const today = new Date().toISOString().slice(0, 10);
 
-  /* CHECK ALREADY EXISTS */
+  const sql = `
+    INSERT INTO visitor_logs (ip_address, visit_date)
+    VALUES (?, ?)
+  `;
 
-  const checkSql =
+  db.query(sql, [ip, today], (err) => {
 
-  `SELECT * FROM visitor_logs
-   WHERE ip_address = ?
-   AND visit_date = ?`;
-
-  db.query(
-    checkSql,
-    [ip,today],
-
-    (err,result)=>{
-
-      if(err){
-
-        console.log(err);
-
-        return res.json({
-          success:false
-        });
-
-      }
-
-      /* INSERT ONLY IF NOT EXISTS */
-
-      if(result.length === 0){
-
-        const insertSql =
-
-        `INSERT INTO visitor_logs
-        (ip_address,visit_date)
-        VALUES (?,?)`;
-
-        db.query(
-          insertSql,
-          [ip,today],
-
-          (err)=>{
-
-            if(err){
-
-              console.log(err);
-
-              return res.json({
-                success:false
-              });
-
-            }
-
-            res.json({
-              success:true,
-              message:"Visitor Added"
-            });
-
-          }
-        );
-
-      }
-
-      else{
-
-        res.json({
-          success:true,
-          message:"Already Counted"
-        });
-
-      }
-
+    if (err) {
+      console.log("TRACK ERROR:", err);
+      return res.json({
+        success: false,
+        message: "Track failed"
+      });
     }
 
-  );
+    res.json({
+      success: true,
+      message: "Visit counted"
+    });
+
+  });
 
 });
 
+
 /* =========================
-   GET STATS
+   GET STATS (TOTAL + TODAY)
 ========================= */
 
-router.get("/stats",(req,res)=>{
+router.get("/stats", (req, res) => {
 
-  const today =
-    new Date()
-    .toISOString()
-    .slice(0,10);
+  const today = new Date().toISOString().slice(0, 10);
 
-  const todaySql =
+  /* TODAY VISITS */
+  const todaySql = `
+    SELECT COUNT(*) AS today
+    FROM visitor_logs
+    WHERE visit_date = ?
+  `;
 
-  `SELECT COUNT(DISTINCT ip_address)
-   AS today
-   FROM visitor_logs
-   WHERE visit_date = ?`;
+  /* TOTAL VISITS */
+  const totalSql = `
+    SELECT COUNT(*) AS total
+    FROM visitor_logs
+  `;
 
-  const totalSql =
+  db.query(todaySql, [today], (err, todayResult) => {
 
-  `SELECT COUNT(DISTINCT ip_address)
-   AS total
-   FROM visitor_logs`;
-
-  db.query(
-    todaySql,
-    [today],
-
-    (err,todayResult)=>{
-
-      if(err){
-
-        console.log(err);
-
-        return res.json({
-          today:0,
-          total:0
-        });
-
-      }
-
-      db.query(
-        totalSql,
-
-        (err,totalResult)=>{
-
-          if(err){
-
-            console.log(err);
-
-            return res.json({
-              today:0,
-              total:0
-            });
-
-          }
-
-          res.json({
-
-            today:
-              todayResult[0].today,
-
-            total:
-              totalResult[0].total
-
-          });
-
-        }
-
-      );
-
+    if (err) {
+      console.log("TODAY ERROR:", err);
+      return res.json({
+        today: 0,
+        total: 0
+      });
     }
 
-  );
+    db.query(totalSql, (err, totalResult) => {
 
-});
-
-/* =========================
-   RESET
-========================= */
-
-router.delete("/reset",(req,res)=>{
-
-  db.query(
-    "TRUNCATE TABLE visitor_logs",
-
-    (err)=>{
-
-      if(err){
-
-        console.log(err);
-
+      if (err) {
+        console.log("TOTAL ERROR:", err);
         return res.json({
-          success:false
+          today: todayResult[0].today,
+          total: 0
         });
-
       }
 
       res.json({
-        success:true
+        today: todayResult[0].today,
+        total: totalResult[0].total
       });
 
-    }
+    });
 
-  );
+  });
 
 });
+
+
+/* =========================
+   RESET ALL DATA
+========================= */
+
+router.delete("/reset", (req, res) => {
+
+  const sql = `TRUNCATE TABLE visitor_logs`;
+
+  db.query(sql, (err) => {
+
+    if (err) {
+      console.log("RESET ERROR:", err);
+      return res.json({
+        success: false,
+        message: "Reset failed"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "All data cleared"
+    });
+
+  });
+
+});
+
 
 module.exports = router;

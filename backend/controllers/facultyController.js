@@ -21,6 +21,11 @@ exports.getStaff = (req,res)=>{
   });
 };
 
+exports.getNonStaff = (req,res)=>{
+  db.query("SELECT * FROM faculty WHERE type='Non-staff'",(err,result)=>{
+    res.json(result);
+  });
+};
 // SINGLE
 exports.getOne = (req,res)=>{
   db.query("SELECT * FROM faculty WHERE id=?",[req.params.id],(err,result)=>{

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const c = require("../controllers/adminFacultyController");
+const verifyToken = require("../middleware/authMiddleware");
 const multer = require("multer");
 
 const storage = multer.diskStorage({
@@ -11,8 +12,23 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-router.post("/add",upload.single("photo"),c.add);
-router.put("/update/:id",c.update);
-router.delete("/delete/:id",c.remove);
+router.post(
+  "/add",
+  verifyToken,
+  upload.single("photo"),
+  c.add
+);
+
+router.put(
+  "/update/:id",
+  verifyToken,
+  c.update
+);
+
+router.delete(
+  "/delete/:id",
+  verifyToken,
+  c.remove
+);
 
 module.exports = router;

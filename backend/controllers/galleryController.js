@@ -2,55 +2,309 @@ const db = require("../config/db");
 const fs = require("fs");
 const path = require("path");
 
-/* ADD IMAGE */
-exports.addImage = (req, res) => {
 
-  if (!req.file) {
-    return res.status(400).json({ error: "Image required" });
-  }
+// =====================
+// CREATE GALLERY IMAGE
+// =====================
 
-  const title = req.body.title || "Untitled";
-  const image = req.file.filename;
+exports.createGallery = (req, res) => {
 
-  db.query(
-    "INSERT INTO gallery (title, image) VALUES (?,?)",
-    [title, image],
-    (err) => {
-      if (err) return res.status(500).json(err);
-      res.json({ message: "Image uploaded" });
-    }
-  );
-};
+    const {
+        title,
+        description,
+        featured
+    } = req.body;
 
-/* GET ALL */
-exports.getImages = (req, res) => {
-  db.query("SELECT * FROM gallery ORDER BY id DESC", (err, result) => {
-    if (err) return res.status(500).json(err);
-    res.json(result);
-  });
-};
+    if (!title) {
 
-/* DELETE */
-exports.deleteImage = (req, res) => {
+        return res.status(400).json({
+            success: false,
+            message: "Title is required"
+        });
 
-  const id = req.params.id;
-
-  db.query("SELECT * FROM gallery WHERE id=?", [id], (err, result) => {
-
-    if (err || result.length === 0) {
-      return res.status(404).json({ error: "Not found" });
     }
 
-    const file = result[0].image;
+    if (!req.file) {
 
-    db.query("DELETE FROM gallery WHERE id=?", [id], (err2) => {
-      if (err2) return res.status(500).json(err2);
+        return res.status(400).json({
+            success: false,
+            message: "Image is required"
+        });
 
-      fs.unlink(path.join(__dirname, "../uploads", file), () => {});
+    }
 
-      res.json({ message: "Deleted" });
-    });
+    db.query(
+        `
+        INSERT INTO gallery
+        (
+            title,
+            description,
+            image,
+            featured
+        )
+        VALUES (?,?,?,?)
+        `,
+        [
+            title,
+            description || "",
+            req.file.filename,
+            featured || 0
+        ],
+        (err, result) => {
 
-  });
+            if (err) {
+
+                console.log(err);
+
+                return res.status(500).json({
+                    success: false,
+                    error: err.message
+                });
+
+            }
+
+            res.json({
+                success: true,
+                message: "Image uploaded successfully",
+                id: result.insertId
+            });
+
+        }
+    );
+
+};
+
+
+
+// =====================
+// GET ALL IMAGES
+// =====================
+
+exports.getGallery = (req, res) => {
+
+    db.query(
+        `
+        SELECT *
+        FROM gallery
+        ORDER BY id DESC
+        `,
+        (err, rows) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.status(500).json({
+                    success: false,
+                    error: err.message
+                });
+
+            }
+
+            res.json(rows);
+
+        }
+    );
+
+};
+
+
+
+// =====================
+// GET FEATURED IMAGES
+// =====================
+
+exports.getFeatured = (req, res) => {
+
+    db.query(
+        `
+        SELECT *
+        FROM gallery
+        WHERE featured = 1
+        ORDER BY id DESC
+        LIMIT 5
+        `,
+        (err, rows) => {
+
+            if (err) {
+
+                return res.status(500).json({
+                    success: false,
+                    error: err.message
+                });
+
+            }
+
+            res.json(rows);
+
+        }
+    );
+
+};
+
+
+
+// =====================
+// GET SINGLE IMAGE
+// =====================
+
+exports.getSingle = (req, res) => {
+
+    db.query(
+        `
+        SELECT *
+        FROM gallery
+        WHERE id = ?
+        `,
+        [req.params.id],
+        (err, rows) => {
+
+            if (err) {
+
+                return res.status(500).json({
+                    success: false,
+                    error: err.message
+                });
+
+            }
+
+            if (!rows.length) {
+
+                return res.status(404).json({
+                    success: false,
+                    message: "Image not found"
+                });
+
+            }
+
+            res.json(rows[0]);
+
+        }
+    );
+
+};
+
+
+
+// =====================
+// DELETE IMAGE
+// =====================
+
+exports.deleteGallery = (req, res) => {
+
+    db.query(
+        `
+        SELECT image
+        FROM gallery
+        WHERE id = ?
+        `,
+        [req.params.id],
+        (err, rows) => {
+
+            if (err) {
+
+                return res.status(500).json({
+                    success: false,
+                    error: err.message
+                });
+
+            }
+
+            if (!rows.length) {
+
+                return res.status(404).json({
+                    success: false,
+                    message: "Image not found"
+                });
+
+            }
+
+            const imagePath = path.join(
+                __dirname,
+                "../uploads/gallery",
+                rows[0].image
+            );
+
+            if (fs.existsSync(imagePath)) {
+
+                fs.unlinkSync(imagePath);
+
+            }
+
+            db.query(
+                `
+                DELETE FROM gallery
+                WHERE id = ?
+                `,
+                [req.params.id],
+                (err) => {
+
+                    if (err) {
+
+                        return res.status(500).json({
+                            success: false,
+                            error: err.message
+                        });
+
+                    }
+
+                    res.json({
+                        success: true,
+                        message: "Image deleted successfully"
+                    });
+
+                }
+            );
+
+        }
+    );
+
+};
+
+
+
+// =====================
+// DOWNLOAD IMAGE
+// =====================
+
+exports.downloadImage = (req, res) => {
+
+    db.query(
+        `
+        SELECT *
+        FROM gallery
+        WHERE id = ?
+        `,
+        [req.params.id],
+        (err, rows) => {
+
+            if (err) {
+
+                return res.status(500).json({
+                    success: false,
+                    error: err.message
+                });
+
+            }
+
+            if (!rows.length) {
+
+                return res.status(404).json({
+                    success: false,
+                    message: "Image not found"
+                });
+
+            }
+
+            const imagePath = path.join(
+                __dirname,
+                "../uploads/gallery",
+                rows[0].image
+            );
+
+            res.download(imagePath);
+
+        }
+    );
 
 };

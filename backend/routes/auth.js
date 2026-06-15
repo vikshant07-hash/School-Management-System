@@ -4,21 +4,22 @@ const router = express.Router();
 const db = require("../config/db");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 /* ================= EMAIL CONFIG ================= */
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "magicalmathsquiz@gmail.com",
-    pass: "vujqnplesxdcwivz"
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   },
   tls: {
     rejectUnauthorized: false
   }
 });
 
-/* ================= OTP ================= */
+/* ================= OTP GENERATOR ================= */
 
 function generateOTP() {
   const letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -37,9 +38,9 @@ function generateOTP() {
   return otp;
 }
 
-/* ================= LOGIN OTP ================= */
+/* ================= SEND OTP ================= */
 
-router.post("/send-otp", async (req, res) => {
+router.post("/send-otp", (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -50,75 +51,185 @@ router.post("/send-otp", async (req, res) => {
     "SELECT * FROM admins WHERE username=?",
     [username],
     async (err, results) => {
-      if (err) {
-        console.log(err);
-        return res.json({ success: false, message: "Database Error" });
-      }
+      if (err) return res.json({ success: false, message: "Database Error" });
 
-      if (!results || results.length === 0) {
-        return res.json({ success: false, message: "Invalid Username" });
+      if (!results.length) {
+        return res.json({ success: false, message: "Invalid Username, Try Again!" });
       }
 
       const user = results[0];
 
-      const isMatch = await bcrypt.compare(password, user.password);
+      const match = await bcrypt.compare(password, user.password);
 
-      if (!isMatch) {
-        return res.json({ success: false, message: "Wrong Password" });
+      if (!match) {
+        return res.json({ success: false, message: "Wrong Password, Enter Valid Password!" });
       }
 
       const otp = generateOTP();
       const expiry = Date.now() + 5 * 60 * 1000;
 
-      db.query(
-        "UPDATE admins SET otp=?, otp_expiry=? WHERE id=?",
-        [otp, expiry, user.id]
-      );
+      await new Promise((resolve, reject) => {
 
-      try {
-        await transporter.sendMail({
-          from: "magicalmathsquiz@gmail.com",
-          to: user.email,
-          subject: "School Admin Login OTP",
-          html: `
-            <div style="font-family:Arial;padding:20px;background:#f5f5f5;border-radius:10px">
+  db.query(
+    "UPDATE admins SET otp=?, otp_expiry=? WHERE id=?",
+    [otp, expiry, user.id],
+    (err) => {
 
-              <div style="text-align:center;">
-                <img src="https://cdn-icons-png.flaticon.com/512/3976/3976625.png" width="80"/>
-              </div>
+      if(err) reject(err);
+      else resolve();
 
-              <h2 style="color:#132B61;text-align:center;">
-                SCHOOL ADMIN LOGIN OTP
-              </h2>
-
-              <h1 style="color:#40279C;text-align:center;">
-                ${otp}
-              </h1>
-
-              <p style="text-align:center;font-weight:bold;">
-                OTP VALID FOR 5 MINUTES
-              </p>
-
-              <p style="text-align:center;color:#d1005d;">
-                PLEASE DO NOT SHARE ANYONE
-              </p>
-
-              <p style="text-align:center;color:#8B005D;">
-                GOVT. SR. SEC. SCHOOL, SHILLA
-              </p>
-
-            </div>
-          `
-        });
-
-        return res.json({ success: true, message: "OTP Sent Successfully on your regestred E-mail Id" });
-
-      } catch (mailErr) {
-        console.log(mailErr);
-        return res.json({ success: false, message: "Email Failed" });
-      }
     }
   );
+
+});
+
+
+
+try {
+
+  await transporter.sendMail({from: process.env.EMAIL_USER,
+  to: user.email,
+  subject: "Admin Login OTP - Govt. Sr. Sec. School, Shilla",
+  html: `
+  <div style="
+    font-family: Arial, sans-serif;
+    background: #0b1220;
+    padding: 30px;
+    color: #fff;
+  ">
+
+    <!-- MAIN CARD -->
+    <div style="
+      max-width: 520px;
+      margin: auto;
+      background: #111827;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+    ">
+
+      <!-- HEADER -->
+      <div style="
+        background: linear-gradient(90deg, #22c55e, #3b82f6, #a855f7);
+        padding: 20px;
+        text-align: center;
+      ">
+
+        <!-- LOGO -->
+        <img
+          src="https://wondrous-lily-ac51a5.netlify.app/1778132110413-ChatGPT%20Image%20May%207,%202026,%2010_56_26%20AM.png"
+          style="width:70px; height:70px; border-radius:50%; background:#fff; padding:5px;"
+        />
+
+        <h2 style="margin:10px 0 0; font-size:18px;">
+          GOVT. SR. SEC. SCHOOL, SHILLA
+        </h2>
+
+        <p style="margin:5px 0 0; font-size:13px;">
+          Secure Authentication System
+        </p>
+
+      </div>
+
+      <!-- BODY -->
+      <div style="padding: 25px; text-align:center;">
+
+        <h3 style="color:#e5e7eb; margin-bottom:10px;">
+          ADMIN LOGIN OTP
+        </h3>
+
+        <p style="color:#9ca3af; font-size:14px;">
+          Use the OTP to Login
+        </p>
+
+        <!-- OTP BOX -->
+        <div style="
+          margin: 25px auto;
+          padding: 18px;
+          width: fit-content;
+          background: #0f172a;
+          border: 2px dashed #ce0c9d;
+          border-radius: 12px;
+          font-size: 30px;
+          letter-spacing: 6px;
+          font-weight: bold;
+          color: #0d0461;
+        ">
+          ${otp}
+        </div>
+
+        <p style="color:#facc15; font-size:13px;">
+          ⏱ Valid for only 5 minutes
+        </p>
+
+        <p style="color:#f87171; font-size:13px;">
+          ⚠ Do not share this OTP with anyone
+        </p>
+
+        <!-- BUTTON STYLE LOOK -->
+        <div style="
+          margin-top: 20px;
+          padding: 12px;
+          background: rgba(255,255,255,0.05);
+          border-radius: 10px;
+        ">
+          <p style="font-size:13px; color:#9ca3af;">
+            If you didn’t request this, ignore this email.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div style="
+        padding: 15px;
+        text-align:center;
+        font-size:12px;
+        color:#6b7280;
+        border-top:1px solid rgba(255,255,255,0.08);
+      ">
+
+        <p>
+          📧 Support: 
+          <a href="mailto:magicalmathsquiz@gmail.com" style="color:#38bdf8;">
+            magicalmathsquiz@gmail.com
+          </a>
+        </p>
+
+        <p>
+          🌐 Govt. Sr. Sec. School, Shilla
+        </p>
+
+        <p style="margin-top:8px;">
+          © All Rights Reserved, 2026
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+  `});
+
+  return res.json({
+        success: true,
+        message: "OTP sent to Registered Email"
+      });
+
+} catch(error) {
+
+  console.log(error);
+
+  return res.json({
+    success:false,
+    message:"Email Send Failed"
+  });
+  }
+
+    }
+  );
+
 });
 
 /* ================= LOGIN ================= */
@@ -134,36 +245,50 @@ router.post("/login", (req, res) => {
     "SELECT * FROM admins WHERE username=?",
     [username],
     async (err, results) => {
-      if (err) {
-        return res.json({ success: false, message: "Database Error" });
-      }
+      if (err) return res.json({ success: false, message: "Database Error" });
 
-      if (!results || results.length === 0) {
+      if (!results.length) {
         return res.json({ success: false, message: "Invalid Username" });
       }
 
       const user = results[0];
 
-      const isMatch = await bcrypt.compare(password, user.password);
+      const match = await bcrypt.compare(password, user.password);
 
-      if (!isMatch) {
-        return res.json({ success: false, message: "Wrong Password" });
+      if (!match) {
+        return res.json({ success: false, message: "Wrong Password, Enter Valid Password!" });
       }
 
       if (!user.otp || user.otp !== otp) {
-        return res.json({ success: false, message: "Invalid OTP" });
+        return res.json({ success: false, message: "Invalid OTP, Please Check and Try again!" });
       }
 
       if (Date.now() > user.otp_expiry) {
-        return res.json({ success: false, message: "OTP Expired" });
+        return res.json({ success: false, message: "OTP Expired, Try Sending a New One!" });
       }
 
+      // clear otp
       db.query(
         "UPDATE admins SET otp=NULL, otp_expiry=NULL WHERE id=?",
         [user.id]
       );
 
-      return res.json({ success: true, message: "Login Successful" });
+      // JWT TOKEN
+      const token = jwt.sign(
+        {
+          id: user.id,
+          username: user.username,
+          role: "admin"
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
+      );
+
+      return res.json({
+        success: true,
+        message: "Login Successful",
+        token
+      });
     }
   );
 });
@@ -181,11 +306,9 @@ router.post("/send-reset-otp", (req, res) => {
     "SELECT * FROM admins WHERE email=?",
     [email],
     async (err, results) => {
-      if (err) {
-        return res.json({ success: false, message: "Database Error" });
-      }
+      if (err) return res.json({ success: false, message: "Database Error" });
 
-      if (!results || results.length === 0) {
+      if (!results.length) {
         return res.json({ success: false, message: "Email Not Found" });
       }
 
@@ -199,47 +322,137 @@ router.post("/send-reset-otp", (req, res) => {
         [otp, expiry, user.id]
       );
 
-      try {
-        await transporter.sendMail({
-          from: "magicalmathsquiz@gmail.com",
-          to: user.email,
-          subject: "Reset OTP",
-          html: `
-            <div style="font-family:Arial;padding:20px;background:#f5f5f5;border-radius:10px">
+      await transporter.sendMail({
+  from: process.env.EMAIL_USER,
+  to: user.email,
+  subject: "Reset OTP - Govt. Sr. Sec. School, Shilla",
+  html: `
+  <div style="
+    font-family: Arial, sans-serif;
+    background: #0b1220;
+    padding: 30px;
+    color: #fff;
+  ">
 
-              <div style="text-align:center;">
-                <img src="https://cdn-icons-png.flaticon.com/512/3976/3976625.png" width="80"/>
-              </div>
+    <!-- MAIN CARD -->
+    <div style="
+      max-width: 520px;
+      margin: auto;
+      background: #111827;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+    ">
 
-              <h2 style="color:#132B61;text-align:center;">
-                RESET PASSWORD OTP is:
-              </h2>
+      <!-- HEADER -->
+      <div style="
+        background: linear-gradient(90deg, #22c55e, #3b82f6, #a855f7);
+        padding: 20px;
+        text-align: center;
+      ">
 
-              <h1 style="color:#40279C;text-align:center;">
-                ${otp}
-              </h1>
+        <!-- LOGO -->
+        <img
+          src="https://wondrous-lily-ac51a5.netlify.app/1778132110413-ChatGPT%20Image%20May%207,%202026,%2010_56_26%20AM.png"
+          style="width:70px; height:70px; border-radius:50%; background:#fff; padding:5px;"
+        />
 
-              <p style="text-align:center;font-weight:bold;">
-                OTP VALID FOR 5 MINUTES
-              </p>
+        <h2 style="margin:10px 0 0; font-size:18px;">
+          GOVT. SR. SEC. SCHOOL, SHILLA
+        </h2>
 
-              <p style="text-align:center;color:#d1005d;">
-                PLEASE DO NOT SHARE ANYONE
-              </p>
+        <p style="margin:5px 0 0; font-size:13px;">
+          Secure Authentication System
+        </p>
 
-              <p style="text-align:center;color:#8B005D;">
-                GOVT. SR. SEC. SCHOOL, SHILLA
-              </p>
+      </div>
 
-            </div>
-          `
-        });
+      <!-- BODY -->
+      <div style="padding: 25px; text-align:center;">
 
-        return res.json({ success: true, message: "OTP Sent" });
+        <h3 style="color:#e5e7eb; margin-bottom:10px;">
+          Password Reset OTP
+        </h3>
 
-      } catch (e) {
-        return res.json({ success: false, message: "Email Failed" });
-      }
+        <p style="color:#9ca3af; font-size:14px;">
+          Use the OTP below to reset your account password
+        </p>
+
+        <!-- OTP BOX -->
+        <div style="
+          margin: 25px auto;
+          padding: 18px;
+          width: fit-content;
+          background: #0f172a;
+          border: 2px dashed #a80456;
+          border-radius: 12px;
+          font-size: 30px;
+          letter-spacing: 6px;
+          font-weight: bold;
+          color: #10087a;
+        ">
+          ${otp}
+        </div>
+
+        <p style="color:#facc15; font-size:13px;">
+          ⏱ Valid for only 5 minutes
+        </p>
+
+        <p style="color:#f87171; font-size:13px;">
+          ⚠ Do not share this OTP with anyone
+        </p>
+
+        <!-- BUTTON STYLE LOOK -->
+        <div style="
+          margin-top: 20px;
+          padding: 12px;
+          background: rgba(255,255,255,0.05);
+          border-radius: 10px;
+        ">
+          <p style="font-size:13px; color:#9ca3af;">
+            If you didn’t request this, ignore this email.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div style="
+        padding: 15px;
+        text-align:center;
+        font-size:12px;
+        color:#6b7280;
+        border-top:1px solid rgba(255,255,255,0.08);
+      ">
+
+        <p>
+          📧 Support: 
+          <a href="mailto:magicalmathsquiz@gmail.com" style="color:#38bdf8;">
+            magicalmathsquiz@gmail.com
+          </a>
+        </p>
+
+        <p>
+          🌐 Govt. Sr. Sec. School, Shilla
+        </p>
+
+        <p style="margin-top:8px;">
+          © All Rights Reserved, 2026
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+  `
+});
+
+      return res.json({
+        success: true,
+        message: "Reset OTP sent"
+      });
     }
   );
 });
@@ -253,22 +466,20 @@ router.post("/reset-password", (req, res) => {
     "SELECT * FROM admins WHERE email=?",
     [email],
     async (err, results) => {
-      if (err) {
-        return res.json({ success: false, message: "Database Error" });
-      }
+      if (err) return res.json({ success: false, message: "Database Error" });
 
-      if (!results || results.length === 0) {
+      if (!results.length) {
         return res.json({ success: false, message: "User Not Found" });
       }
 
       const user = results[0];
 
       if (!user.otp || user.otp !== otp) {
-        return res.json({ success: false, message: "Invalid OTP" });
+        return res.json({ success: false, message: "Invalid OTP, Try again!" });
       }
 
       if (Date.now() > user.otp_expiry) {
-        return res.json({ success: false, message: "OTP Expired" });
+        return res.json({ success: false, message: "OTP Expired, Try Sending a New One!" });
       }
 
       const hash = await bcrypt.hash(newPassword, 10);
@@ -278,7 +489,10 @@ router.post("/reset-password", (req, res) => {
         [hash, user.id]
       );
 
-      return res.json({ success: true, message: "Password Changed" });
+      return res.json({
+        success: true,
+        message: "Password Updated"
+      });
     }
   );
 });

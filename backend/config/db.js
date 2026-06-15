@@ -1,14 +1,17 @@
 const mysql = require("mysql2");
+require("dotenv").config();
+
+console.log(process.env.DB_HOST);
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",   // apna password daalo
-  database: "school_db"
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 });
-module.exports = db.promise();
 
-db.connect(err => {
+db.connect((err) => {
   if (err) {
     console.log("DB Error:", err);
   } else {
