@@ -1,631 +1,1132 @@
-<style>
-/* ================= ROOT THEME ================= */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gallery</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
 :root{
-  --navy1:#070b1a;
-  --navy2:#0b1430;
-  --navy3:#111b3a;
-
-  --purple:#8b5cf6;
-  --pink:#ec4899;
-  --light:#e5e7eb;
-  --muted:#a1a1aa;
+  --navy:#071A35;
+  --gold:#D4AF37;
+  --white:#ffffff;
+  --light:#f5f7fb;
+  --text:#1f2937;
+  --shadow:0 15px 40px rgba(0,0,0,.12);
 }
 
-/* ================= GLOBAL ================= */
-body{
+*{
   margin:0;
-  font-family:"Poppins",sans-serif;
-  background: radial-gradient(circle at top, #070b1a, #050712);
-  color:var(--light);
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
 }
 
-/* ================= SECTION ================= */
-.gallery-section{
-  padding:50px 20px;
-  min-height:100vh;
-  background: linear-gradient(-45deg,var(--navy1),var(--navy2),var(--navy3));
-  background-size:400% 400%;
-  animation:bgMove 14s ease infinite;
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--light);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+.hero{
   position:relative;
-}
-
-@keyframes bgMove{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
-
-/* ================= HEADER ================= */
-.gallery-header{
-  text-align:center;
-  margin-bottom:25px;
-}
-
-.gallery-header h2{
-  font-size:42px;
-  background: linear-gradient(90deg,var(--purple),var(--pink));
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  color:transparent;
-  display:inline-block;
-
-  text-decoration:none;   /* 🔥 underline fix */
-  border-bottom:0;        /* extra safety */
-}
-
-.gallery-header p{
-  color:var(--muted);
-  font-size:14px;
-}
-
-/* ================= HERO SLIDER ================= */
-.hero-gallery{
-  width:100%;
-  height:60vh;
-  position:relative;
-  border-radius:20px;
+  height:65vh;
   overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  margin-top: 10px;
 }
 
-/* IMPORTANT FIX: FULL IMAGE SHOW (NO CROP) */
-.hero-slide{
+.hero-slider{
   width:100%;
   height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#050712;
+  position:relative;
+}
+
+.hero-slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  visibility:hidden;
+  transition:all 1s ease;
+}
+
+.hero-slide.active{
+  opacity:1;
+  visibility:visible;
 }
 
 .hero-slide img{
   width:100%;
   height:100%;
-  object-fit:contain;   /* 🔥 IMPORTANT FIX */
-  background:#050712;
-  transition:0.6s ease;
-}
-
-/* optional hover zoom (safe) */
-.hero-slide img:hover{
-  transform:scale(1.03);
-}
-
-/* ================= HERO TEXT ================= */
-.hero-text{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  padding:15px;
-  font-size:14px;
-  background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);
-}
-
-/* ================= NAV BUTTONS ================= */
-.nav{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  border:none;
-  padding:12px 14px;
-  border-radius:12px;
-  cursor:pointer;
-
-  color:#ffffff; /* 🔥 high contrast */
-  font-size:18px;
-  font-weight:bold;
-
-  background: linear-gradient(135deg, rgba(139,92,246,0.9), rgba(236,72,153,0.9));
-  box-shadow:0 8px 25px rgba(139,92,246,0.4);
-
-  backdrop-filter: blur(10px);
-  transition:0.3s ease;
-  z-index:10;
-}
-
-.nav:hover{
-  transform:translateY(-50%) scale(1.15);
-  box-shadow:0 10px 35px rgba(236,72,153,0.6);
-}
-
-/* LEFT */
-.prev{
-  left:12px;
-}
-
-/* RIGHT */
-.next{
-  right:12px;
-}
-
-/* optional glow animation */
-.nav::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:12px;
-  background:linear-gradient(135deg,var(--purple),var(--pink));
-  opacity:0.2;
-  filter:blur(8px);
-  z-index:-1;
-}
-/* ================= DOTS ================= */
-.dots{
-  position:absolute;
-  bottom:10px;
-  width:100%;
-  text-align:center;
-}
-
-.dots span{
-  width:8px;
-  height:8px;
-  margin:4px;
-  display:inline-block;
-  border-radius:50%;
-  background:rgba(255,255,255,0.3);
-  transition:0.3s;
-}
-
-.dots .active{
-  background:var(--pink);
-  transform:scale(1.3);
-}
-
-/* ================= GRID ================= */
-.gallery-grid{
-  columns:4 200px;
-  column-gap:15px;
-  margin-top:25px;
-}
-
-.gallery-item{
-  margin-bottom:15px;
-  break-inside:avoid;
-}
-
-.image-wrapper{
-  border-radius:16px;
-  overflow:hidden;
-  position:relative;
-  cursor:pointer;
-  background:#0a1024;
-  box-shadow:0 10px 25px rgba(0,0,0,0.4);
-  transition:0.4s;
-}
-
-.image-wrapper:hover{
-  transform:translateY(-6px) scale(1.02);
-  box-shadow:0 15px 35px rgba(139,92,246,0.25);
-}
-
-.image-wrapper img{
-  width:100%;
-  display:block;
-  transition:0.5s;
   object-fit:cover;
 }
 
-.image-wrapper:hover img{
-  transform:scale(1.06);
-}
-
-/* overlay */
-.overlay{
+.hero-overlay{
   position:absolute;
-  bottom:0;
-  width:100%;
-  padding:8px;
-  font-size:12px;
-  color:white;
-  background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);
+  inset:0;
+  background: linear-gradient(rgba(7,26,53,.35), rgba(7,26,53,.80));
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
 }
 
-/* ================= LIGHTBOX ================= */
-.lightbox{
-  display:none;
+.hero-overlay h1{
+  color:white;
+  font-size:58px;
+  font-weight:800;
+  max-width:900px;
+}
+
+.hero-overlay p{
+  color:white;
+  font-size:18px;
+  max-width:800px;
+  margin-top:15px;
+  line-height:1.8;
+}
+
+.section-title{
+  text-align:center;
+  color:var(--navy);
+  font-size:38px;
+  font-weight:700;
+  margin-bottom:40px;
+}
+
+.section-title::after{
+  content:'';
+  width:90px;
+  height:4px;
+  background:var(--gold);
+  display:block;
+  margin:15px auto;
+  border-radius:10px;
+}
+
+.featured-section{
+  padding:80px 20px;
+  background:white;
+}
+
+.featured-gallery{
+  max-width:1300px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:25px;
+}
+
+.featured-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:24px;
+  height:280px;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  transition:.4s;
+}
+
+.featured-card:hover{
+  transform:translateY(-8px);
+}
+
+.featured-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.6s;
+}
+
+.featured-card:hover img{
+  transform:scale(1.08);
+}
+
+.featured-info{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:20px;
+  background: linear-gradient(transparent, rgba(7,26,53,.95));
+}
+
+.featured-info h3{
+  color:white;
+  font-size:20px;
+}
+
+.gallery-section{
+  padding:80px 20px;
+}
+
+.gallery-header{
+  text-align:center;
+  margin-bottom:50px;
+}
+
+.gallery-header p{
+  color:#64748b;
+  max-width:700px;
+  margin:auto;
+}
+
+.gallery-grid{
+  max-width:1400px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:30px;
+}
+
+.gallery-card{
+  background:white;
+  border-radius:25px;
+  overflow:hidden;
+  cursor:pointer;
+  box-shadow:0 8px 25px rgba(0,0,0,.08);
+  transition:.4s;
+}
+
+.gallery-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 20px 45px rgba(0,0,0,.15);
+}
+
+.gallery-card img{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+  transition:.6s;
+}
+
+.gallery-card:hover img{
+  transform:scale(1.08);
+}
+
+.gallery-info{
+  padding:20px;
+}
+
+.gallery-info h3{
+  color:var(--navy);
+  margin-bottom:10px;
+}
+
+.gallery-info p{
+  color:#64748b;
+  font-size:14px;
+  line-height:1.8;
+}
+
+.modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.95);
+  background:rgba(0,0,0,.95);
+  display:none;
   align-items:center;
   justify-content:center;
-  z-index:9999;
-  backdrop-filter:blur(10px);
+  padding:20px;
+  z-index:99999;
 }
 
-.lightbox img{
-  max-width:95%;
-  max-height:95%;
-  border-radius:12px;
-  box-shadow:0 0 50px rgba(139,92,246,0.4);
+.modal-content{
+  width:100%;
+  max-width:1000px;
+  background:white;
+  border-radius:25px;
+  overflow:hidden;
+  animation:zoomIn .3s ease;
 }
 
-/* buttons */
-.lightbox-close,
-.lightbox-download{
-  position:absolute;
-  top:15px;
-  border:none;
-  padding:10px 12px;
+.modal img{
+  width:100%;
+  max-height:75vh;
+  object-fit:contain;
+  background:black;
+}
+
+.modal-body{
+  padding:25px;
+}
+
+.modal-body h2{
+  color:var(--navy);
+  margin-bottom:10px;
+}
+
+.modal-body p{
+  color:#475569;
+  line-height:1.8;
+}
+
+.download-btn{
+  display:inline-block;
+  margin-top:20px;
+  background:var(--gold);
+  color:black;
+  text-decoration:none;
+  padding:12px 25px;
   border-radius:10px;
-  cursor:pointer;
+  font-weight:600;
+}
+
+.download-btn:hover{
+  opacity:.9;
+}
+
+.close-btn{
+  position:absolute;
+  top:20px;
+  right:30px;
   color:white;
-  transition:0.3s;
+  font-size:45px;
+  cursor:pointer;
 }
 
-.lightbox-close{
-  right:15px;
-  background:#ef4444;
+footer{
+  background:var(--navy);
+  color:white;
+  text-align:center;
+  padding:45px 20px;
 }
 
-.lightbox-download{
-  left:15px;
-  background:linear-gradient(135deg,var(--purple),var(--pink));
+footer h3{
+  color:var(--gold);
+  margin-bottom:10px;
 }
 
-.lightbox-close:hover,
-.lightbox-download:hover{
-  transform:scale(1.1);
+footer p{
+  opacity:.8;
 }
 
-/* ================= MOBILE ================= */
+@keyframes zoomIn{
+  from{ opacity:0; transform:scale(.9); }
+  to{ opacity:1; transform:scale(1); }
+}
+
+@media(max-width:992px){
+  .hero{ height:50vh; }
+  .hero-overlay h1{ font-size:40px; }
+}
+
 @media(max-width:768px){
-  .hero-gallery{height:40vh;}
-  .gallery-grid{columns:2 140px;}
-  .gallery-header h2{font-size:30px;}
+  .header-container{ justify-content:flex-start; }
+  .logo{ width:50px; height:50px; }
+  .school-info h2{ font-size:17px; }
+  .school-info p{ font-size:11px; }
+  .hero{ height:40vh; }
+  .hero-overlay h1{ font-size:28px; }
+  .hero-overlay p{ font-size:14px; }
+  .section-title{ font-size:28px; }
+  .featured-card{ height:220px; }
+  .gallery-card img{ height:220px; }
+  .close-btn{ font-size:35px; right:15px; }
 }
 
-
-
-/* ================= FOOTER BASE ================= */
-.glass-footer {
-  position: relative;
-  overflow: hidden;
-
-background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: #fff;
-  padding: 50px 20px 20px;
-
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-
-  font-family: "Poppins", sans-serif;
+@media (max-width:1200px){
+  .hero-overlay h1{ font-size:48px; }
+  .gallery-grid{ grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); }
 }
 
-/* ================= RGB TOP LIGHT ================= */
-.glass-footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-
-  background: linear-gradient(
-    90deg,
-    #ff004c,
-    #ffcc00,
-    #00ffcc,
-    #0066ff,
-    #ff00ff,
-    #ff004c
-  );
-
-  background-size: 400% 100%;
-  animation: rgbMove 6s linear infinite;
-
-  box-shadow: 0 0 15px rgba(255, 0, 100, 0.6),
-              0 0 25px rgba(0, 255, 200, 0.4);
+@media (max-width:992px){
+  .header-container{ justify-content:flex-start; }
+  .hero{ height:50vh; }
+  .hero-overlay h1{ font-size:38px; line-height:1.2; }
+  .hero-overlay p{ font-size:16px; max-width:600px; }
+  .section-title{ font-size:30px; }
+  .featured-gallery{ grid-template-columns:repeat(2,1fr); }
+  .gallery-grid{ grid-template-columns:repeat(2,1fr); }
 }
 
-/* RGB animation */
-@keyframes rgbMove {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
+@media (max-width:768px){
+  .header{ padding:10px; }
+  .header-container{ justify-content:flex-start; gap:10px; }
+  .logo{ width:45px; height:45px; }
+  .school-info h2{ font-size:15px; line-height:1.3; }
+  .school-info p{ display:none; }
+  .hero{ height:35vh; }
+  .hero-overlay{ padding:15px; }
+  .hero-overlay h1{ font-size:24px; line-height:1.3; }
+  .hero-overlay p{ font-size:13px; margin-top:10px; }
+  .section-title{ font-size:24px; margin-bottom:25px; }
+  .section-title::after{ width:60px; }
+  .featured-section{ padding:40px 15px; }
+  .featured-gallery{ grid-template-columns:1fr; gap:15px; }
+  .featured-card{ height:220px; border-radius:18px; }
+  .featured-info h3{ font-size:17px; }
+  .gallery-section{ padding:40px 15px; }
+  .gallery-grid{ grid-template-columns:1fr; gap:18px; }
+  .gallery-card{ border-radius:18px; }
+  .gallery-card img{ height:220px; }
+  .gallery-info{ padding:15px; }
+  .gallery-info h3{ font-size:16px; }
+  .gallery-info p{ font-size:13px; }
+  .modal{ padding:10px; }
+  .modal-content{ border-radius:15px; }
+  .modal img{ max-height:50vh; }
+  .modal-body{ padding:15px; }
+  .modal-body h2{ font-size:20px; }
+  .modal-body p{ font-size:14px; }
+  .download-btn{ width:100%; text-align:center; }
+  .close-btn{ top:10px; right:15px; font-size:30px; }
 }
 
-/* ================= CONTAINER ================= */
-.glass-container {
-  max-width: 1100px;
-  margin: auto;
+@media (max-width:480px){
+  .hero{ height:30vh; }
+  .hero-overlay h1{ font-size:20px; }
+  .hero-overlay p{ font-size:12px; }
+  .school-info h2{ font-size:13px; }
+  .gallery-card img{ height:200px; }
+  .featured-card{ height:200px; }
 }
 
-/* ================= MAIN BOX ================= */
-.glass-box.brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 20px;
+.slider-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:50px;
+  height:50px;
+  border:none;
+  border-radius:50%;
+  background: rgba(255,255,255,.18);
+  backdrop-filter:blur(10px);
+  color:white;
+  font-size:24px;
+  cursor:pointer;
+  z-index:50;
+  transition:.3s;
 }
 
-/* ================= BRAND FLEX ================= */
-.brand-flex {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-
-  background: rgba(255, 255, 255, 0.06);
-  padding: 20px;
-  border-radius: 16px;
-
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-
-  max-width: 800px;
-  width: 100%;
+.slider-btn:hover{
+  background:var(--gold);
+  color:var(--navy);
 }
 
-/* ================= LOGO ================= */
-.school-logo {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
+.prev{ left:20px; }
+.next{ right:20px; }
 
-  border-radius: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+.slider-dots{
+  position:absolute;
+  bottom:25px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:10px;
+  z-index:100;
 }
 
-/* ================= TEXT ================= */
-.brand-flex h2 {
-  margin: 0;
-  font-size: 20px;
-  color: #ffffff;
+.dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background: rgba(255,255,255,.5);
+  cursor:pointer;
+  transition:.3s;
 }
 
-.brand-flex p {
-  margin: 5px 0 0;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+.dot.active{
+  width:28px;
+  border-radius:20px;
+  background:var(--gold);
 }
 
-/* ================= FOOTER BOTTOM ================= */
-.glass-bottom {
-  margin-top: 25px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
-  text-align: center;
+@media(max-width:768px){
+  .slider-btn{ width:40px; height:40px; font-size:18px; }
+  .prev{ left:10px; }
+  .next{ right:10px; }
 }
 
-/* ================= DEVELOPER CREDIT ================= */
-.dev-credit {
-  margin-top: 10px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
+.back-btn{
+    position:fixed;
+    top:20px;
+    left:20px;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    height:52px;
+    padding:0 18px;
+    border:none;
+    border-radius:14px;
+    background:rgba(255,255,255,.9);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    color:#1E3A8A;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow: 0 8px 25px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.05);
+    transition:all .25s ease;
 }
 
-.dev-credit span {
-  color: #ff4d6d;
-  font-weight: 600;
+.back-btn:hover{
+    transform:translateY(-2px);
+    box-shadow: 0 15px 35px rgba(0,0,0,.12), 0 5px 15px rgba(0,0,0,.08);
 }
 
-/* ================= HOVER EFFECT ================= */
-.brand-flex:hover {
-  transform: translateY(-3px);
-  transition: 0.3s ease;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+.back-btn:active{
+    transform:scale(.96);
 }
 
-/* ================= RESPONSIVE ================= */
-@media (max-width: 600px) {
-  .brand-flex {
-    flex-direction: column;
-    text-align: center;
+.back-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:#eef4ff;
+    color:#1E3A8A;
+    font-size:18px;
+    font-weight:700;
+}
+
+.back-text{
+    white-space:nowrap;
+}
+
+.admin-notice{
+    min-height:100vh;
+    padding:100px 20px 40px;
+}
+
+@media (max-width:1024px){
+    .back-btn{ top:15px; left:15px; width:50px; height:50px; padding:0; border-radius:50%; justify-content:center; }
+    .back-text{ display:none; }
+    .back-icon{ width:auto; height:auto; background:none; font-size:24px; }
+    .admin-notice{ padding-top:85px; }
+}
+
+@media (max-width:768px){
+    .back-btn{ top:12px; left:12px; width:46px; height:46px; }
+    .back-icon{ font-size:22px; }
+    .admin-notice{ padding-top:75px; padding-left:12px; padding-right:12px; }
+    .notice-tools{ margin-top:25px; }
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-decoration:none;
+    min-width:0;
+}
+
+.logo img{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    object-fit:cover;
+    background:#fff;
+    padding:2px;
+    border:2px solid #D4AF37;
+    box-shadow: 0 4px 15px rgba(212,175,55,.25);
+    transition:.35s ease;
+}
+
+.logo img:hover{
+    transform:rotate(8deg) scale(1.08);
+    box-shadow: 0 8px 20px rgba(212,175,55,.45);
+}
+
+.logo-text{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    line-height:1.2;
+    white-space:nowrap;
+}
+
+.school-name{
+    font-size:17px;
+    font-weight:800;
+    color:#ffffff;
+    letter-spacing:.3px;
+    text-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+
+.school-tagline{
+    margin-top:2px;
+    font-size:11px;
+    font-weight:600;
+    color:#D4AF37;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+@media(max-width:768px){
+    .logo{ gap:10px; }
+    .logo img{ width:44px; height:44px; }
+    .school-name{ font-size:14px; }
+    .school-tagline{ font-size:9px; letter-spacing:.8px; }
+}
+
+@media(max-width:480px){
+    .logo{ gap:8px; }
+    .logo img{ width:38px; height:38px; }
+    .school-name{ font-size:12px; max-width:150px; overflow:hidden; text-overflow:ellipsis; }
+    .school-tagline{ font-size:8px; }
+}
+
+@media(max-width:360px){
+    .school-name{ font-size:11px; max-width:120px; }
+    .school-tagline{ display:none; }
+}
+
+.desktop-login{
+    display:flex;
+    align-items:center;
+}
+
+.login-btn{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-width:120px;
+    height:46px;
+    padding:0 24px;
+    border:none;
+    border-radius:50px;
+    background: linear-gradient(135deg, #D4AF37, #F5D76E);
+    color:#081120;
+    font-size:14px;
+    font-weight:800;
+    letter-spacing:.5px;
+    cursor:pointer;
+    overflow:hidden;
+    transition:.35s ease;
+    box-shadow: 0 10px 25px rgba(212,175,55,.30);
+}
+
+.login-btn::before{
+    content:"";
+    position:absolute;
+    top:-50%;
+    left:-60px;
+    width:30px;
+    height:200%;
+    background:rgba(255,255,255,.45);
+    transform:rotate(25deg);
+    transition:.8s;
+}
+
+.login-btn:hover::before{
+    left:150%;
+}
+
+.login-btn:hover{
+    transform:translateY(-3px);
+    box-shadow: 0 18px 35px rgba(212,175,55,.45);
+}
+
+.login-btn:active{
+    transform:translateY(0);
+}
+
+.login-btn:focus{
+    outline:none;
+}
+
+@media(max-width:768px){
+    .login-btn{ width:100%; height:44px; font-size:13px; }
+}
+
+:root{
+  --shadow-lg:0 18px 40px rgba(0,0,0,.15);
+}
+
+body{
+  padding-top:72px;
+}
+
+.navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:72px;
+  padding:0 40px;
+  background:rgba(10,22,40,.96);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(201,151,43,.22);
+  box-shadow:0 4px 24px rgba(0,0,0,.25);
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.nav-links li{
+  list-style:none;
+}
+
+.nav-links a{
+  display:block;
+  text-decoration:none;
+  color:#b8cbe4;
+  font-size:13.5px;
+  font-weight:500;
+  padding:8px 14px;
+  border-radius:8px;
+  transition:.3s;
+}
+
+.nav-links a:hover{
+  color:#fff;
+  background:rgba(201,151,43,.15);
+}
+
+.mobile-login-item{
+  display:none;
+}
+
+.login-dropdown{
+  position:relative;
+}
+
+.dropdown-menu{
+  position:absolute;
+  top:calc(100% + 10px);
+  right:0;
+  width:220px;
+  background:#fff;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(0,0,0,.1);
+  box-shadow:var(--shadow-lg);
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(-10px);
+  transition:.3s;
+  z-index:999999;
+}
+
+.dropdown-menu.show{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+.dropdown-menu a{
+  display:flex;
+  align-items:center;
+  padding:14px 18px;
+  color:#111827;
+  text-decoration:none;
+}
+
+.dropdown-menu a:hover{
+  background:#f8fafc;
+}
+
+.menu-toggle{
+  display:none;
+  width:42px;
+  height:42px;
+  border-radius:10px;
+  background:rgba(255,255,255,.08);
+  color:white;
+  cursor:pointer;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+}
+
+@media(max-width:900px){
+  .navbar{ padding:0 16px; }
+  .desktop-login{ display:none !important; }
+  .mobile-login-item{ display:block; width:100%; }
+  .menu-toggle{ display:flex; }
+  .nav-links{
+    position:absolute;
+    top:76px;
+    right:16px;
+    width:280px;
+    flex-direction:column;
+    background:#12264d;
+    border-radius:16px;
+    padding:12px;
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(-10px);
+    transition:.3s;
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
   }
-
-  .school-logo {
-    width: 70px;
-    height: 70px;
+  .nav-links.active{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
   }
+  .nav-links li{ width:100%; }
+  .nav-links a{ width:100%; }
+  .login-btn{ width:100%; justify-content:center; }
+  .dropdown-menu{ position:relative; width:100%; top:10px; right:auto; }
 }
 
-
-/* =========================
-   ANIMATION
-========================= */
-@keyframes glowMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
 </style>
+</head>
 
-<!-- ================= HTML ================= -->
-<section class="gallery-section">
+<body>
 
-  <div class="gallery-header">
-    <h2>📸 School Gallery</h2>
-    <p>Moments & Memories</p>
+<header class="navbar">
+
+  <div class="logo">
+    <img src="logo.png" alt="School Logo">
+    <div class="logo-text">
+      <span class="school-name">GSS School Shilla</span>
+      <span class="school-tagline">Est. Himachal Pradesh</span>
+    </div>
   </div>
 
-  <!-- HERO -->
-  <div class="hero-gallery">
-    <div class="hero-slide" id="heroSlide"></div>
-    <button class="nav prev" onclick="prevSlide()">❮</button>
-    <button class="nav next" onclick="nextSlide()">❯</button>
-    <div class="dots" id="dots"></div>
+ <ul class="nav-links" id="navLinks">
+  <li><a href="../index.html">Home</a></li>
+  <li><a href="./pub-notif.html">Notices</a></li>
+  <li><a href="./result.html">Results</a></li>
+  <li><a href="./downloads.html">Downloads</a></li>
+  <li><a href="./contact.html">Contact</a></li>
+
+  <li class="mobile-login-item">
+    <div class="login-dropdown">
+      <button class="login-btn" id="loginBtnMobile">
+        Login
+      </button>
+
+      <div class="dropdown-menu" id="dropdownMenuMobile">
+        <a href="../admin/login.html">🛠️ Admin Panel</a>
+        <a href="../no.html">🎓 Student Portal</a>
+        <a href="../no.html">👨‍🏫 Teacher Portal</a>
+      </div>
+    </div>
+  </li>
+</ul>
+
+  <div class="nav-actions">
+
+    <div class="login-dropdown desktop-login">
+      <button class="login-btn" id="loginBtn">
+        Login
+      </button>
+
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="../admin/login.html">🛠️ Admin Panel</a>
+        <a href="../no.html">🎓 Student Portal</a>
+        <a href="../no.html">👨‍🏫 Teacher Portal</a>
+      </div>
+    </div>
+
+    <div class="menu-toggle" id="menuToggle">☰</div>
+
   </div>
 
-  <!-- GRID -->
-  <div id="galleryGrid" class="gallery-grid"></div>
+</header>
+
+<section class="hero">
+
+<div id="heroSlider" class="hero-slider">
+</div>
+
+<button class="slider-btn prev" onclick="prevSlide()">❮</button>
+<button class="slider-btn next" onclick="nextSlide()">❯</button>
+
+<div id="sliderDots" class="slider-dots"></div>
 
 </section>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="outsideClose(event)">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <button class="lightbox-download" onclick="downloadImage()">⬇</button>
-  <img id="lightboxImg">
+<section class="featured-section">
+
+<h2 class="section-title">Featured Highlights</h2>
+
+<div id="featuredGallery" class="featured-gallery">
 </div>
 
+</section>
 
+<section class="gallery-section">
 
-
-<footer class="glass-footer">
-
-  <div class="glass-container">
-
-    <div class="glass-box brand">
-
-  <div class="brand-flex">
-    <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo" class="school-logo">
-
-    <div>
-      <h2>Govt Sr. Sec. School</h2>
-      <p>Empowering students with knowledge, discipline & excellence.</p>
-    </div>
- 
-
-
-
-  <div class="glass-bottom">
-    © 2026 Govt. Sr. Sec. School Shilla | All Rights Reserved
-  </div>
-  <div class="dev-credit">
-  <p>Developed by <span>Vikshant Kralta</span></p>
+<div class="gallery-header">
+<h2 class="section-title">Campus Memories</h2>
+<p>Celebrating learning, achievements, sports, culture and school life.</p>
 </div>
 
+<div id="galleryGrid" class="gallery-grid">
+</div>
+
+</section>
+
+<div id="modal" class="modal">
+
+<span class="close-btn" onclick="closeModal()">&times;</span>
+
+<div class="modal-content">
+<img id="modalImg">
+<div class="modal-body">
+<h2 id="modalTitle"></h2>
+<p id="modalDesc"></p>
+<a id="downloadBtn" class="download-btn" target="_blank">Download Image</a>
+</div>
+</div>
+
+</div>
+
+<footer>
+<div class="footer-content">
+<h3>Govt. Sr. Sec. School, Shilla</h3>
+<p>© 2026 All Rights Reserved</p>
+</div>
 </footer>
 
 <script>
+const API = "https://gsssshilla.onrender.com/api/gallery";
 
+// ============================
+// GLOBAL STATE
+// ============================
+let slides = [];
+let currentSlide = 0;
+let sliderInterval;
 
+// ============================
+// HERO SLIDER
+// ============================
+async function loadSlider(){
+  try{
+    const res = await fetch(`${API}/featured`);
+    const data = await res.json();
 
-let allImages = [];
-let sliderImages = [];
-let gridImages = [];
-let index = 0;
-let currentImage = "";
+    const slider = document.getElementById("heroSlider");
+    const dots = document.getElementById("sliderDots");
 
-/* ================= INIT ================= */
-async function init() {
+    slider.innerHTML = "";
+    dots.innerHTML = "";
 
-  const res = await fetch("http://localhost:3000/gallery");
-  allImages = await res.json();
+    data.forEach((item, index) => {
+      slider.innerHTML += `
+        <div class="hero-slide ${index === 0 ? 'active' : ''}">
+          <img src="${item.image}" alt="${item.title}">
+          <div class="hero-overlay">
+            <h1>${item.title}</h1>
+            <p>${item.description || ''}</p>
+          </div>
+        </div>
+      `;
 
-  // ✅ SLIDER (position 1-3)
-  sliderImages = allImages
-    .filter(img => img.position > 0 && img.position <= 3)
-    .sort((a, b) => a.position - b.position);
-
-  // ✅ GRID (बाकी सब)
-  gridImages = allImages.filter(img => img.position === 0);
-
-  // safety check
-  if (!sliderImages.length) return;
-
-  showSlide(0);
-  renderDots();
-  renderGrid();
-
-  setInterval(nextSlide, 3000);
-}
-
-/* ================= SLIDER ================= */
-function showSlide(i) {
-  index = i;
-
-  const img = sliderImages[i];
-
-  document.getElementById("heroSlide").innerHTML = `
-    <img src="http://localhost:3000/uploads/${img.image}"
-         onclick="openLightbox('${img.image}')">
-
-    <div class="hero-text">
-      <h2>${img.title || "School Moment"}</h2>
-    </div>
-  `;
-
-  updateDots();
-}
-
-function nextSlide() {
-  index = (index + 1) % sliderImages.length;
-  showSlide(index);
-}
-
-function prevSlide() {
-  index = (index - 1 + sliderImages.length) % sliderImages.length;
-  showSlide(index);
-}
-
-/* ================= DOTS ================= */
-function renderDots() {
-  document.getElementById("dots").innerHTML =
-    sliderImages.map((_, i) =>
-      `<span onclick="showSlide(${i})"></span>`
-    ).join("");
-}
-
-function updateDots() {
-  document.querySelectorAll(".dots span").forEach((d, i) => {
-    d.classList.toggle("active", i === index);
-  });
-}
-
-/* ================= GRID ================= */
-function renderGrid() {
-
-  const g = document.getElementById("galleryGrid");
-
-  g.innerHTML = gridImages.map(img => `
-    <div class="gallery-item">
-      <div class="image-wrapper" onclick="openLightbox('${img.image}')">
-        <img src="http://localhost:3000/uploads/${img.image}">
-        <div class="overlay">${img.title || ""}</div>
-      </div>
-    </div>
-  `).join("");
-}
-
-/* ================= LIGHTBOX ================= */
-function openLightbox(img) {
-
-  currentImage = img;
-
-  document.getElementById("lightbox").style.display = "flex";
-  document.getElementById("lightboxImg").src =
-    "http://localhost:3000/uploads/" + img;
-}
-
-function closeLightbox() {
-  document.getElementById("lightbox").style.display = "none";
-}
-
-function outsideClose(e) {
-  if (e.target.id === "lightbox") closeLightbox();
-}
-
-/* ================= DOWNLOAD ================= */
-function downloadImage() {
-
-  const url = "http://localhost:3000/uploads/" + currentImage;
-
-  fetch(url)
-    .then(res => res.blob())
-    .then(blob => {
-
-      const blobUrl = URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = blobUrl;
-
-      a.download = "gsssShilla_" + Date.now() + ".jpg";
-
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+      dots.innerHTML += `
+        <span class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></span>
+      `;
     });
+
+    slides = document.querySelectorAll(".hero-slide");
+    startSlider();
+
+  }catch(err){
+    console.log("Slider Error:", err);
+  }
 }
 
-/* ================= START ================= */
-init();
+function showSlide(index){
+  slides.forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".dot").forEach(d => d.classList.remove("active"));
+
+  if(!slides.length) return;
+
+  slides[index].classList.add("active");
+  document.querySelectorAll(".dot")[index].classList.add("active");
+
+  currentSlide = index;
+}
+
+function nextSlide(){
+  let next = (currentSlide + 1) % slides.length;
+  showSlide(next);
+  resetSlider();
+}
+
+function prevSlide(){
+  let prev = (currentSlide - 1 + slides.length) % slides.length;
+  showSlide(prev);
+  resetSlider();
+}
+
+function goToSlide(index){
+  showSlide(index);
+  resetSlider();
+}
+
+function startSlider(){
+  sliderInterval = setInterval(nextSlide, 5000);
+}
+
+function resetSlider(){
+  clearInterval(sliderInterval);
+  startSlider();
+}
+
+// ============================
+// FEATURED
+// ============================
+async function loadFeatured(){
+  try{
+    const res = await fetch(`${API}/featured`);
+    const data = await res.json();
+
+    const container = document.getElementById("featuredGallery");
+    container.innerHTML = "";
+
+    data.forEach(item => {
+      container.innerHTML += `
+        <div class="featured-card"
+          onclick='openModal(${JSON.stringify(item.image)}, ${JSON.stringify(item.title)}, ${JSON.stringify(item.description || "")}, ${item.id})'>
+          <img src="${item.image}" alt="${item.title}">
+          <div class="featured-info">
+            <h3>${item.title}</h3>
+          </div>
+        </div>
+      `;
+    });
+
+  }catch(err){
+    console.log("Featured Error:", err);
+  }
+}
+
+// ============================
+// GALLERY
+// ============================
+async function loadGallery(){
+  try{
+    const res = await fetch(API);
+    const data = await res.json();
+
+    const gallery = document.getElementById("galleryGrid");
+    gallery.innerHTML = "";
+
+    data.forEach(item => {
+      gallery.innerHTML += `
+        <div class="gallery-card"
+          onclick='openModal(${JSON.stringify(item.image)}, ${JSON.stringify(item.title)}, ${JSON.stringify(item.description || "")}, ${item.id})'>
+          <img src="${item.image}" alt="${item.title}">
+          <div class="gallery-info">
+            <h3>${item.title}</h3>
+            <p>${item.description || ""}</p>
+          </div>
+        </div>
+      `;
+    });
+
+  }catch(err){
+    console.log("Gallery Error:", err);
+  }
+}
+
+// ============================
+// MODAL
+// ============================
+function openModal(img, title, desc, id){
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("modalImg").src = img;
+  document.getElementById("modalTitle").innerText = title;
+  document.getElementById("modalDesc").innerText = desc;
+
+  const downloadBtn = document.getElementById("downloadBtn");
+
+  // 🔥 FIXED DOWNLOAD (Cloudinary force download)
+  downloadBtn.href = img.replace("/upload/", "/upload/fl_attachment/");
+  downloadBtn.download = title || "image.jpg";
+
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display = "none";
+  document.body.style.overflow = "auto";
+}
+
+// click outside close
+window.onclick = function(e){
+  if(e.target.id === "modal"){
+    closeModal();
+  }
+};
+
+// ESC close
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape"){
+    closeModal();
+  }
+});
+
+// ============================
+// MOBILE MENU + DROPDOWN
+// ============================
+document.addEventListener("DOMContentLoaded", () => {
+
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = document.getElementById("navLinks");
+
+  menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+    menuToggle.innerHTML = navLinks.classList.contains("active") ? "✕" : "☰";
+  });
+
+  document.querySelectorAll("#navLinks a").forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("active");
+      menuToggle.innerHTML = "☰";
+    });
+  });
+
+  function setupDropdown(btnId, menuId){
+    const btn = document.getElementById(btnId);
+    const menu = document.getElementById(menuId);
+
+    if(!btn || !menu) return;
+
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menu.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (e) => {
+      if(!btn.contains(e.target) && !menu.contains(e.target)){
+        menu.classList.remove("show");
+      }
+    });
+  }
+
+  setupDropdown("loginBtn", "dropdownMenu");
+  setupDropdown("loginBtnMobile", "dropdownMenuMobile");
+});
+
+// ============================
+// INIT
+// ============================
+loadSlider();
+loadFeatured();
+loadGallery();
 
 </script>
 
+
+</body>
+</html>

@@ -2,700 +2,702 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Faculty System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Faculty | Govt. Sr. Sec. School Shilla</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ================= ROOT ================= */
+/* ============================================================
+   RESET & ROOT  (same token system as homepage, for consistency)
+============================================================ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
 :root{
-  --bg1:#070b1a;
-  --bg2:#0b1430;
-  --bg3:#111b3a;
-
-  --purple:#8b5cf6;
-  --pink:#ec4899;
-
-  --text:#e5e7eb;
-  --muted:#a1a1aa;
+  --navy:      #0a1628;
+  --navy-mid:  #122040;
+  --navy-light:#1a305c;
+  --gold:      #c9972b;
+  --gold-light:#e8b84b;
+  --gold-pale: #f5e6c8;
+  --white:     #ffffff;
+  --off-white: #f7f9fc;
+  --muted:     #6b7ea0;
+  --text:      #1e293b;
+  --radius:    16px;
+  --shadow-sm: 0 4px 16px rgba(10,22,40,.10);
+  --shadow-md: 0 8px 32px rgba(10,22,40,.15);
+  --shadow-lg: 0 20px 60px rgba(10,22,40,.20);
+  --trans:     .3s cubic-bezier(.4,0,.2,1);
 }
 
-/* ================= BODY ================= */
+html{ scroll-behavior:smooth; }
+
 body{
-  font-family:Arial, sans-serif;
-  margin:0;
-  background: radial-gradient(circle at top,#070b1a,#050712);
+  font-family:'Inter', sans-serif;
+  background:var(--off-white);
   color:var(--text);
+  padding-top:72px;
+  overflow-x:hidden;
 }
 
-/* ================= TITLE ================= */
-.title{
-  text-align:center;
-  font-size:32px;
-  margin:25px 0;
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+img{ max-width:100%; display:block; }
 
-  background: linear-gradient(90deg,var(--purple),var(--pink));
-  -webkit-background-clip:text;
-  background-clip:text; /* 🔥 add this */
-  -webkit-text-fill-color:transparent;
-  color:transparent;     /* 🔥 important fix */
-
-  display:block;         /* better than inline-block */
-  font-weight:bold;
-  text-decoration:none;  /* 🔥 removes underline if inherited */
+/* ============================================================
+   NAVBAR  (shared pattern across site)
+============================================================ */
+.navbar{
+  position:fixed; top:0; left:0; width:100%; z-index:9999;
+  display:flex; align-items:center; justify-content:space-between;
+  height:72px; padding:0 40px;
+  background:rgba(10,22,40,.96);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(201,151,43,.22);
+  box-shadow:0 4px 24px rgba(0,0,0,.25);
 }
 
-/* ================= PRINCIPAL ================= */
-.principal-box{
-  text-align:center;
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(12px);
-  padding:22px;
-  margin:15px;
-  border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.4);
-  border:1px solid rgba(139,92,246,0.2);
-  transition:0.3s;
+.logo{ display:flex; align-items:center; gap:14px; min-width:0; }
+
+.logo img{
+  width:48px; height:48px; border-radius:50%;
+  border:2px solid var(--gold); object-fit:cover;
+  padding:2px; background:var(--white); transition:var(--trans);
+  flex-shrink:0;
+}
+.logo img:hover{ transform:rotate(8deg) scale(1.05); }
+
+.logo-text{ min-width:0; line-height:1.2; }
+.school-name{
+  display:block; font-family:'Playfair Display', serif;
+  font-size:15px; font-weight:700; color:var(--white);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.school-tagline{
+  display:block; font-size:10px; color:var(--gold);
+  letter-spacing:.08em; text-transform:uppercase; font-weight:500;
 }
 
-.principal-box:hover{
-  transform:translateY(-5px);
-  box-shadow:0 15px 40px rgba(139,92,246,0.25);
+.nav-links{ display:flex; align-items:center; gap:6px; }
+.nav-links a{
+  color:#b8cbe4; font-size:13.5px; font-weight:500;
+  padding:8px 14px; border-radius:8px; transition:var(--trans);
 }
+.nav-links a:hover{ color:var(--white); background:rgba(201,151,43,.15); }
+.nav-links a.active{ color:#e0aa14; background:rgba(13,51,109,.18); }
 
-.principal-box img{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  object-fit:cover;
-  border:3px solid var(--purple);
-  box-shadow:0 0 20px rgba(139,92,246,0.4);
+.nav-actions{ display:flex; align-items:center; gap:12px; }
+.login-dropdown{ position:relative; }
+
+.login-btn{
+  position:relative; display:flex; align-items:center; justify-content:center;
+  gap:8px; padding:11px 22px; border:none; border-radius:50px;
+  background:linear-gradient(135deg, var(--gold), var(--gold-light));
+  color:var(--navy); font-size:13.5px; font-weight:800; cursor:pointer;
+  transition:.3s ease; box-shadow:0 10px 25px rgba(201,151,43,.30);
+  overflow:hidden;
 }
-
-/* ================= CONTROLS ================= */
-.controls{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  margin:20px;
-  flex-wrap:wrap;
+.login-btn::before{
+  content:''; position:absolute; width:30px; height:180%;
+  background:rgba(255,255,255,.45); top:-40%; left:-60px;
+  transform:rotate(25deg); transition:.7s;
 }
+.login-btn:hover::before{ left:150%; }
+.login-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 32px rgba(201,151,43,.4); }
 
-.controls input,
-.controls select{
-  padding:10px 12px;
-  border-radius:10px;
-
-  background:#0b1430;   /* 🔥 solid dark background */
-  color:#ffffff;        /* 🔥 fully visible text */
-
-  border:1px solid rgba(139,92,246,0.4);
-  outline:none;
-
-  cursor:pointer;
-  appearance:none; /* removes default ugly UI */
+.dropdown-menu{
+  position:absolute; top:calc(100% + 10px); right:0; width:210px;
+  background:#fff; border-radius:14px; overflow:hidden;
+  box-shadow:var(--shadow-lg); border:1px solid rgba(0,0,0,.08);
+  opacity:0; visibility:hidden; transform:translateY(-8px) scale(.97);
+  transition:var(--trans); z-index:10000;
 }
-
-/* OPTION FIX */
-.controls select option{
-  background:#0b1430;   /* dropdown background */
-  color:#ffffff;        /* text visible */
-  padding:10px;
+.dropdown-menu.show{ opacity:1; visibility:visible; transform:translateY(0) scale(1); }
+.dropdown-menu a{
+  display:flex; align-items:center; gap:10px; padding:13px 18px;
+  font-size:13.5px; font-weight:500; color:var(--text);
+  border-bottom:1px solid #f1f5f9; transition:var(--trans);
 }
+.dropdown-menu a:last-child{ border-bottom:none; }
+.dropdown-menu a:hover{ background:#f8faff; color:var(--navy); padding-left:22px; }
 
-/* hover/focus */
-.controls select:focus{
-  border-color:#ec4899;
-  box-shadow:0 0 10px rgba(236,72,153,0.3);
+.menu-toggle{
+  display:none; width:40px; height:40px; border-radius:10px;
+  background:rgba(255,255,255,.08); color:var(--white); cursor:pointer;
+  align-items:center; justify-content:center; font-size:20px;
+  border:1px solid rgba(255,255,255,.12); transition:var(--trans);
 }
+.menu-toggle:hover{ background:rgba(255,255,255,.15); }
 
-.controls input:focus,
-.controls select:focus{
-  border-color:var(--purple);
-  box-shadow:0 0 10px rgba(139,92,246,0.3);
-}
+.mobile-login-item{ display:none; }
 
-/* ================= GRID ================= */
-.faculty-list{
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  gap:18px;
-  padding:20px;
-}
+@media (max-width:900px){
+  .navbar{ padding:0 18px; }
 
-/* RESPONSIVE */
-@media(max-width:1024px){
-  .faculty-list{grid-template-columns:repeat(2,1fr);}
-}
-@media(max-width:600px){
-  .faculty-list{grid-template-columns:1fr;}
-}
-
-/* ================= CARD ================= */
-.faculty-card{
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(12px);
-  padding:18px;
-  border-radius:14px;
-  text-align:center;
-  cursor:pointer;
-  transition:0.4s ease;
-  border:1px solid rgba(139,92,246,0.15);
-  box-shadow:0 8px 20px rgba(0,0,0,0.3);
-
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  min-height:190px;
-}
-
-.faculty-card:hover{
-  transform:translateY(-8px) scale(1.02);
-  box-shadow:0 15px 35px rgba(236,72,153,0.2);
-  border-color:var(--pink);
-}
-
-/* IMAGE */
-.faculty-card img{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  object-fit:cover;
-  margin-bottom:10px;
-
-  border:3px solid var(--purple);
-  box-shadow:0 0 15px rgba(139,92,246,0.4);
-}
-
-/* ================= MODAL ================= */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.75);
-  backdrop-filter:blur(8px);
-}
-
-.modal-content{
-  background: linear-gradient(145deg,#0b1430,#070b1a);
-  width:90%;
-  max-width:500px;
-  margin:10% auto;
-  padding:22px;
-  border-radius:14px;
-  position:relative;
-  color:var(--text);
-  box-shadow:0 20px 60px rgba(0,0,0,0.6);
-  border:1px solid rgba(139,92,246,0.2);
-  animation:pop 0.3s ease;
-}
-
-@keyframes pop{
-  from{transform:scale(0.8); opacity:0;}
-  to{transform:scale(1); opacity:1;}
-}
-
-#close{
-  position:absolute;
-  right:15px;
-  top:10px;
-  font-size:22px;
-  cursor:pointer;
-  color:var(--pink);
-  transition:0.3s;
-}
-
-#close:hover{
-  transform:scale(1.2);
-}
-
-/* ================= MOBILE ================= */
-@media(max-width:600px){
-  .controls{
-    flex-direction:column;
-    align-items:center;
+  .nav-links{
+    position:absolute; top:76px; right:18px; width:250px;
+    background:linear-gradient(145deg,#0f1e38,#1a305c);
+    border-radius:18px; flex-direction:column; padding:12px; gap:4px;
+    opacity:0; visibility:hidden; transform:translateY(-10px);
+    transition:var(--trans); box-shadow:var(--shadow-lg);
+    border:1px solid rgba(201,151,43,.15);
+    max-height:70vh; overflow-y:auto;
   }
+  .nav-links.active{ opacity:1; visibility:visible; transform:translateY(0); }
+  .nav-links li{ width:100%; }
+  .nav-links a{ display:block; width:100%; padding:12px 14px; border-radius:10px; }
+
+  .mobile-login-item{ display:block; width:100%; margin-top:6px; }
+  .desktop-login{ display:none !important; }
+  .menu-toggle{ display:flex; }
+  .login-btn{ width:100%; }
+  .mobile-login-item .dropdown-menu{ position:relative; width:100%; top:8px; right:auto; }
 }
 
-.no-result{
-  grid-column:1 / -1;
+@media (max-width:480px){
+  .school-name{ font-size:12px; max-width:140px; }
+  .logo img{ width:38px; height:38px; }
+}
+
+/* ============================================================
+   PAGE HEADER BAND
+============================================================ */
+.page-header{
+  background:linear-gradient(150deg, var(--navy) 0%, #0e2248 55%, #162d5c 100%);
+  padding:56px 20px 50px;
   text-align:center;
-  padding:40px 20px;
-
-  font-size:18px;
-  color:#ffffff;
-background: rgba(10,16,36,0.75);
-border: 1px solid transparent;
-border-radius:12px;
-
-background-image:
-  linear-gradient(rgba(10,16,36,0.75), rgba(10,16,36,0.75)),
-  linear-gradient(90deg,#231a79,#4064db,#da2dd1,#4e0c40);
-
-background-origin: border-box;
-background-clip: padding-box, border-box;
-
-  backdrop-filter:blur(10px);
-  animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(10px);}
-  to{opacity:1; transform:translateY(0);}
-}
-
-.principal-heading{
-  font-size:22px;
-  font-weight:bold;
-  text-align:center;
-  margin-bottom:12px;
-
-  color:#f8e21a; /* 🔥 clean purple color */
-
-  letter-spacing:2px;
-  text-decoration:none;
-  border:none;
-
-  text-shadow:
-    0 0 8px rgba(192,132,252,0.6),
-    0 0 18px rgba(236,72,153,0.4);
-}
-
-.back-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-
-  margin-top:15px;
-  margin-bottom:12px;
-  margin-left:15px;
-
-  padding:5px 10px;   /* 👈 reduced */
-  font-size:13px;     /* 👈 smaller text */
-
-  background:#913fd4;
-  color:#fff;
-
-  text-decoration:none;
-  font-weight:500;
-
-  border-radius:6px;  /* slightly smaller radius */
-
-  transition:all 0.3s ease;
   position:relative;
   overflow:hidden;
 }
-/* hover */
-.back-btn:hover{
-  background:#000;
-  transform:translateX(-6px);
-  box-shadow:0 8px 18px rgba(0,0,0,0.2);
+.page-header::before{
+  content:''; position:absolute; width:420px; height:420px;
+  top:-160px; right:-100px; border-radius:50%; filter:blur(80px);
+  background:radial-gradient(circle, #c9972b3a, transparent 70%);
+  pointer-events:none;
+}
+.page-eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(201,151,43,.12); border:1px solid rgba(201,151,43,.35);
+  border-radius:100px; padding:6px 16px; font-size:11.5px; font-weight:600;
+  color:var(--gold-light); letter-spacing:.08em; text-transform:uppercase;
+  margin-bottom:18px; position:relative; z-index:1;
+}
+.page-header h1{
+  font-family:'Playfair Display', serif; color:var(--white);
+  font-size:clamp(28px, 5vw, 46px); font-weight:800; margin-bottom:10px;
+  position:relative; z-index:1;
+}
+.page-header p{
+  color:#9db6d8; font-size:14.5px; max-width:480px; margin:0 auto;
+  line-height:1.7; position:relative; z-index:1;
 }
 
-/* ripple */
-.back-btn::after{
-  content:"";
-  position:absolute;
-  width:0;
-  height:0;
-  background:rgba(255,255,255,0.3);
-  border-radius:50%;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  transition:width 0.5s ease, height 0.5s ease;
+/* ============================================================
+   PRINCIPAL SPOTLIGHT
+============================================================ */
+.spotlight-wrap{ padding:46px 20px 10px; }
+
+.spotlight{
+  max-width:880px; margin:-70px auto 0;
+  background:var(--white); border-radius:22px;
+  box-shadow:var(--shadow-lg);
+  display:flex; align-items:center; gap:34px;
+  padding:34px 38px;
+  position:relative; overflow:hidden;
 }
 
-.back-btn:hover::after{
-  width:200px;
-  height:200px;
+.spotlight::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+  background:linear-gradient(90deg, var(--navy), var(--gold));
 }
 
-/* animation */
-@keyframes fadeInLeft{
-  from{opacity:0; transform:translateX(-20px);}
-  to{opacity:1; transform:translateX(0);}
+.spotlight-ribbon{
+  position:absolute; top:18px; right:-42px;
+  background:linear-gradient(135deg, var(--gold), var(--gold-light));
+  color:var(--navy); font-size:11px; font-weight:800;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:6px 50px; transform:rotate(40deg);
+  box-shadow:0 6px 16px rgba(201,151,43,.4);
 }
 
-@media(max-width:768px){
+.spotlight-photo{
+  width:128px; height:128px; border-radius:50%; flex-shrink:0;
+  border:4px solid var(--gold-pale); object-fit:cover;
+  background:linear-gradient(135deg, var(--navy), var(--navy-light));
+}
 
-  @media(max-width:768px){
-  .back-btn{
-    padding:6px 8px;
-    font-size:12px;
-    margin-left:10px;
+.spotlight-photo-fallback{
+  width:128px; height:128px; border-radius:50%; flex-shrink:0;
+  border:4px solid var(--gold-pale);
+  background:linear-gradient(135deg, var(--navy), var(--navy-light));
+  display:flex; align-items:center; justify-content:center;
+  color:var(--white); font-family:'Playfair Display', serif;
+  font-size:38px; font-weight:700;
+}
+
+.spotlight-text .role-tag{
+  font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gold);
+  margin-bottom:6px; display:block;
+}
+.spotlight-text h2{
+  font-family:'Playfair Display', serif; font-size:24px;
+  color:var(--navy); margin-bottom:6px;
+}
+.spotlight-text .qual{ font-size:13.5px; color:var(--muted); margin-bottom:10px; }
+.spotlight-text .msg{ font-size:13.5px; color:#475569; line-height:1.7; max-width:480px; }
+
+@media (max-width:680px){
+  .spotlight{
+    margin-top:-50px; flex-direction:column; text-align:center;
+    padding:30px 24px; gap:18px;
   }
-}
-  .back-btn::before{
-    content:"←";
-    font-size:18px;
-    color:white;
-  }
-
-  /* hide ripple overflow issue fix */
-  .back-btn span{
-    display:none;
-  }
+  .spotlight-text .msg{ max-width:100%; }
+  .spotlight-ribbon{ top:14px; right:-46px; font-size:10px; padding:5px 48px; }
 }
 
-
-
-
-/* ================= FOOTER BASE ================= */
-.glass-footer {
-  position: relative;
-  overflow: hidden;
-
-background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: #fff;
-  padding: 50px 20px 20px;
-
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-
-  font-family: "Poppins", sans-serif;
+/* ============================================================
+   TOOLBAR (search + filter)
+============================================================ */
+.toolbar{
+  max-width:880px; margin:36px auto 8px; padding:0 20px;
+  display:flex; gap:12px; flex-wrap:wrap;
 }
 
-/* ================= RGB TOP LIGHT ================= */
-.glass-footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
+.toolbar input, .toolbar select{
+  flex:1; min-width:200px; padding:13px 18px;
+  border-radius:100px; border:1.5px solid #e2e8f0;
+  background:var(--white); font-size:13.5px; outline:none;
+  font-family:inherit; transition:var(--trans);
+}
+.toolbar input:focus, .toolbar select:focus{
+  border-color:var(--navy); box-shadow:0 0 0 4px rgba(10,22,40,.08);
+}
+.toolbar select{ flex:0 0 200px; cursor:pointer; }
 
-  background: linear-gradient(
-    90deg,
-    #ff004c,
-    #ffcc00,
-    #00ffcc,
-    #0066ff,
-    #ff00ff,
-    #ff004c
-  );
-
-  background-size: 400% 100%;
-  animation: rgbMove 6s linear infinite;
-
-  box-shadow: 0 0 15px rgba(255, 0, 100, 0.6),
-              0 0 25px rgba(0, 255, 200, 0.4);
+@media (max-width:600px){
+  .toolbar{ flex-direction:column; }
+  .toolbar select{ flex:1; }
 }
 
-/* RGB animation */
-@keyframes rgbMove {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
+/* ============================================================
+   FACULTY GRID
+============================================================ */
+.faculty-section{ max-width:1100px; margin:0 auto; padding:30px 20px 70px; }
+
+.faculty-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(230px, 1fr));
+  gap:20px;
 }
 
-/* ================= CONTAINER ================= */
-.glass-container {
-  max-width: 1100px;
-  margin: auto;
+.faculty-card{
+  background:var(--white); border-radius:18px; padding:26px 20px;
+  text-align:center; border:1px solid #eef2f8;
+  box-shadow:var(--shadow-sm); cursor:pointer;
+  transition:var(--trans); position:relative; overflow:hidden;
+}
+.faculty-card::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--navy), var(--gold));
+  transform:scaleX(0); transform-origin:left; transition:var(--trans);
+}
+.faculty-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-md); border-color:transparent; }
+.faculty-card:hover::before{ transform:scaleX(1); }
+
+.faculty-photo{
+  width:78px; height:78px; border-radius:50%; object-fit:cover;
+  border:3px solid var(--gold-pale); margin:0 auto 14px;
+}
+.faculty-photo-fallback{
+  width:78px; height:78px; border-radius:50%; margin:0 auto 14px;
+  background:linear-gradient(135deg, var(--navy), var(--navy-light));
+  border:3px solid var(--gold-pale);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--white); font-weight:700; font-size:22px;
+  font-family:'Playfair Display', serif;
 }
 
-/* ================= MAIN BOX ================= */
-.glass-box.brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 20px;
+.faculty-card h3{ font-size:15.5px; color:var(--navy); margin-bottom:4px; }
+.faculty-card .subject-chip{
+  display:inline-block; font-size:11.5px; font-weight:600;
+  color:var(--gold); background:var(--gold-pale);
+  padding:3px 12px; border-radius:100px; margin-top:2px;
 }
 
-/* ================= BRAND FLEX ================= */
-.brand-flex {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-
-  background: rgba(255, 255, 255, 0.06);
-  padding: 20px;
-  border-radius: 16px;
-
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-
-  max-width: 800px;
-  width: 100%;
+.no-result{
+  grid-column:1/-1; text-align:center; padding:50px 20px;
+  background:var(--white); border-radius:16px; color:var(--muted);
+  box-shadow:var(--shadow-sm); font-size:14px;
 }
 
-/* ================= LOGO ================= */
-.school-logo {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
-
-  border-radius: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+@media (max-width:480px){
+  .faculty-grid{ grid-template-columns:repeat(2, 1fr); gap:14px; }
+  .faculty-card{ padding:18px 12px; }
+  .faculty-photo, .faculty-photo-fallback{ width:60px; height:60px; }
 }
 
-/* ================= TEXT ================= */
-.brand-flex h2 {
-  margin: 0;
-  font-size: 20px;
-  color: #ffffff;
+/* ============================================================
+   MODAL
+============================================================ */
+.modal{
+  display:none; position:fixed; inset:0; z-index:99999;
+  background:rgba(10,22,40,.6); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center; padding:20px;
+}
+.modal.open{ display:flex; }
+
+.modal-content{
+  width:100%; max-width:420px; background:var(--white);
+  border-radius:20px; padding:32px 28px; text-align:center;
+  position:relative; animation:pop .25s ease;
+  max-height:90vh; overflow-y:auto;
+}
+@keyframes pop{ from{ transform:scale(.92); opacity:0; } to{ transform:scale(1); opacity:1; } }
+
+.modal-close{
+  position:absolute; top:16px; right:18px; cursor:pointer;
+  font-size:20px; color:var(--muted); transition:var(--trans);
+  line-height:1; background:none; border:none;
+}
+.modal-close:hover{ color:#ef4444; }
+
+.modal-photo{
+  width:96px; height:96px; border-radius:50%; object-fit:cover;
+  border:3px solid var(--gold-pale); margin:0 auto 16px;
+}
+.modal-photo-fallback{
+  width:96px; height:96px; border-radius:50%; margin:0 auto 16px;
+  background:linear-gradient(135deg, var(--navy), var(--navy-light));
+  border:3px solid var(--gold-pale);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--white); font-weight:700; font-size:26px;
+  font-family:'Playfair Display', serif;
 }
 
-.brand-flex p {
-  margin: 5px 0 0;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+.modal-content h2{ font-family:'Playfair Display', serif; color:var(--navy); font-size:21px; margin-bottom:4px; }
+.modal-subject{ font-size:12.5px; color:var(--gold); font-weight:600; margin-bottom:18px; }
+
+.modal-row{
+  display:flex; justify-content:space-between; gap:10px;
+  padding:10px 0; border-bottom:1px solid #f1f5f9; font-size:13px;
+  text-align:left;
+}
+.modal-row:last-child{ border-bottom:none; }
+.modal-row .label{ color:var(--muted); font-weight:600; flex-shrink:0; }
+.modal-row .value{ color:var(--text); text-align:right; }
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.footer{ background:linear-gradient(160deg, #071220, #0f2040); color:var(--white); padding:50px 20px 0; }
+
+.footer-inner{
+  max-width:1100px; margin:0 auto;
+  display:flex; align-items:center; gap:16px;
+  padding-bottom:30px; border-bottom:1px solid rgba(255,255,255,.08);
+  flex-wrap:wrap;
+}
+.footer-inner img{
+  width:58px; height:58px; border-radius:50%;
+  border:2px solid rgba(201,151,43,.45); background:#fff;
+  object-fit:cover; padding:2px; flex-shrink:0;
+}
+.footer-inner .brand-name{ font-family:'Playfair Display', serif; font-size:16px; font-weight:700; margin-bottom:4px; }
+.footer-inner p{ font-size:13px; color:#8099be; max-width:420px; line-height:1.6; }
+
+.footer-bottom{
+  max-width:1100px; margin:0 auto; padding:18px 0;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  font-size:12.5px; color:#8099be;
 }
 
-/* ================= FOOTER BOTTOM ================= */
-.glass-bottom {
-  margin-top: 25px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
-  text-align: center;
+@media (max-width:540px){
+  .footer-inner{ flex-direction:column; text-align:center; }
+  .footer-bottom{ justify-content:center; text-align:center; }
 }
-
-/* ================= DEVELOPER CREDIT ================= */
-.dev-credit {
-  margin-top: 10px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.dev-credit span {
-  color: #ff4d6d;
-  font-weight: 600;
-}
-
-/* ================= HOVER EFFECT ================= */
-.brand-flex:hover {
-  transform: translateY(-3px);
-  transition: 0.3s ease;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-}
-
-/* ================= RESPONSIVE ================= */
-@media (max-width: 600px) {
-  .brand-flex {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .school-logo {
-    width: 70px;
-    height: 70px;
-  }
-}
-
-
-/* =========================
-   ANIMATION
-========================= */
-@keyframes glowMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
-
-
 </style>
 </head>
-
 <body>
 
-<section class="faculty-section">
-  <a href="../index.html" class="back-btn">← Back</a>
-
-  <h2 class="title">🏫 Our Faculty</h2>
-
-  <!-- PRINCIPAL -->
-   
-
-  <div  id="principalBox" class="principal-box"> </div>
-
-  <!-- SEARCH + FILTER -->
-  <div class="controls">
-    <input type="text" id="search" placeholder="Search by name or subject ...">
-
-    <select id="subjectFilter">
-      <option value="">All Subjects</option>
-    </select>
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<header class="navbar">
+  <div class="logo">
+    <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo">
+    <div class="logo-text">
+      <span class="school-name">GSS School Shilla</span>
+      <span class="school-tagline">Est. Himachal Pradesh</span>
+    </div>
   </div>
 
-  <!-- STAFF LIST -->
-  <div id="facultyList" class="faculty-list"></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="./pub-notif.html">Notices</a></li>
+    <li><a href="./result.html">Results</a></li>
+    <li><a href="./downloads.html">Downloads</a></li>
+    <li><a href="./faculity.html" class="active">Faculty</a></li>
+    <li><a href="./contact.html">Contact</a></li>
 
+    <li class="mobile-login-item">
+      <div class="login-dropdown">
+        <button class="login-btn" id="loginBtnMobile">Login</button>
+        <div class="dropdown-menu" id="dropdownMenuMobile">
+          <a href="../admin/login.html">🛠️ Admin Panel</a>
+          <a href="../no.html">🎓 Student Portal</a>
+          <a href="../no.html">👨‍🏫 Teacher Portal</a>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="nav-actions">
+    <div class="login-dropdown desktop-login">
+      <button class="login-btn" id="loginBtn">Login</button>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="../admin/login.html">🛠️ Admin Panel</a>
+        <a href="../no.html">🎓 Student Portal</a>
+        <a href="../no.html">👨‍🏫 Teacher Portal</a>
+      </div>
+    </div>
+    <div class="menu-toggle" id="menuToggle">☰</div>
+  </div>
+</header>
+
+<!-- ============================================================
+     PAGE HEADER
+============================================================ -->
+<section class="page-header">
+  <span class="page-eyebrow">🏫 The People Behind GSSS Shilla</span>
+  <h1>Our Faculty</h1>
+  <p>Experienced educators and staff dedicated to guiding every student toward a brighter future.</p>
 </section>
 
-<!-- MODAL -->
+<!-- ============================================================
+     PRINCIPAL SPOTLIGHT
+============================================================ -->
+<div class="spotlight-wrap">
+  <div class="spotlight" id="principalBox"></div>
+</div>
+
+<!-- ============================================================
+     TOOLBAR
+============================================================ -->
+<div class="toolbar">
+  <input type="text" id="search" placeholder="🔍 Search by name or subject...">
+  <select id="subjectFilter">
+    <option value="">All Subjects</option>
+  </select>
+</div>
+
+<!-- ============================================================
+     FACULTY GRID
+============================================================ -->
+<section class="faculty-section">
+  <div id="facultyList" class="faculty-grid"></div>
+</section>
+
+<!-- ============================================================
+     MODAL
+============================================================ -->
 <div id="modal" class="modal">
   <div class="modal-content">
-    <span id="close">&times;</span>
+    <button class="modal-close" id="modalClose">&times;</button>
     <div id="detailBox"></div>
   </div>
 </div>
 
-
-
-<footer class="glass-footer">
-
-  <div class="glass-container">
-
-    <div class="glass-box brand">
-
-  <div class="brand-flex">
-    <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo" class="school-logo">
-
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo">
     <div>
-      <h2>Govt Sr. Sec. School</h2>
-      <p>Empowering students with knowledge, discipline & excellence.</p>
+      <div class="brand-name">Govt. Sr. Sec. School Shilla</div>
+      <p>Empowering students with quality education, discipline and a vision for a brighter India.</p>
     </div>
- 
-
-
-
-  <div class="glass-bottom">
-    © 2026 Govt. Sr. Sec. School Shilla | All Rights Reserved
   </div>
-  <div class="dev-credit">
-  <p>Developed by <span>Vikshant Kralta</span></p>
-</div>
-
+  <div class="footer-bottom">
+    <p>© 2026 Govt. Sr. Sec. School Shilla · All Rights Reserved</p>
+    <a href="../school_privacy_policy.pdf">Privacy Policy</a>
+  </div>
 </footer>
 
+<!-- ============================================================
+     SCRIPTS
+============================================================ -->
 <script>
+const API = "https://gsssshilla.onrender.com";
 let allFaculty = [];
 
-/* PRINCIPAL */
-fetch("http://localhost:3000/faculty/principal")
-.then(res => res.json())
-.then(p => {
+/* ---- helper: initials for fallback avatar ---- */
+function initials(name){
+  return (name || "")
+    .split(" ")
+    .filter(Boolean)
+    .map(n => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+}
 
-  const img = p.photo
-    ? `http://localhost:3000/uploads/${p.photo}`
-    : "https://via.placeholder.com/120";
-
+/* ---- PRINCIPAL ---- */
+function renderPrincipalFallback(){
   document.getElementById("principalBox").innerHTML = `
-
-    <div class="principal-heading">
-      PRINCIPAL
+    <span class="spotlight-ribbon">Principal</span>
+    <div class="spotlight-photo-fallback">🏫</div>
+    <div class="spotlight-text">
+      <span class="role-tag">Leadership</span>
+      <h2>Principal information coming soon</h2>
+      <p class="qual">Details will appear here once added by the admin.</p>
     </div>
-
-    <img src="${img}">
-
-    <h3>${p.name}</h3>
-
-    <p>${p.qualification}</p>
-
-    <p>${p.message}</p>
-
   `;
-});
+}
 
-/* STAFF */
-fetch("http://localhost:3000/faculty/staff")
-.then(res => res.json())
-.then(data => {
+fetch(`${API}/faculty/principal`)
+  .then(res => res.json())
+  .then(p => {
+    const box = document.getElementById("principalBox");
+    if (!p || !p.name) { renderPrincipalFallback(); return; }
 
-  allFaculty = data || [];
-  render(allFaculty);
+    const photoEl = p.photo
+      ? `<img class="spotlight-photo" src="${p.photo}" alt="${p.name}" onerror="this.outerHTML='<div class=&quot;spotlight-photo-fallback&quot;>${initials(p.name)}</div>'">`
+      : `<div class="spotlight-photo-fallback">${initials(p.name)}</div>`;
 
-  let subjects = [...new Set(allFaculty.map(s => s.subject).filter(Boolean))];
-  let select = document.getElementById("subjectFilter");
-
-  subjects.forEach(sub => {
-    select.innerHTML += `<option value="${sub}">${sub}</option>`;
-  });
-});
-
-/* RENDER */
-function render(data){
-  let box = document.getElementById("facultyList");
-  box.innerHTML = "";
-
-  /* NO RESULT */
-  if(!data || data.length === 0){
     box.innerHTML = `
-      <div class="no-result">
-        😕 No Result Found, Try again!
+      <span class="spotlight-ribbon">Principal</span>
+      ${photoEl}
+      <div class="spotlight-text">
+        <span class="role-tag">Leadership</span>
+        <h2>${p.name}</h2>
+        <p class="qual">${p.qualification || ""}</p>
+        <p class="msg">${p.message || ""}</p>
       </div>
     `;
+  })
+  .catch(renderPrincipalFallback);
+
+/* ---- STAFF ---- */
+fetch(`${API}/faculty/staff`)
+  .then(res => res.json())
+  .then(data => {
+    allFaculty = data || [];
+    render(allFaculty);
+
+    const subjects = [...new Set(allFaculty.map(s => s.subject).filter(Boolean))];
+    const select = document.getElementById("subjectFilter");
+    subjects.forEach(sub => {
+      select.innerHTML += `<option value="${sub}">${sub}</option>`;
+    });
+  })
+  .catch(() => {
+    document.getElementById("facultyList").innerHTML =
+      `<div class="no-result">⚠️ Unable to load faculty right now.</div>`;
+  });
+
+/* ---- RENDER GRID ---- */
+function render(data){
+  const box = document.getElementById("facultyList");
+  box.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    box.innerHTML = `<div class="no-result">😕 No faculty found. Try a different search.</div>`;
     return;
   }
 
   data.forEach(f => {
-
-    const img = f.photo
-      ? `http://localhost:3000/uploads/${f.photo}`
-      : "https://via.placeholder.com/80";
+    const photoEl = f.photo
+      ? `<img class="faculty-photo" src="${f.photo}" alt="${f.name}" onerror="this.outerHTML='<div class=&quot;faculty-photo-fallback&quot;>${initials(f.name)}</div>'">`
+      : `<div class="faculty-photo-fallback">${initials(f.name)}</div>`;
 
     box.innerHTML += `
       <div class="faculty-card" onclick="openFaculty(${f.id})">
-
-        <img src="${img}" onerror="this.src='https://via.placeholder.com/80'">
-
+        ${photoEl}
         <h3>${f.name}</h3>
-        <p>${f.subject}</p>
-
+        ${f.subject ? `<span class="subject-chip">${f.subject}</span>` : ""}
       </div>
     `;
   });
 }
 
-/* ================= SEARCH + FILTER (IMPROVED) ================= */
+/* ---- SEARCH + FILTER ---- */
 document.getElementById("search").addEventListener("input", filterData);
 document.getElementById("subjectFilter").addEventListener("change", filterData);
 
 function filterData(){
+  const search = document.getElementById("search").value.toLowerCase().trim();
+  const subject = document.getElementById("subjectFilter").value;
 
-  let search = document.getElementById("search").value.toLowerCase().trim();
-  let subject = document.getElementById("subjectFilter").value;
-
-  let filtered = allFaculty.filter(f => {
-
-    let nameMatch = (f.name || "").toLowerCase().includes(search);
-    let subjectMatch = (f.subject || "").toLowerCase().includes(search);
-
-    let subjectFilterMatch = (subject === "" || f.subject === subject);
-
-    /* 🔥 FINAL LOGIC:
-       - search box matches name OR subject
-       - dropdown filter also applies
-    */
-    let searchMatch = search === "" || nameMatch || subjectMatch;
-
-    return searchMatch && subjectFilterMatch;
+  const filtered = allFaculty.filter(f => {
+    const nameMatch = (f.name || "").toLowerCase().includes(search);
+    const subjectMatch = (f.subject || "").toLowerCase().includes(search);
+    const searchOk = search === "" || nameMatch || subjectMatch;
+    const subjectOk = subject === "" || f.subject === subject;
+    return searchOk && subjectOk;
   });
 
   render(filtered);
 }
 
-/* MODAL */
+/* ---- MODAL ---- */
 function openFaculty(id){
+  fetch(`${API}/faculty/${id}`)
+    .then(res => res.json())
+    .then(f => {
+      const photoEl = f.photo
+        ? `<img class="modal-photo" src="${f.photo}" alt="${f.name}" onerror="this.outerHTML='<div class=&quot;modal-photo-fallback&quot;>${initials(f.name)}</div>'">`
+        : `<div class="modal-photo-fallback">${initials(f.name)}</div>`;
 
-  fetch(`http://localhost:3000/faculty/${id}`)
-  .then(res => res.json())
-  .then(f => {
+      document.getElementById("detailBox").innerHTML = `
+        ${photoEl}
+        <h2>${f.name}</h2>
+        <div class="modal-subject">${f.subject || ""}</div>
 
-    const img = f.photo
-      ? `http://localhost:3000/uploads/${f.photo}`
-      : "https://via.placeholder.com/120";
-
-    document.getElementById("modal").style.display = "block";
-
-    document.getElementById("detailBox").innerHTML = `
-      <img src="${img}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;">
-      <h2>${f.name}</h2>
-      
-      <p><b>Subject:</b> ${f.subject}</p>
-      <p><b>Qualification:</b> ${f.qualification}</p>
-      <p><b>Experience:</b> ${f.experience}</p>
-    `;
-  });
+        <div class="modal-row"><span class="label">Qualification</span><span class="value">${f.qualification || "—"}</span></div>
+        <div class="modal-row"><span class="label">Experience</span><span class="value">${f.experience || "—"}</span></div>
+        <div class="modal-row"><span class="label">Previous School</span><span class="value">${f.previous_school || "—"}</span></div>
+      `;
+      document.getElementById("modal").classList.add("open");
+    });
 }
 
-/* CLOSE MODAL */
-document.getElementById("close").onclick = () => {
-  document.getElementById("modal").style.display = "none";
+document.getElementById("modalClose").onclick = () => {
+  document.getElementById("modal").classList.remove("open");
 };
-</script>
+document.getElementById("modal").addEventListener("click", (e) => {
+  if (e.target.id === "modal") e.target.classList.remove("open");
+});
 
+/* ---- NAVBAR: MOBILE MENU + DROPDOWNS ---- */
+document.addEventListener("DOMContentLoaded", () => {
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = document.getElementById("navLinks");
+
+  menuToggle.addEventListener("click", () => {
+    const open = navLinks.classList.toggle("active");
+    menuToggle.innerHTML = open ? "✕" : "☰";
+  });
+
+  document.querySelectorAll("#navLinks a").forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("active");
+      menuToggle.innerHTML = "☰";
+    });
+  });
+
+  function setupDropdown(btnId, menuId){
+    const btn = document.getElementById(btnId);
+    const menu = document.getElementById(menuId);
+    if (!btn || !menu) return;
+    btn.addEventListener("click", e => { e.stopPropagation(); menu.classList.toggle("show"); });
+    document.addEventListener("click", e => {
+      if (!menu.contains(e.target) && !btn.contains(e.target)) menu.classList.remove("show");
+    });
+  }
+  setupDropdown("loginBtn", "dropdownMenu");
+  setupDropdown("loginBtnMobile", "dropdownMenuMobile");
+});
+</script>
 </body>
 </html>

@@ -1,0 +1,249 @@
+<style>.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+#updateForm{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+#updateForm input{
+  padding:12px;
+}
+
+#updateForm button{
+  padding:12px 20px;
+  cursor:pointer;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  border:1px solid #ddd;
+  padding:12px;
+}
+
+th{
+  background:#0A1F44;
+  color:#fff;
+}
+
+.delete-btn{
+  background:red;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  cursor:pointer;
+}</style>
+
+<div class="container">
+
+<h2>Recent Updates</h2>
+
+<form id="updateForm">
+
+  <input
+    type="text"
+    id="title"
+    placeholder="Enter Update Title"
+    required
+  >
+
+  <input
+    type="file"
+    id="file"
+    accept=".pdf,image/*"
+  >
+
+  <button type="submit">
+    Publish Update
+  </button>
+
+</form>
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Title</th>
+<th>Date</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="updateTable">
+</tbody>
+
+</table>
+
+</div>
+
+    <script>
+
+      window.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+
+    const token = sessionStorage.getItem("token");
+
+    if(!token){
+      window.location.replace("login.html");
+      return;
+    }
+
+    try{
+
+      const res = await fetch(
+        "https://gsssshilla.onrender.com/verify-admin",
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }
+      );
+
+      const data = await res.json();
+
+      if(!data.success){
+        throw new Error();
+      }
+
+    }catch{
+
+      sessionStorage.removeItem("token");
+      localStorage.removeItem("token");
+
+      window.location.replace("login.html");
+    }
+});
+
+const API =
+"https://gsssshilla.onrender.com/recent";
+
+const token =
+localStorage.getItem("token");
+
+loadUpdates();
+
+async function loadUpdates(){
+
+  const res =
+  await fetch(API);
+
+  const data =
+  await res.json();
+
+  let html = "";
+
+  data.forEach(item=>{
+
+    html += `
+    <tr>
+      <td>${item.id}</td>
+
+      <td>${item.title}</td>
+
+      <td>
+      ${new Date(
+      item.created_at
+      ).toLocaleDateString()}
+      </td>
+
+      <td>
+
+      <button
+      class="delete-btn"
+      onclick="deleteUpdate(${item.id})">
+      Delete
+      </button>
+
+      </td>
+
+    </tr>
+    `;
+
+  });
+
+  document.getElementById(
+  "updateTable"
+  ).innerHTML = html;
+
+}
+
+document
+.getElementById("updateForm")
+.addEventListener(
+"submit",
+async(e)=>{
+
+e.preventDefault();
+
+const formData =
+new FormData();
+
+formData.append(
+"title",
+document.getElementById(
+"title"
+).value
+);
+
+const file =
+document.getElementById(
+"file"
+).files[0];
+
+if(file){
+  formData.append(
+  "file",
+  file
+  );
+}
+
+await fetch(API,{
+  method:"POST",
+  headers:{
+    Authorization:
+    `Bearer ${token}`
+  },
+  body:formData
+});
+
+alert("Update Added");
+
+e.target.reset();
+
+loadUpdates();
+
+});
+
+async function deleteUpdate(id){
+
+if(!confirm(
+"Delete this update?"
+)) return;
+
+await fetch(
+`${API}/${id}`,
+{
+method:"DELETE",
+headers:{
+Authorization:
+`Bearer ${token}`
+}
+}
+);
+
+loadUpdates();
+
+}
+
+</script>

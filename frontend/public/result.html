@@ -19,6 +19,13 @@
 
     <style>
 
+
+
+
+
+
+
+
         /* ================= RESET ================= */
 
         *{
@@ -32,7 +39,7 @@
 
         body{
             min-height:100vh;
-            background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+            background:linear-gradient(135deg,#73767e,#236079,#334155);
             display:flex;
             flex-direction:column;
             justify-content:space-between;
@@ -46,7 +53,7 @@
         body::after{
             content:"";
             position:absolute;
-            width:400px;
+            width:800px;
             height:400px;
             border-radius:50%;
             filter:blur(100px);
@@ -55,14 +62,14 @@
         }
 
         body::before{
-            background:#00d4ff;
+            background:#ffea31;
             top:-120px;
             left:-120px;
         }
 
         body::after{
-            background:#ff4d6d;
-            bottom:-120px;
+            background:#14ff0c;
+            bottom:-10px;
             right:-120px;
         }
 
@@ -159,7 +166,7 @@
         .msg a{
             color:#00e5ff;
             text-decoration:none;
-            font-weight:600;
+            font-weight:300;
             transition:0.3s ease;
         }
 
@@ -407,15 +414,759 @@
 
         }
 
+   
+
+/* ==========================
+   SCHOOL LOGO SECTION
+========================== */
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-decoration:none;
+    min-width:0;
+}
+
+/* LOGO IMAGE */
+
+.logo img{
+    width:52px;
+    height:52px;
+
+    border-radius:50%;
+    object-fit:cover;
+
+    background:#fff;
+
+    padding:2px;
+
+    border:2px solid #D4AF37;
+
+    box-shadow:
+    0 4px 15px rgba(212,175,55,.25);
+
+    transition:.35s ease;
+}
+
+.logo img:hover{
+    transform:rotate(8deg) scale(1.08);
+
+    box-shadow:
+    0 8px 20px rgba(212,175,55,.45);
+}
+
+/* TEXT WRAPPER */
+
+.logo-text{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    line-height:1.2;
+
+    white-space:nowrap;
+}
+
+/* SCHOOL NAME */
+
+.school-name{
+    font-size:17px;
+    font-weight:800;
+
+    color:#ffffff;
+
+    letter-spacing:.3px;
+
+    text-shadow:
+    0 2px 8px rgba(0,0,0,.25);
+}
+
+/* TAGLINE */
+
+.school-tagline{
+    margin-top:2px;
+
+    font-size:11px;
+    font-weight:600;
+
+    color:#D4AF37;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+}
+
+/* ==========================
+   TABLET
+========================== */
+
+@media(max-width:768px){
+
+    .logo{
+        gap:10px;
+    }
+
+    .logo img{
+        width:44px;
+        height:44px;
+    }
+
+    .school-name{
+        font-size:14px;
+    }
+
+    .school-tagline{
+        font-size:9px;
+        letter-spacing:.8px;
+    }
+}
+
+/* ==========================
+   SMALL MOBILE
+========================== */
+
+@media(max-width:480px){
+
+    .logo{
+        gap:8px;
+    }
+
+    .logo img{
+        width:38px;
+        height:38px;
+    }
+
+    .school-name{
+        font-size:12px;
+        max-width:150px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .school-tagline{
+        font-size:8px;
+    }
+}
+
+/* ==========================
+   VERY SMALL MOBILE
+========================== */
+
+@media(max-width:360px){
+
+    .school-name{
+        font-size:11px;
+        max-width:120px;
+    }
+
+    .school-tagline{
+        display:none;
+    }
+}
+
+
+/* ==========================
+   PREMIUM LOGIN BUTTON
+========================== */
+
+.desktop-login{
+    display:flex;
+    align-items:center;
+}
+
+.login-btn{
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    min-width:120px;
+    height:46px;
+
+    padding:0 24px;
+
+    border:none;
+    border-radius:50px;
+
+    background:linear-gradient(
+        135deg,
+        #D4AF37,
+        #F5D76E
+    );
+
+    color:#081120;
+
+    font-size:14px;
+    font-weight:800;
+    letter-spacing:.5px;
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    transition:.35s ease;
+
+    box-shadow:
+        0 10px 25px rgba(212,175,55,.30);
+}
+
+/* Shine Effect */
+
+.login-btn::before{
+    content:"";
+
+    position:absolute;
+
+    top:-50%;
+    left:-60px;
+
+    width:30px;
+    height:200%;
+
+    background:rgba(255,255,255,.45);
+
+    transform:rotate(25deg);
+
+    transition:.8s;
+}
+
+.login-btn:hover::before{
+    left:150%;
+}
+
+/* Hover */
+
+.login-btn:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 18px 35px rgba(212,175,55,.45);
+}
+
+/* Click */
+
+.login-btn:active{
+    transform:translateY(0);
+}
+
+/* Focus */
+
+.login-btn:focus{
+    outline:none;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .login-btn{
+        width:100%;
+        height:44px;
+        font-size:13px;
+    }
+}
+
+
+
+/* =========================
+   NAVBAR FIXED VERSION
+========================= */
+
+:root{
+  --shadow-lg:0 18px 40px rgba(0,0,0,.15);
+}
+
+body{
+  padding-top:72px;
+}
+
+.navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:99999;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  height:72px;
+  padding:0 40px;
+
+  background:rgba(10,22,40,.96);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(201,151,43,.22);
+
+  box-shadow:0 4px 24px rgba(0,0,0,.25);
+}
+
+/* NAV LINKS */
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.nav-links li{
+  list-style:none;
+}
+
+.nav-links a{
+  display:block;
+  text-decoration:none;
+
+  color:#b8cbe4;
+
+  font-size:13.5px;
+  font-weight:500;
+
+  padding:8px 14px;
+
+  border-radius:8px;
+
+  transition:.3s;
+}
+
+.nav-links a:hover{
+  color:#fff;
+  background:rgba(201,151,43,.15);
+}
+
+/* MOBILE LOGIN HIDE */
+
+.mobile-login-item{
+  display:none;
+}
+
+/* DROPDOWN */
+
+.login-dropdown{
+  position:relative;
+}
+
+.dropdown-menu{
+  position:absolute;
+
+  top:calc(100% + 10px);
+  right:0;
+
+  width:220px;
+
+  background:#fff;
+
+  border-radius:14px;
+
+  overflow:hidden;
+
+  border:1px solid rgba(0,0,0,.1);
+
+  box-shadow:var(--shadow-lg);
+
+  opacity:0;
+  visibility:hidden;
+
+  transform:translateY(-10px);
+
+  transition:.3s;
+
+  z-index:999999;
+}
+
+.dropdown-menu.show{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+.dropdown-menu a{
+  display:flex;
+  align-items:center;
+
+  padding:14px 18px;
+
+  color:#111827;
+
+  text-decoration:none;
+}
+
+.dropdown-menu a:hover{
+  background:#f8fafc;
+}
+
+/* HAMBURGER */
+
+.menu-toggle{
+  display:none;
+
+  width:42px;
+  height:42px;
+
+  border-radius:10px;
+
+  background:rgba(255,255,255,.08);
+
+  color:white;
+
+  cursor:pointer;
+
+  align-items:center;
+  justify-content:center;
+
+  font-size:22px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  .navbar{
+    padding:0 16px;
+  }
+
+  .desktop-login{
+    display:none !important;
+  }
+
+  .mobile-login-item{
+    display:block;
+    width:100%;
+  }
+
+  .menu-toggle{
+    display:flex;
+  }
+
+  .nav-links{
+    position:absolute;
+
+    top:76px;
+    right:16px;
+
+    width:280px;
+
+    flex-direction:column;
+
+    background:#12264d;
+
+    border-radius:16px;
+
+    padding:12px;
+
+    opacity:0;
+    visibility:hidden;
+
+    transform:translateY(-10px);
+
+    transition:.3s;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+  }
+
+  .nav-links.active{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+  }
+
+  .nav-links li{
+    width:100%;
+  }
+
+  .nav-links a{
+    width:100%;
+  }
+
+  .login-btn{
+    width:100%;
+    justify-content:center;
+  }
+
+  .dropdown-menu{
+    position:relative;
+
+    width:100%;
+
+    top:10px;
+    right:auto;
+  }
+}
+
+
+/* ====================================
+   RESPONSIVE FIXES
+==================================== */
+
+/* Large Tablets */
+@media (max-width: 992px){
+
+    .navbar{
+        padding:0 18px;
+    }
+
+    .container{
+        max-width:95%;
+        padding:35px 25px;
+    }
+
+    .school-name h1{
+        font-size:2rem;
+    }
+
+    .msg h2{
+        font-size:1.6rem;
+    }
+
+}
+
+/* Tablets */
+@media (max-width: 768px){
+
+    body{
+        padding-top:72px;
+    }
+
+    .main-section{
+        padding:20px;
+        min-height:auto;
+    }
+
+    .container{
+        width:100%;
+        padding:30px 20px;
+        border-radius:20px;
+    }
+
+    .school-logo{
+        width:100px;
+        height:100px;
+    }
+
+    .school-name h1{
+        font-size:1.6rem;
+        line-height:1.4;
+    }
+
+    .school-name p{
+        font-size:.95rem;
+    }
+
+    .msg h2{
+        font-size:1.3rem;
+        line-height:1.7;
+    }
+
+    .msg h3{
+        font-size:.95rem;
+        line-height:1.8;
+    }
+
+    .brand-flex{
+        flex-direction:column;
+        text-align:center;
+        gap:15px;
+        padding:18px;
+    }
+
+    .footer-logo{
+        width:80px;
+        height:80px;
+    }
+
+    .brand-flex h2{
+        font-size:18px;
+    }
+
+    .brand-flex p{
+        font-size:13px;
+    }
+
+}
+
+/* Mobile */
+@media (max-width: 576px){
+
+    .main-section{
+        padding:15px;
+    }
+
+    .container{
+        padding:25px 16px;
+    }
+
+    .school-logo{
+        width:90px;
+        height:90px;
+        margin-bottom:18px;
+    }
+
+    .school-name h1{
+        font-size:1.3rem;
+    }
+
+    .school-name p{
+        font-size:.85rem;
+    }
+
+    .msg h2{
+        font-size:1.1rem;
+        margin-bottom:18px;
+    }
+
+    .msg h3{
+        font-size:.9rem;
+        line-height:1.7;
+    }
+
+    .glass-footer{
+        padding:35px 15px 18px;
+    }
+
+    .brand-flex{
+        padding:15px;
+        border-radius:14px;
+    }
+
+    .brand-flex h2{
+        font-size:16px;
+    }
+
+    .glass-bottom,
+    .dev-credit{
+        font-size:12px;
+    }
+
+}
+
+/* Very Small Phones */
+@media (max-width: 380px){
+
+    .school-name h1{
+        font-size:1.1rem;
+    }
+
+    .school-name p{
+        font-size:.8rem;
+    }
+
+    .msg h2{
+        font-size:1rem;
+    }
+
+    .msg h3{
+        font-size:.82rem;
+    }
+
+    .school-logo{
+        width:80px;
+        height:80px;
+    }
+
+    .footer-logo{
+        width:65px;
+        height:65px;
+    }
+
+    .brand-flex h2{
+        font-size:14px;
+    }
+
+}
+
+/* Prevent Horizontal Scroll */
+html,
+body{
+    width:100%;
+    overflow-x:hidden;
+}
+
+img{
+    max-width:100%;
+    height:auto;
+}
+
+.nav-links a.active{
+  color:#e0aa14 !important;
+  background:rgba(212,175,55,.12);
+  border-radius:8px;
+}
+
+
+
     </style>
 
 </head>
 
 <body>
 
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<header class="navbar">
+
+  <div class="logo">
+    <img src="logo.png" alt="School Logo">
+    <div class="logo-text">
+      <span class="school-name">GSS School Shilla</span>
+      <span class="school-tagline">Est. Himachal Pradesh</span>
+    </div>
+  </div>
+
+ <ul class="nav-links" id="navLinks">
+  <li><a href="../index.html">Home</a></li>
+  <li><a href="./pub-notif.html">Notices</a></li>
+  <li><a href="./result.html" class="active">Results</a></li>
+  <li><a href="./downloads.html">Downloads</a></li>
+  <li><a href="./contact.html">Contact</a></li>
+
+  <li class="mobile-login-item">
+    <div class="login-dropdown">
+      <button class="login-btn" id="loginBtnMobile">
+        Login
+      </button>
+
+      <div class="dropdown-menu" id="dropdownMenuMobile">
+        <a href="../admin/login.html">🛠️ Admin Panel</a>
+        <a href="../no.html">🎓 Student Portal</a>
+        <a href="../no.html">👨‍🏫 Teacher Portal</a>
+      </div>
+    </div>
+  </li>
+</ul>
+
+  <div class="nav-actions">
+
+    <!-- Desktop Login -->
+    <div class="login-dropdown desktop-login">
+      <button class="login-btn" id="loginBtn">
+        Login
+      </button>
+
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="../admin/login.html">🛠️ Admin Panel</a>
+        <a href="../no.html">🎓 Student Portal</a>
+        <a href="../no.html">👨‍🏫 Teacher Portal</a>
+      </div>
+    </div>
+
+    <div class="menu-toggle" id="menuToggle">☰</div>
+
+  </div>
+
+</header>
+
+
     <!-- ================= MAIN SECTION ================= -->
 
     <section class="main-section">
+      
 
         <div class="container">
 
@@ -428,10 +1179,7 @@
 
             <!-- SCHOOL NAME -->
 
-            <div class="school-name">
-                <h1>Govt. Senior Secondary School, Shilla</h1>
-                <p>Our School's Examination Result Portal</p>
-            </div>
+        
 
             <!-- MESSAGE SECTION -->
 
@@ -489,18 +1237,96 @@
             <!-- FOOTER COPYRIGHT -->
 
             <div class="glass-bottom">
-                © 2026 Govt. Sr. Sec. School, Shilla | All Rights Reserved
+                © 2026 Govt. Sr. Sec. School, Shilla
             </div>
 
             <!-- DEVELOPER CREDIT -->
 
             <div class="dev-credit">
-                Developed by <span>Vikshant Kralta</span>
+                All Rights Reserved by <span>GSSS SHILLA</span>
             </div>
 
         </div>
 
     </footer>
+
+    <script>
+  function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = "/";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = document.getElementById("navLinks");
+
+  /* MOBILE MENU */
+
+  menuToggle.addEventListener("click", () => {
+
+    navLinks.classList.toggle("active");
+
+    menuToggle.innerHTML =
+      navLinks.classList.contains("active")
+      ? "✕"
+      : "☰";
+
+  });
+
+  /* CLOSE MENU ON LINK CLICK */
+
+  document.querySelectorAll("#navLinks a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+      navLinks.classList.remove("active");
+      menuToggle.innerHTML = "☰";
+
+    });
+
+  });
+
+  /* DROPDOWN */
+
+  function setupDropdown(btnId, menuId){
+
+    const btn = document.getElementById(btnId);
+    const menu = document.getElementById(menuId);
+
+    if(!btn || !menu) return;
+
+    btn.addEventListener("click",(e)=>{
+
+      e.stopPropagation();
+
+      menu.classList.toggle("show");
+
+    });
+
+    document.addEventListener("click",(e)=>{
+
+      if(
+        !btn.contains(e.target) &&
+        !menu.contains(e.target)
+      ){
+        menu.classList.remove("show");
+      }
+
+    });
+
+  }
+
+  setupDropdown("loginBtn","dropdownMenu");
+  setupDropdown("loginBtnMobile","dropdownMenuMobile");
+
+  load();
+
+});
+</script>
 
 </body>
 

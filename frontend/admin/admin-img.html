@@ -2,110 +2,302 @@
 <html>
 <head>
 <title>Admin Dashboard</title>
-<style>body{
-  font-family:sans-serif;
-  padding:20px;
-  background:#f4f7fb;
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root{
+  --primary:#1E3A8A;
+  --primary-light:#3B82F6;
+  --danger:#ef4444;
+  --bg:#f5f7ff;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --shadow:0 10px 25px rgba(0,0,0,0.08);
+  --shadow-hover:0 18px 40px rgba(0,0,0,0.12);
 }
 
-h2{
-  text-align:center;
-}
+*{ margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+body{ background:linear-gradient(135deg,#f8fbff,#f5f7ff); color:var(--text); }
+
+h2{ text-align:center; margin-bottom:30px; color:#b68c32; }
 
 form{
-  display:flex;
-  gap:10px;
-  justify-content:center;
-  margin-bottom:20px;
+  max-width:900px; margin:0 auto 30px; display:flex; gap:12px; flex-wrap:wrap;
+  background:var(--card); padding:18px; border-radius:16px; box-shadow:var(--shadow);
 }
 
-input,button{
-  padding:8px;
+form input{
+  padding:12px; border:1px solid #ddd; border-radius:10px;
+  flex:1; min-width:200px;
 }
+
+form button{
+  padding:12px 22px; border:none; border-radius:10px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  color:white; cursor:pointer; font-weight:600;
+}
+form button:hover{ opacity:.9; }
 
 #imageList{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:15px;
+  max-width:1100px; margin:auto;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px;
 }
 
-.card{
-  background:white;
-  padding:10px;
-  border-radius:8px;
-  text-align:center;
+.card{ background:white; border-radius:16px; overflow:hidden; box-shadow:var(--shadow); transition:.3s; }
+.card:hover{ transform:translateY(-5px); box-shadow:var(--shadow-hover); }
+.card img{ width:100%; height:190px; object-fit:cover; }
+.card p{ padding:10px; color:var(--muted); text-align:center; }
+
+.btn-group{ display:flex; gap:8px; padding:10px; }
+
+.download-btn{
+  flex:1; text-align:center; padding:8px; border-radius:10px; text-decoration:none;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light)); color:white; font-weight:600;
 }
 
-.card img{
-  width:100%;
-  height:150px;
-  object-fit:contain;
+.delete-btn{
+  flex:1; padding:8px; border:none; border-radius:10px;
+  background:linear-gradient(135deg,var(--danger),#b91c1c); color:white; cursor:pointer;
 }
 
-.card button{
-  background:red;
-  color:white;
-  border:none;
-  margin-top:5px;
-  cursor:pointer;
-}</style>
+.empty{ text-align:center; padding:20px; color:var(--muted); font-size:16px; }
+
+/* ===================================
+   PROFESSIONAL ADMIN NAVBAR
+=================================== */
+.navbar{
+  width:100%; position:sticky; top:0; z-index:9999;
+  display:flex; align-items:center; justify-content:space-between;
+  background:linear-gradient(135deg,#081C45,#123A7A);
+  padding:14px 25px; box-shadow:0 10px 30px rgba(0,0,0,.15); margin-bottom:25px;
+}
+.logo-section{ display:flex; align-items:center; gap:14px; }
+.school-logo{ width:55px; height:55px; border-radius:50%; object-fit:cover; border:3px solid #D4AF37; background:#fff; }
+.school-info{ display:flex; flex-direction:column; }
+.school-info h2{ color:#fff; font-size:18px; font-weight:700; line-height:1.2; margin:0; }
+.school-info span{ color:#D4AF37; font-size:12px; font-weight:500; }
+
+.nav-menu{ display:flex; align-items:center; gap:8px; }
+.nav-menu a{ text-decoration:none; color:#dbeafe; padding:11px 15px; border-radius:10px; font-size:14px; font-weight:600; transition:.3s; }
+.nav-menu a:hover{ background:rgba(212,175,55,.15); color:#fff; }
+.nav-menu a.active{ background:#D4AF37; color:#081C45; }
+
+.logout-btn{
+  margin-left:10px; border:none; background:linear-gradient(135deg,#D4AF37,#F5D76E);
+  color:#081C45; padding:11px 22px; border-radius:50px; font-size:14px; font-weight:700; cursor:pointer; transition:.3s;
+}
+.logout-btn:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(212,175,55,.35); }
+
+.mobile-menu-btn{ display:none; color:#fff; font-size:28px; cursor:pointer; }
+
+/* ================= RESPONSIVE (single ordered block) ================= */
+
+@media(max-width:1200px){
+  .school-info h2{ font-size:16px; }
+  .nav-menu a{ padding:10px 12px; font-size:13px; }
+}
+
+@media (max-width:992px){
+  body{ padding:15px; }
+  form{ max-width:100%; }
+  #imageList{ grid-template-columns:repeat(2,1fr); }
+}
+
+@media(max-width:950px){
+  .mobile-menu-btn{ display:block; }
+  .nav-menu{
+    position:absolute; top:100%; left:0; right:0; background:#081C45;
+    flex-direction:column; padding:15px; gap:5px; display:none;
+    box-shadow:0 15px 30px rgba(0,0,0,.2);
+  }
+  .nav-menu.active{ display:flex; }
+  .nav-menu a{ width:100%; text-align:left; }
+  .logout-btn{ width:100%; margin:10px 0 0; }
+}
+
+@media (max-width:768px){
+  body{ padding:10px; }
+  h2{ font-size:22px; margin:20px 0; }
+
+  form{ flex-direction:column; gap:12px; padding:15px; border-radius:16px; }
+  form input, form button{ width:100%; }
+  form input[type="text"]{ height:48px; font-size:16px; }
+  form button{ height:48px; font-size:15px; }
+
+  #imageList{ grid-template-columns:1fr; gap:15px; }
+  .card img{ height:220px; }
+  .btn-group{ flex-direction:column; }
+  .download-btn, .delete-btn{ width:100%; text-align:center; }
+}
+
+@media(max-width:600px){
+  .navbar{ padding:12px 15px; }
+  .school-logo{ width:45px; height:45px; }
+  .school-info h2{ font-size:14px; }
+  .school-info span{ font-size:11px; }
+}
+
+@media (max-width:480px){
+  h2{ font-size:20px; }
+  .card{ border-radius:14px; }
+  .card img{ height:190px; }
+  .card p{ font-size:13px; }
+  .download-btn, .delete-btn{ padding:10px; font-size:13px; }
+}
+
+@media(max-width:450px){
+  .school-info h2{ font-size:13px; }
+  .school-info span{ display:none; }
+}
+</style>
 </head>
 
 <body>
+<header class="navbar">
+  <div class="logo-section">
+    <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo" class="school-logo">
+    <div class="school-info">
+      <h2>Govt. Sr. Sec. School Shilla</h2>
+    </div>
+  </div>
 
-<h2>📊 Admin Dashboard</h2>
+  <div class="mobile-menu-btn" id="menuToggle">☰</div>
 
-<!-- UPLOAD FORM -->
+  <nav class="nav-menu" id="navLinks">
+    <a href="admin-dashboard.html">Dashboard</a>
+    <a href="add-image.html">Gallery</a>
+    <a href="admin-img.html" class="active">Home Slider</a>
+    <a href="admin-faculity.html">Faculty</a>
+    <a href="admin-notif.html">Notifications</a>
+    <a href="admin-downl.html">Downloads</a>
+    <a href="admin-contact.html">Contact</a>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </nav>
+</header>
+
+<h2>📊 Admin Image Dashboard</h2>
+
 <form id="uploadForm">
   <input type="file" name="image" required>
   <input type="text" name="caption" placeholder="Enter caption" required>
   <button type="submit">Upload</button>
 </form>
 
-<hr>
-
-<!-- IMAGE LIST -->
 <div id="imageList"></div>
 
-<script>const form = document.getElementById("uploadForm");
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+window.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+
+    const token = sessionStorage.getItem("token");
+
+    if(!token){
+      window.location.replace("login.html");
+      return;
+    }
+
+    try{
+
+      const res = await fetch(
+        "https://gsssshilla.onrender.com/verify-admin",
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }
+      );
+
+      const data = await res.json();
+
+      if(!data.success){
+        throw new Error();
+      }
+
+    }catch{
+
+      sessionStorage.removeItem("token");
+      localStorage.removeItem("token");
+
+      window.location.replace("login.html");
+    }
+});
+
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+menuToggle.addEventListener("click", () => {
+  navLinks.classList.toggle("active");
+  menuToggle.innerHTML = navLinks.classList.contains("active") ? "✕" : "☰";
+});
+
+function logout(){
+  navLinks.classList.remove("active");
+  menuToggle.innerHTML = "☰";
+
+  Swal.fire({
+    title: "Logout?",
+    text: "Do you really want to logout from Admin Panel?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#D4AF37",
+    cancelButtonColor: "#123A7A",
+    confirmButtonText: "Yes, Logout",
+    cancelButtonText: "Cancel"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem("token");
+      sessionStorage.clear();
+      window.location.replace("login.html");
+    }
+  });
+}
+
+const form = document.getElementById("uploadForm");
 const imageList = document.getElementById("imageList");
 
 /* LOAD IMAGES */
-function loadImages(){
-  fetch("http://localhost:3000/images")
-    .then(res => res.json())
-    .then(data => {
+async function loadImages(){
+  const res = await fetch("https://gsssshilla.onrender.com/images");
+  const data = await res.json();
 
-      imageList.innerHTML = "";
+  imageList.innerHTML = "";
 
-      data.forEach(img => {
+  if (!data.length) {
+    imageList.innerHTML = `<div class="empty">😕 No images found</div>`;
+    return;
+  }
 
-        const div = document.createElement("div");
-        div.classList.add("card");
+  data.forEach(img => {
+    const card = document.createElement("div");
+    card.className = "card";
 
-        div.innerHTML = `
-          <img src="http://localhost:3000/uploads/${img.filename}">
-          <p>${img.caption}</p>
-          <button onclick="deleteImage(${img.id})">Delete</button>
-        `;
+    card.innerHTML = `
+      <img src="${img.filename}">
+      <p>${img.caption}</p>
+      <div class="btn-group">
+        <a class="download-btn" href="${img.filename}" target="_blank" download>⬇ View / Download</a>
+        <button class="delete-btn" onclick="deleteImage(${img.id})">Delete</button>
+      </div>
+    `;
 
-        imageList.appendChild(div);
-      });
-
-    });
+    imageList.appendChild(card);
+  });
 }
 
 /* UPLOAD */
 form.addEventListener("submit", e => {
   e.preventDefault();
-
   const formData = new FormData(form);
 
-  fetch("http://localhost:3000/images/upload", {
-    method:"POST",
-    body:formData
-  })
-  .then(() => {
+  fetch("https://gsssshilla.onrender.com/images/upload", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData
+  }).then(() => {
     form.reset();
     loadImages();
   });
@@ -113,14 +305,15 @@ form.addEventListener("submit", e => {
 
 /* DELETE */
 function deleteImage(id){
-  fetch(`http://localhost:3000/images/${id}`, {
-    method:"DELETE"
-  })
-  .then(() => loadImages());
+  if (!confirm("Are you sure?")) return;
+
+  fetch(`https://gsssshilla.onrender.com/images/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` }
+  }).then(() => loadImages());
 }
 
-/* INIT */
-loadImages();</script>
-
+loadImages();
+</script>
 </body>
 </html>

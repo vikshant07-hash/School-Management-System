@@ -1,213 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Downloads Admin | GSSS Shilla</title>
 <style>
-.admin-downloads {
-  padding: 40px;
-  min-height: 100vh;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-  /* 🔥 PREMIUM LIGHT GLASS DARK GRADIENT */
-  background: radial-gradient(circle at top, #1b2a4a, #0f172a 60%, #0b1020);
-  color: rgb(255, 255, 255);
+:root{
+  --primary:#1E3A8A;
+  --primary-light:#3B82F6;
+  --gold:#F59E0B;
+  --bg:#f6f8fc;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:rgba(15,23,42,.08);
+  --shadow:0 10px 25px rgba(0,0,0,.06);
+  --shadow-hover:0 18px 40px rgba(0,0,0,.12);
 }
 
-/* TITLE */
-.admin-downloads h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 22px;
-  color: #e9d5ff;
+*{ margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+body{ background:linear-gradient(135deg,#f8fbff,#ffffff,#fffaf2); color:var(--text); }
+
+/* ================= PAGE WRAPPER ================= */
+.admin-downloads{ padding:30px 20px 50px; min-height:100vh; }
+
+.admin-downloads h2{
+  text-align:center; font-size:26px; font-weight:700;
+  color:var(--primary); margin-bottom:22px;
 }
 
-/* ================= FORMS ================= */
-.upload-form,
-.admin-filters {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 15px 0;
+/* ================= UPLOAD FORM ================= */
+.upload-form{
+  max-width:900px; margin:0 auto 25px;
+  display:flex; gap:12px; flex-wrap:wrap; justify-content:center;
+  background:var(--card); padding:18px; border-radius:18px;
+  border:1px solid var(--border); box-shadow:var(--shadow);
 }
 
-.upload-form input,
-.upload-form select,
-.admin-filters select {
-  padding: 9px;
-  border: none;
-  border-radius: 10px;
-  font-size: 13px;
-  min-width: 140px;
-
-  /* GLASS INPUT */
-  background: rgba(255,255,255,0.08);
-  color: rgb(248, 248, 248);
-  outline: none;
-  backdrop-filter: blur(10px);
+.upload-form input, .upload-form select{
+  padding:12px 14px; border-radius:12px; border:1px solid var(--border);
+  outline:none; font-size:14px; background:#f9fbff; min-width:140px;
 }
-.upload-form select option,
-.admin-filters select option {
-  color: #000;        /* 👈 only dropdown items black */
-  background: #fff;    /* clean readable background */
-}
+.upload-form input:focus, .upload-form select:focus{ border-color:var(--primary-light); }
 
-.upload-form input::placeholder {
-  color: #ebecee;
+.upload-form button{
+  padding:12px 18px; border:none; border-radius:12px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  color:#fff; font-weight:600; cursor:pointer; transition:.25s;
+}
+.upload-form button:hover{ transform:translateY(-2px); }
+
+/* ================= FILTER BAR ================= */
+.admin-filters{
+  max-width:900px; margin:0 auto 25px;
+  display:flex; gap:12px; flex-wrap:wrap; justify-content:center;
+  position:sticky; top:10px; z-index:10;
 }
 
-/* UPLOAD BUTTON */
-.upload-form button {
-  padding: 9px 14px;
-  border: none;
-  border-radius: 10px;
-  font-size: 13px;
-
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: rgb(0, 0, 0);
-  cursor: pointer;
-  transition: 0.3s;
+.admin-filters select{
+  padding:10px 12px; border-radius:12px; border:1px solid var(--border);
+  background:#fff; box-shadow:0 6px 15px rgba(0,0,0,.04); min-width:160px;
 }
 
-.upload-form button:hover {
-  transform: scale(1.05);
+/* ================= LIST ================= */
+#adminList{
+  max-width:1000px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px; padding:10px;
 }
 
-/* ================= LIST WRAPPER (IMPORTANT FIX) ================= */
-#adminList {
-  padding: 0 15px;   /* 👈 LEFT + RIGHT SAME MARGIN FIX */
+.admin-card{
+  background:var(--card); border:1px solid var(--border); border-radius:18px;
+  padding:16px; box-shadow:var(--shadow); transition:.3s ease;
+  position:relative; overflow:hidden;
+}
+.admin-card:hover{ transform:translateY(-5px); box-shadow:var(--shadow-hover); }
+
+.admin-card::before{
+  content:""; position:absolute; top:0; left:0; width:100%; height:3px;
+  background:linear-gradient(90deg,var(--primary),var(--gold));
 }
 
-/* ================= CARD ================= */
-.admin-card {
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(14px);
+.admin-card h3{ font-size:16px; font-weight:600; color:var(--primary); margin-bottom:8px; }
+.admin-card p{ font-size:13px; color:var(--muted); margin-bottom:10px; }
 
-  padding: 15px;
-  margin: 12px auto;
+.file-badge{
+  display:inline-block; font-size:11px; font-weight:600; padding:4px 10px;
+  border-radius:999px; background:rgba(59,130,246,.12); color:var(--primary);
+  margin-bottom:10px; margin-right:6px;
+}
+.file-badge.gold{ background:rgba(245,158,11,.14); color:#b45309; }
 
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.1);
+.admin-card a, .admin-card button{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:7px 14px; border-radius:12px; font-size:12px; border:none;
+  cursor:pointer; margin-top:8px; margin-right:6px; text-decoration:none;
+  transition:.25s; color:#fff;
+}
+.admin-card a{ background:linear-gradient(135deg,var(--primary),var(--primary-light)); }
+.admin-card button{ background:linear-gradient(135deg,#ef4444,#dc2626); }
+.admin-card a:hover, .admin-card button:hover{ transform:scale(1.05); }
 
-  max-width: 900px;
-
-  transition: 0.3s;
+.no-data{
+  grid-column:1/-1; text-align:center; padding:40px; background:var(--card);
+  border-radius:16px; box-shadow:var(--shadow); color:var(--muted); font-weight:500;
 }
 
-.admin-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(139,92,246,0.25);
+/* ================= NAVBAR (shared admin pattern) ================= */
+.navbar{
+  width:100%; position:sticky; top:0; z-index:9999;
+  display:flex; align-items:center; justify-content:space-between;
+  background:linear-gradient(135deg,#081C45,#123A7A);
+  padding:14px 25px; box-shadow:0 10px 30px rgba(0,0,0,.15); margin-bottom:10px;
+}
+.logo-section{ display:flex; align-items:center; gap:14px; }
+.school-logo{ width:55px; height:55px; border-radius:50%; object-fit:cover; border:3px solid #D4AF37; background:#fff; }
+.school-info{ display:flex; flex-direction:column; }
+.school-info h2{ color:#fff; font-size:18px; font-weight:700; line-height:1.2; }
+.school-info span{ color:#D4AF37; font-size:12px; font-weight:500; }
+
+.nav-menu{ display:flex; align-items:center; gap:8px; }
+.nav-menu a{
+  text-decoration:none; color:#dbeafe; padding:11px 15px;
+  border-radius:10px; font-size:14px; font-weight:600; transition:.3s;
+}
+.nav-menu a:hover{ background:rgba(212,175,55,.15); color:#fff; }
+.nav-menu a.active{ background:#D4AF37; color:#081C45; }
+
+.logout-btn{
+  margin-left:10px; border:none;
+  background:linear-gradient(135deg,#D4AF37,#F5D76E); color:#081C45;
+  padding:11px 22px; border-radius:50px; font-size:14px; font-weight:700;
+  cursor:pointer; transition:.3s;
+}
+.logout-btn:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(212,175,55,.35); }
+
+.mobile-menu-btn{ display:none; color:#fff; font-size:28px; cursor:pointer; }
+
+/* ================= RESPONSIVE (single, ordered, no later overrides) ================= */
+
+@media (max-width:1200px){
+  .school-info h2{ font-size:16px; }
+  .nav-menu a{ padding:10px 12px; font-size:13px; }
 }
 
-/* TEXT */
-.admin-card h3 {
-  font-size: 16px;
-  color: #f5d0fe;
+@media (max-width:1024px){
+  .admin-downloads{ padding-top:24px; }
 }
 
-.admin-card p {
-  font-size: 13px;
-  color: #cbd5e1;
-}
-
-/* ================= BUTTONS (PREMIUM SMALL) ================= */
-.admin-card a,
-.admin-card button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 5px 10px;
-  font-size: 12px;
-  border-radius: 20px;
-
-  border: none;
-  cursor: pointer;
-  margin-top: 8px;
-  margin-right: 6px;
-
-  color: rgb(255, 255, 255);
-  transition: 0.3s;
-}
-
-/* VIEW */
-.admin-card a {
-  background: linear-gradient(135deg, #3b82f6, #7c3aed);
-}
-
-/* DELETE */
-.admin-card button {
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
-}
-
-.admin-card a:hover,
-.admin-card button:hover {
-  transform: scale(1.05);
-}
-
-/* ================= NO DATA ================= */
-.no-data {
-  text-align: center;
-  padding: 20px;
-  margin: 20px 15px;   /* 👈 equal margin fix */
-  background: rgba(255,255,255,0.05);
-  border-radius: 12px;
-  color: #c084fc;
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-
-  .admin-downloads {
-    padding: 15px;
+@media (max-width:950px){
+  .mobile-menu-btn{ display:block; }
+  .nav-menu{
+    position:absolute; top:100%; left:0; right:0; background:#081C45;
+    flex-direction:column; padding:15px; gap:5px; display:none;
+    box-shadow:0 15px 30px rgba(0,0,0,.2);
   }
+  .nav-menu.active{ display:flex; }
+  .nav-menu a{ width:100%; text-align:left; }
+  .logout-btn{ width:100%; margin:10px 0 0; }
+}
 
-  h2 {
-    font-size: 18px;
-  }
+@media (max-width:768px){
+  .admin-downloads{ padding:20px 14px 40px; }
+  .admin-downloads h2{ font-size:22px; }
 
-  .upload-form,
-  .admin-filters {
-    flex-direction: column;
-  }
+  .upload-form{ flex-direction:column; }
+  .upload-form input, .upload-form select, .upload-form button{ width:100%; }
 
-  .upload-form input,
-  .upload-form select,
-  .admin-filters select {
-    width: 100%;
-  }
+  .admin-filters{ flex-direction:column; position:static; }
+  .admin-filters select{ width:100%; }
 
-  .upload-form button {
-    width: 100%;
-  }
+  #adminList{ grid-template-columns:1fr; }
+}
 
-  /* CARD FULL WIDTH WITH PROPER SIDE GAP */
-  .admin-card {
-    margin: 10px 15px;   /* 👈 LEFT + RIGHT SAME GAP */
-  }
+@media (max-width:600px){
+  .navbar{ padding:12px 15px; }
+  .school-logo{ width:45px; height:45px; }
+  .school-info h2{ font-size:14px; }
+  .school-info span{ font-size:11px; }
+}
 
-  .admin-card a,
-  .admin-card button {
-    width: auto;
-    font-size: 12px;
-    padding: 6px 10px;
-  }
+@media (max-width:480px){
+  .admin-downloads{ padding:16px 10px 32px; }
+  .admin-downloads h2{ font-size:20px; }
+  .upload-form{ padding:14px; }
+}
+
+@media (max-width:450px){
+  .school-info h2{ font-size:13px; }
+  .school-info span{ display:none; }
 }
 </style>
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="logo-section">
+    <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo" class="school-logo">
+    <div class="school-info">
+      <h2>Govt. Sr. Sec. School Shilla</h2>
+      <span>School Management Panel</span>
+    </div>
+  </div>
+
+  <div class="mobile-menu-btn" id="menuToggle">☰</div>
+
+  <nav class="nav-menu" id="navLinks">
+    <a href="admin-dashboard.html">Dashboard</a>
+    <a href="add-image.html">Gallery</a>
+    <a href="admin-img.html">Home Slider</a>
+    <a href="admin-faculity.html">Faculty</a>
+    <a href="admin-notif.html">Notifications</a>
+    <a href="admin-downl.html" class="active">Downloads</a>
+    <a href="admin-contact.html">Contact</a>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </nav>
+</header>
+
 <section class="admin-downloads">
 
-  <h2>🛠️ Admin Downloads Manager</h2>
+  <h2>📥 Downloads Manager</h2>
 
-  <!-- ADD FORM -->
   <form id="downloadForm" class="upload-form">
-
     <input type="text" id="title" placeholder="Title" required>
 
     <select id="class" required>
       <option value="">Select Class</option>
-      <option>6</option>
-      <option>7</option>
-      <option>8</option>
-      <option>9</option>
-      <option>10</option>
-      <option>11</option>
-      <option>12</option>
-      
+      <option>6</option><option>7</option><option>8</option>
+      <option>9</option><option>10</option><option>11</option><option>12</option>
     </select>
 
     <select id="year" required>
@@ -219,30 +242,20 @@
       <option>Model Paper</option>
       <option>Syllabus</option>
       <option>PYQ</option>
+      <option>Time Table</option>
       <option>Other</option>
     </select>
 
     <input type="file" id="file" accept="application/pdf" required>
 
     <button type="submit">➕ Upload</button>
-
   </form>
 
-  <hr>
-
-  <!-- FILTERS -->
   <div class="admin-filters">
-
     <select id="filterClass">
       <option value="">All Class</option>
-      <option>6</option>
-      <option>7</option>
-      <option>8</option>
-      <option>9</option>
-      <option>10</option>
-      <option>11</option>
-      <option>12</option>
-      
+      <option>6</option><option>7</option><option>8</option>
+      <option>9</option><option>10</option><option>11</option><option>12</option>
     </select>
 
     <select id="filterYear">
@@ -254,34 +267,78 @@
       <option>Model Paper</option>
       <option>Syllabus</option>
       <option>PYQ</option>
+      <option>Time Table</option>
       <option>Other</option>
     </select>
-
   </div>
 
-  <!-- LIST -->
   <div id="adminList"></div>
 
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+window.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+
+    const token = sessionStorage.getItem("token");
+
+    if(!token){
+      window.location.replace("login.html");
+      return;
+    }
+
+    try{
+
+      const res = await fetch(
+        "https://gsssshilla.onrender.com/verify-admin",
+        {
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }
+      );
+
+      const data = await res.json();
+
+      if(!data.success){
+        throw new Error();
+      }
+
+    }catch{
+
+      sessionStorage.removeItem("token");
+      localStorage.removeItem("token");
+
+      window.location.replace("login.html");
+    }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("downloadForm");
   const list = document.getElementById("adminList");
-
   const yearSelect = document.getElementById("year");
   const filterYear = document.getElementById("filterYear");
 
-  /* ================= YEAR DROPDOWN ================= */
-  for (let y = 2020; y <= 2030; y++) {
+  /* YEAR DROPDOWN */
+  for (let y = 2024; y <= 2030; y++) {
     yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
     filterYear.innerHTML += `<option value="${y}">${y}</option>`;
   }
 
-  /* ================= LOAD DATA ================= */
-  function loadDownloads() {
+  /* MOBILE MENU */
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = document.getElementById("navLinks");
 
+  menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+    menuToggle.innerHTML = navLinks.classList.contains("active") ? "✕" : "☰";
+  });
+
+  /* LOAD DATA */
+  function loadDownloads() {
     const cls = document.getElementById("filterClass").value;
     const year = document.getElementById("filterYear").value;
     const category = document.getElementById("filterCategory").value;
@@ -291,13 +348,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (year) params.push(`year=${year}`);
     if (category) params.push(`category=${category}`);
 
-    let url = "http://localhost:3000/downloads";
+    let url = "https://gsssshilla.onrender.com/downloads";
     if (params.length > 0) url += "?" + params.join("&");
 
     fetch(url)
       .then(res => res.json())
       .then(data => {
-
         list.innerHTML = "";
 
         if (!data || data.length === 0) {
@@ -308,31 +364,26 @@ document.addEventListener("DOMContentLoaded", () => {
         data.forEach(item => {
           list.innerHTML += `
             <div class="admin-card">
-
               <h3>${item.title}</h3>
-
-              <p>
-                Class: ${item.class} |
-                Year: ${item.year} |
-                Category: ${item.category}
-              </p>
-
-              <a href="http://localhost:3000/uploads/${item.file}" target="_blank">
-                📄 View PDF
-              </a>
-
+              <div>
+                <span class="file-badge">Class ${item.class}</span>
+                <span class="file-badge gold">${item.category}</span>
+              </div>
+              <p>Year: ${item.year}</p>
+              <a href="${item.file}" target="_blank">📄 View PDF</a>
               <button onclick="deleteFile(${item.id})">❌ Delete</button>
-
             </div>
           `;
         });
-
+      })
+      .catch(() => {
+        list.innerHTML = `<div class="no-data">⚠️ Unable to load downloads</div>`;
       });
   }
 
   loadDownloads();
 
-  /* ================= ADD FILE ================= */
+  /* ADD FILE */
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -343,8 +394,9 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("category", document.getElementById("category").value);
     formData.append("pdf", document.getElementById("file").files[0]);
 
-    await fetch("http://localhost:3000/downloads/add", {
+    await fetch("https://gsssshilla.onrender.com/downloads/add", {
       method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
       body: formData
     });
 
@@ -352,22 +404,47 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDownloads();
   });
 
-  /* ================= DELETE ================= */
+  /* DELETE */
   window.deleteFile = function(id) {
-
     if (!confirm("Are you sure?")) return;
 
-    fetch(`http://localhost:3000/downloads/${id}`, {
-      method: "DELETE"
-    })
-    .then(() => loadDownloads());
-
+    fetch(`https://gsssshilla.onrender.com/downloads/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(() => loadDownloads());
   };
 
-  /* ================= FILTER CHANGE ================= */
+  /* FILTER CHANGE */
   document.querySelectorAll(".admin-filters select").forEach(el => {
     el.addEventListener("change", loadDownloads);
   });
 
 });
+
+function logout(){
+  const navLinks = document.getElementById("navLinks");
+  const menuToggle = document.getElementById("menuToggle");
+
+  navLinks.classList.remove("active");
+  if (menuToggle) menuToggle.innerHTML = "☰";
+
+  Swal.fire({
+    title: "Logout?",
+    text: "Do you really want to logout from Admin Panel?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#D4AF37",
+    cancelButtonColor: "#123A7A",
+    confirmButtonText: "Yes, Logout",
+    cancelButtonText: "Cancel"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem("token");
+      sessionStorage.clear();
+      window.location.replace("login.html");
+    }
+  });
+}
 </script>
+</body>
+</html>

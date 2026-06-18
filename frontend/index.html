@@ -3,293 +3,1985 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Govt Sr. Sec. School Shilla</title>
-
-<link rel="stylesheet" href="style.css">
 <link rel="shortcut icon" href="1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" type="image/x-icon">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-</head>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   RESET & ROOT
+============================================================ */
+*, *::before, *::after {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+}
 
+:root {
+  --navy:      #0a1628;
+  --navy-mid:  #122040;
+  --navy-light:#1a305c;
+  --gold:      #c9972b;
+  --gold-light:#e8b84b;
+  --gold-pale: #f5e6c8;
+  --white:     #ffffff;
+  --off-white: #f7f9fc;
+  --muted:     #94a3b8;
+  --text:      #1e293b;
+  --radius:    16px;
+  --shadow-sm: 0 4px 16px rgba(10,22,40,.10);
+  --shadow-md: 0 8px 32px rgba(10,22,40,.15);
+  --shadow-lg: 0 20px 60px rgba(10,22,40,.20);
+  --trans:     .35s cubic-bezier(.4,0,.2,1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--off-white);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 72px;
+  background: rgba(10, 22, 40, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201,151,43,.22);
+  box-shadow: 0 4px 24px rgba(0,0,0,.25);
+  transition: var(--trans);
+}
+
+body { padding-top: 72px; }
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo img {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  object-fit: cover;
+  padding: 2px;
+  background: var(--white);
+  transition: var(--trans);
+}
+
+.logo img:hover { transform: rotate(8deg) scale(1.05); }
+
+.logo-text .school-name {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.logo-text .school-tagline {
+  display: block;
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Nav Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-links a {
+  color: #b8cbe4;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: var(--trans);
+  letter-spacing: .02em;
+}
+
+.nav-links a:hover {
+  color: var(--white);
+  background: rgba(201,151,43,.15);
+}
+
+/* Login button */
+.nav-actions { display: flex; align-items: center; gap: 12px; }
+
+.login-dropdown { position: relative; }
+
+.login-btn{
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:12px 24px;
+
+    border:none;
+    border-radius:50px;
+
+    background:linear-gradient(
+        135deg,
+        #c9972b,
+        #f5d76e
+    );
+
+    color:#081120;
+
+    font-size:14px;
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.35s ease;
+
+    box-shadow:
+    0 10px 25px rgba(201,151,43,.35);
+
+    overflow:hidden;
+}
+
+.login-btn::before{
+    content:'';
+    position:absolute;
+
+    width:30px;
+    height:180%;
+
+    background:rgba(255,255,255,.45);
+
+    top:-40%;
+    left:-60px;
+
+    transform:rotate(25deg);
+
+    transition:.8s;
+}
+
+.login-btn:hover::before{
+    left:150%;
+}
+
+.login-btn:hover{
+    transform:translateY(-3px) scale(1.03);
+
+    box-shadow:
+    0 15px 35px rgba(201,151,43,.45);
+}
+
+.login-btn svg{
+    transition:.3s;
+}
+
+.login-btn:hover svg{
+    transform:translateX(3px);
+}
+/* Dropdown */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 200px;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(0, 0, 0, 0.932);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(.97);
+  transition: var(--trans);
+}
+
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.dropdown-menu a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 18px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text);
+  border-bottom: 1px solid #f1f5f9;
+  transition: var(--trans);
+}
+
+.dropdown-menu a:last-child { border-bottom: none; }
+.dropdown-menu a:hover { background: #f8faff; color: var(--navy); padding-left: 24px; }
+
+/* Hamburger */
+.menu-toggle {
+  display: none;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.08);
+  color: var(--white);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  border: 1px solid rgba(255,255,255,.12);
+  transition: var(--trans);
+}
+
+.menu-toggle:hover { background: rgba(255,255,255,.15); }
+
+/* Mobile Nav */
+@media (max-width: 900px) {
+  .navbar { padding: 0 18px; }
+
+  .nav-links {
+    position: absolute;
+    top: 76px;
+    right: 18px;
+    width: 260px;
+    background: linear-gradient(145deg, #0f1e38, #1a305c);
+    border-radius: 18px;
+    flex-direction: column;
+    padding: 12px;
+    gap: 9px;
+    opacity: 0; visibility: hidden;
+    transform: translateY(-10px);
+    transition: var(--trans);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(201,151,43,.15);
+  }
+
+  .nav-links.active { opacity: 1; visibility: visible; transform: translateY(0); }
+
+.nav-links a{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    color:#b39b15;
+}
+
+.nav-links a:hover{
+    background:rgba(24, 24, 24, 0);
+    color:#7d7e7d;
+}
+
+  .desktop-login { display: none !important; }
+  .menu-toggle { display: flex; }
+}
+
+@media (max-width: 480px) {
+  .logo-text .school-name { font-size: 12px; }
+  .logo img { width: 38px; height: 38px; }
+}
+
+/* ============================================================
+   HERO SECTION
+============================================================ */
+.hero {
+  background: linear-gradient(150deg, var(--navy) 0%, #0e2248 50%, #162d5c 100%);
+  padding: 70px 20px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient glow blobs */
+.hero::before, .hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: .45;
+}
+
+.hero::before {
+  width: 520px; height: 520px;
+  top: -140px; left: -120px;
+  background: radial-gradient(circle, #1a4a8a, transparent 70%);
+}
+
+.hero::after {
+  width: 400px; height: 400px;
+  bottom: -100px; right: -80px;
+  background: radial-gradient(circle, #c9972b44, transparent 70%);
+}
+
+/* Badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201,151,43,.12);
+  border: 1px solid rgba(201,151,43,.35);
+  border-radius: 100px;
+  padding: 7px 18px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold-light);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  animation: fadeDown .6s ease both;
+}
+
+.hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-light); animation: pulse 1.8s infinite; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .4; transform: scale(.6); }
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 6vw, 68px);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.12;
+  margin-bottom: 20px;
+  animation: fadeDown .7s .1s ease both;
+}
+
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 16px;
+  color: #8daece;
+  max-width: 560px;
+  margin: 0 auto 40px;
+  line-height: 1.75;
+  animation: fadeDown .8s .2s ease both;
+}
+
+/* Hero buttons */
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  animation: fadeDown .9s .3s ease both;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 14px;
+  transition: var(--trans);
+  box-shadow: 0 6px 24px rgba(201,151,43,.35);
+}
+
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(201,151,43,.45); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border-radius: 12px;
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,.22);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 14px;
+  transition: var(--trans);
+}
+
+.btn-outline:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.45); transform: translateY(-3px); }
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   SLIDER SECTION
+============================================================ */
+.slider-section {
+  padding: 70px 20px;
+  background: var(--white);
+  border-radius: 30px;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.section-label .line {
+  flex: 1;
+  max-width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.section-label .line.right { background: linear-gradient(90deg, var(--gold), transparent); }
+
+.section-label span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 700;
+  color: var(--navy);
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* Slider */
+.slider-wrap {
+  position: relative;
+  max-width: 920px;
+  margin: 0 auto;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: var(--navy);
+  aspect-ratio: 16/9;
+}
+
+.slider-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--navy);
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+.slider-wrap img.active { opacity: 1; }
+
+/* No images placeholder */
+.slider-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #4a6a9a;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.slider-placeholder svg { opacity: .4; }
+
+/* Arrows */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(10,22,40,.65);
+  backdrop-filter: blur(8px);
+  color: var(--white);
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--trans);
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.slider-arrow:hover { background: var(--gold); color: var(--navy); transform: translateY(-50%) scale(1.08); }
+
+.slider-arrow.prev { left: 16px; }
+.slider-arrow.next { right: 16px; }
+
+/* Dots */
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.slider-dots span {
+  width: 8px; height: 8px;
+  border-radius: 100px;
+  background: #cbd5e1;
+  cursor: pointer;
+  transition: var(--trans);
+}
+
+.slider-dots span.active {
+  width: 28px;
+  background: var(--gold);
+}
+
+/* ============================================================
+   INFO CARDS (QUICK STATS)
+============================================================ */
+.stats-section {
+  padding: 70px 20px;
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.stats-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  position: relative;
+}
+
+.stat-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px;
+  padding: 32px 24px;
+  text-align: center;
+  transition: var(--trans);
+}
+
+.stat-card:hover {
+  background: rgba(201,151,43,.08);
+  border-color: rgba(201,151,43,.25);
+  transform: translateY(-6px);
+}
+
+.stat-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: rgba(201,151,43,.12);
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--gold-light);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
+  font-weight: 500;
+  letter-spacing: .03em;
+}
+
+
+
+
+
+
+/* ==========================
+   STATS SECTION
+========================== */
+
+.stats-section{
+    width:100%;
+    padding:60px 20px;
+    background:#f8fafc;
+}
+
+.stats-grid{
+    max-width:1400px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.stat-card{
+    background:#cccb7fa6;
+    padding:30px 20px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    transition:all .3s ease;
+    border:1px solid rgba(0,0,0,0.05);
+}
+
+.stat-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.12);
+}
+
+.stat-icon{
+    font-size:3rem;
+    margin-bottom:15px;
+}
+
+.stat-number{
+    font-size:2.2rem;
+    font-weight:700;
+    color:#2563eb;
+    margin-bottom:8px;
+    line-height:1.2;
+}
+
+.stat-label{
+    font-size:1rem;
+    color:#555;
+    font-weight:500;
+    line-height:1.5;
+}
+
+/* ==========================
+   LARGE DESKTOP
+========================== */
+
+@media (min-width:1400px){
+
+    .stats-grid{
+        grid-template-columns:repeat(4,1fr);
+        gap:30px;
+    }
+
+    .stat-card{
+        padding:40px 25px;
+    }
+
+    .stat-icon{
+        font-size:3.5rem;
+    }
+
+    .stat-number{
+        font-size:2.8rem;
+    }
+}
+
+/* ==========================
+   TABLET
+========================== */
+
+@media (max-width:992px){
+
+    .stats-section{
+        padding:50px 15px;
+    }
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:20px;
+    }
+
+    .stat-card{
+        padding:25px 15px;
+    }
+
+    .stat-number{
+        font-size:2rem;
+    }
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media (max-width:768px){
+
+    .stats-grid{
+        grid-template-columns:1fr 1fr;
+        gap:15px;
+    }
+
+    .stat-card{
+        padding:20px 12px;
+        border-radius:16px;
+    }
+
+    .stat-icon{
+        font-size:2.2rem;
+    }
+
+    .stat-number{
+        font-size:1.8rem;
+    }
+
+    .stat-label{
+        font-size:.9rem;
+    }
+}
+
+/* ==========================
+   SMALL MOBILE
+========================== */
+
+@media (max-width:480px){
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+    .stat-card{
+        padding:22px 15px;
+    }
+
+    .stat-icon{
+        font-size:2rem;
+    }
+
+    .stat-number{
+        font-size:1.7rem;
+    }
+
+    .stat-label{
+        font-size:.9rem;
+    }
+}
+
+/* ============================================================
+   QUICK LINKS SECTION
+============================================================ */
+.links-section {
+  padding: 70px 20px;
+  background: linear-gradient(180deg, #f0f4fa 0%, var(--off-white) 100%);
+}
+
+.cards-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 22px;
+}
+
+.info-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 30px 26px;
+  border: 1px solid #e8eef8;
+  transition: var(--trans);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--navy), var(--gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: var(--trans);
+}
+
+.info-card:hover::before { transform: scaleX(1); }
+
+.info-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: transparent;
+}
+
+.card-icon {
+  width: 54px; height: 54px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #eef4ff, #dce8ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 18px;
+  transition: var(--trans);
+}
+
+.info-card:hover .card-icon { background: linear-gradient(135deg, var(--navy), var(--navy-light)); }
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.card-desc {
+  font-size: 13.5px;
+  color: #6b7ea0;
+  line-height: 1.6;
+}
+
+.card-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  transition: var(--trans);
+}
+
+.info-card:hover .card-arrow { gap: 10px; }
+
+/* ============================================================
+   NOTICE BAR
+============================================================ */
+.notice-bar {
+  background: linear-gradient(135deg, var(--navy-light), var(--navy));
+  padding: 18px 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  overflow: hidden;
+  position: relative;
+}
+
+.notice-tag {
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 6px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.notice-scroll {
+  overflow: hidden;
+  flex: 1;
+}
+
+.notice-track {
+  display: flex;
+  animation: scrollText 22s linear infinite;
+  white-space: nowrap;
+}
+
+.notice-track span {
+  font-size: 13.5px;
+  color: #c0d4ee;
+  padding-right: 60px;
+}
+
+.notice-track span b { color: var(--white); }
+
+@keyframes scrollText {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   IMPORTANT LINKS
+============================================================ */
+.ext-links-section {
+  padding: 60px 20px;
+  background: var(--white);
+}
+
+.ext-grid {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.ext-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 100px;
+  background: var(--off-white);
+  border: 1.5px solid #e2e8f0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--navy-mid);
+  transition: var(--trans);
+}
+
+.ext-chip:hover {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================================
+   VISITOR BOX
+============================================================ */
+.visitor-strip {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f8faff, #eef2fb);
+}
+
+.visitor-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 18px 32px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #e2eaf6;
+}
+
+.visitor-icon { font-size: 28px; }
+
+.visitor-text { text-align: left; }
+
+.visitor-text .vlabel {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.visitor-text .vcount {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1;
+}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.footer {
+  background: linear-gradient(160deg, #071220, #0f2040);
+  color: var(--white);
+  padding: 64px 20px 0;
+}
+
+.footer-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 540px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+.footer-brand .brand-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.footer-brand .brand-row img {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: 2px solid rgba(201,151,43,.45);
+  background: #fff;
+  object-fit: cover;
+  padding: 2px;
+}
+
+.footer-brand .brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.footer-brand p {
+  font-size: 13.5px;
+  color: #8099be;
+  line-height: 1.7;
+  max-width: 280px;
+}
+
+.footer-col h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.footer-col a {
+  display: block;
+  font-size: 13.5px;
+  color: #8099be;
+  margin-bottom: 10px;
+  transition: var(--trans);
+}
+
+.footer-col a:hover { color: var(--white); padding-left: 6px; }
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px 0;
+}
+
+.footer-bottom p, .footer-bottom a {
+  font-size: 12.5px;
+  color: #bdb32d;
+}
+
+.footer-bottom a { transition: var(--trans); }
+.footer-bottom a:hover { color: var(--gold); }
+
+.dev {
+  font-size: 12px;
+  color: #e7c246;
+  text-align: center;
+  padding: 14px 0;
+}
+
+.dev b { color: #ffffff; }
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   MOBILE POLISH
+============================================================ */
+@media (max-width: 640px) {
+  .hero { padding: 50px 18px 60px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .notice-bar { padding: 14px 16px; }
+  .ext-chip { font-size: 12.5px; padding: 9px 16px; }
+}
+
+/* Default Desktop */
+.mobile-login-item{
+    display:none;
+}
+
+/* Mobile Only */
+@media (max-width:900px){
+    .mobile-login-item{
+        display:block;
+        width:100%;
+    }
+
+    .desktop-login{
+        display:none !important;
+    }
+}
+
+
+
+
+.mobile-login-item{
+    display:none;
+}
+
+@media (max-width:900px){
+
+    .desktop-login{
+        display:none !important;
+    }
+
+    .mobile-login-item{
+        display:block !important;
+        width:100%;
+    }
+
+    .mobile-login-item .login-btn{
+        width:100%;
+        justify-content:center;
+    }
+
+    .menu-toggle{
+        display:flex !important;
+    }
+}
+
+
+.live-datetime{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    padding:12px 20px;
+    margin:15px 0;
+
+    background:linear-gradient(135deg,#1e3b8a2a,#2564eb09);
+    color:#fff;
+
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(100, 99, 16, 0.527);
+
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:.2px;
+
+    overflow:hidden;
+}
+
+#liveDateTime{
+    white-space:nowrap;
+}
+
+/* Tablet */
+@media(max-width:768px){
+
+    .live-datetime{
+        padding:10px 15px;
+        font-size:14px;
+        border-radius:10px;
+    }
+
+    #liveDateTime{
+        white-space:normal;
+        line-height:1.6;
+    }
+
+}
+
+/* Mobile */
+@media(max-width:480px){
+
+    .live-datetime{
+        padding:10px;
+        font-size:13px;
+        margin:10px 0;
+    }
+
+    #liveDateTime{
+        display:block;
+        width:100%;
+    }
+
+}
+.active{
+color:#e0aa14 !important;
+background-color: #0d336d2d;
+}
+
+
+/* ==========================
+   RECENT UPDATES BOX
+========================== */
+/* ===================================
+   PREMIUM RECENT UPDATES BOX
+=================================== */
+
+.updates-section{
+
+    width:100%;
+    max-width:950px;
+
+    margin:40px auto;
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    border:1px solid rgba(201,151,43,.20);
+
+    box-shadow:
+    0 15px 40px rgba(10,22,40,.10);
+}
+
+.updates-header{
+
+    background:
+    linear-gradient(
+    135deg,
+    #0A1F44,
+    #16376f
+    );
+
+    color:#fff;
+
+    padding:18px 24px;
+
+    font-size:22px;
+    font-weight:700;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.updates-body{
+    height:320px;
+    overflow:hidden;
+    position:relative;
+}
+
+.updates-scroll{
+    display:flex;
+    flex-direction:column;
+    animation:autoScroll 35s linear infinite;
+}
+
+.updates-body:hover .updates-scroll{
+    animation-play-state:paused;
+}
+
+@keyframes autoScroll{
+    0%{
+        transform:translateY(0);
+    }
+
+    100%{
+        transform:translateY(-50%);
+    }
+}
+
+.updates-body{
+
+    height:320px;
+
+    overflow-y:auto;
+
+    background:#fff;
+
+    scrollbar-width:thin;
+
+    scrollbar-color:
+    #c9972b
+    #f1f5f9;
+}
+
+/* Chrome Scroll */
+
+.updates-body::-webkit-scrollbar{
+    width:8px;
+}
+
+.updates-body::-webkit-scrollbar-track{
+    background:#f1f5f9;
+}
+
+.updates-body::-webkit-scrollbar-thumb{
+    background:#c9972b;
+    border-radius:50px;
+}
+
+.update-row{
+
+    display:flex;
+    align-items:center;
+
+    gap:14px;
+
+    padding:16px 22px;
+
+    border-bottom:
+    1px solid #edf2f7;
+
+    transition:.30s;
+
+    color:#0f172a;
+}
+
+.update-row:hover{
+
+    background:#f8fafc;
+
+    padding-left:30px;
+
+    color:#0A1F44;
+}
+
+.update-icon{
+
+    width:40px;
+    height:40px;
+
+    min-width:40px;
+
+    border-radius:12px;
+
+    background:
+    rgba(201,151,43,.12);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:18px;
+}
+
+.update-title{
+
+    flex:1;
+
+    font-size:15px;
+    font-weight:600;
+
+    line-height:1.5;
+}
+
+.update-date{
+
+    font-size:12px;
+
+    color:#64748b;
+
+    white-space:nowrap;
+}
+
+.new-tag{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin-left:8px;
+
+    background:#ef4444;
+
+    color:#fff;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    padding:4px 8px;
+
+    border-radius:50px;
+
+    animation:newPulse 1.5s infinite;
+}
+
+@keyframes newPulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.08);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+/* Tablet */
+
+@media(max-width:768px){
+
+    .updates-section{
+
+        width:calc(100% - 20px);
+
+        margin:25px auto;
+    }
+
+    .updates-header{
+
+        font-size:18px;
+
+        padding:15px 18px;
+    }
+
+    .updates-body{
+
+        height:280px;
+    }
+
+    .update-row{
+
+        padding:14px 16px;
+    }
+
+    .update-title{
+
+        font-size:14px;
+    }
+
+    .update-date{
+
+        display:none;
+    }
+}
+
+/* Mobile */
+
+@media(max-width:480px){
+
+    .updates-section{
+
+        border-radius:16px;
+    }
+
+    .updates-header{
+
+        font-size:16px;
+    }
+
+    .updates-body{
+
+        height:250px;
+    }
+
+    .update-icon{
+
+        width:34px;
+        height:34px;
+        min-width:34px;
+
+        font-size:15px;
+    }
+
+    .update-title{
+
+        font-size:13px;
+    }
+
+    .new-tag{
+
+        font-size:9px;
+
+        padding:3px 7px;
+    }
+}
+</style>
+</head>
 <body>
 
-<!-- NAVBAR -->
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
 <header class="navbar">
 
-  <!-- LOGO -->
   <div class="logo">
     <img src="1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo">
-    <span>Govt Sr. Sec. School Shilla</span>
+    <div class="logo-text">
+      <span class="school-name">GSS School Shilla</span>
+      <span class="school-tagline">Est. Himachal Pradesh</span>
+    </div>
   </div>
 
-  <!-- NAV LINKS -->
   <ul class="nav-links" id="navLinks">
-    <li><a href="#">Home</a></li>
+    <li><a href="#" class="active">Home</a></li>
     <li><a href="public/pub-notif.html">Notices</a></li>
     <li><a href="public/result.html">Results</a></li>
     <li><a href="public/downloads.html">Downloads</a></li>
     <li><a href="public/contact.html">Contact</a></li>
+
+    <!-- Mobile Login -->
+    <li class="mobile-login-item">
+      <div class="login-dropdown">
+        <button class="login-btn" id="loginBtnMobile">
+          Login
+        </button>
+
+        <div class="dropdown-menu" id="dropdownMenuMobile">
+          <a href="admin/login.html">🛠️ Admin Panel</a>
+          <a href="no.html">🎓 Student Portal</a>
+          <a href="no.html">👨‍🏫 Teacher Portal</a>
+        </div>
+      </div>
+    </li>
   </ul>
 
-  <!-- LOGIN (LAST RIGHT PC) -->
-  <div class="login-dropdown">
-    <button class="login-btn" id="loginBtn">
-      <span class="login-icon">🔐</span>
-      <span class="login-text">Login</span>
-    </button>
+  <div class="nav-actions">
 
-    <!-- DROPDOWN -->
-    <div class="dropdown-menu" id="dropdownMenu">
-      <a href="#" data-link="admin/login.html">🛠️ Admin</a>
-      <a href="#" data-link="student.html">🎓 Student</a>
-      <a href="#" data-link="teacher.html">👨‍🏫 Teacher</a>
+    <!-- Desktop Login -->
+    <div class="login-dropdown desktop-login">
+      <button class="login-btn" id="loginBtn">
+        Login
+      </button>
+
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="admin/login.html">🛠️ Admin Panel</a>
+        <a href="no.html">🎓 Student Portal</a>
+        <a href="no.html">👨‍🏫 Teacher Portal</a>
+      </div>
     </div>
-  </div>
 
-  <!-- MOBILE MENU -->
-  <div class="menu-toggle" id="menuToggle">☰</div>
+    <div class="menu-toggle" id="menuToggle">☰</div>
+
+  </div>
 
 </header>
 
-<!-- HERO -->
+<!-- ============================================================
+     NOTICE BAR
+============================================================ -->
+<div class="notice-bar">
+  <div class="notice-tag">🙏नमस्ते </div>
+  <div class="notice-scroll">
+    <div class="notice-track">
+      <span><b>WELCOME TO</b> &nbsp;•&nbsp;GOVT. SR. SEC. SCHOOL SHILLA &nbsp;•&nbsp; THANK YOU FOR YOUR TRUST &nbsp;•&nbsp; </span>
+      <span><b>EXITED FOR A BRIGHT FUTURE TOGETHER</b> &nbsp;•&nbsp; YOUR GROWTH IS OUR MISSION&nbsp;•&nbsp; THANK YOU FOR VISITING &nbsp;•&nbsp; </span>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- ============================================================
+     HERO
+============================================================ -->
 <section class="hero">
+<div class="live-datetime">
+    <span id="liveDateTime"></span>
+</div>
+  <div class="hero-badge">
+    <span></span>
+    Government Senior Secondary School Shilla
+  </div>
+  <h1>
+    Welcome to<br>
+    <em>Govt. Sr. Sec. School Shilla</em>
+  </h1>
 
-  <!-- SLIDER -->
-  <div id="slider" class="slider">
+  <!-- ============================================================
+     SLIDER
+============================================================ -->
+<section class="slider-section">
+  <div class="section-label">
+    <div class="line"></div>
+    <span>School Life</span>
+    <div class="line right"></div>
+  </div>
+  <h2 class="section-title">Our Campus Gallery</h2>
 
-    <!-- arrows -->
-    <div id="prev" class="arrow left">&#10094;</div>
-    <div id="next" class="arrow right">&#10095;</div>
+  <div class="slider-wrap" id="slider">
+    <button class="slider-arrow prev" id="prev">&#10094;</button>
+    <button class="slider-arrow next" id="next">&#10095;</button>
+    <div class="slider-placeholder" id="sliderPlaceholder">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <span>Loading images…</span>
+    </div>
+  </div>
+  <div class="slider-dots" id="dots"></div>
+</section>
+  <p class="hero-sub">
+    Nurturing excellence, discipline, and character since decades.
+    Proudly serving the students of Himachal Pradesh. 🇮🇳
+  </p>
+  <div class="hero-buttons">
+    <a href="public/pub-gallery.html" class="btn-primary">
+      🖼️ Gallery
+    </a>
+    <a href="public/faculity.html" class="btn-outline">
+      👨‍🏫 Faculty
+    </a>
+    <a href="https://hpbose.org/result.aspx" target="_blank"
+       onclick="return confirm('⚠️ You are about to leave the school website. Continue?')"
+       class="btn-outline">
+      📋 HPBOSE Results ↗
+    </a>
+  </div>
+</section>
 
+
+<section class="updates-section">
+
+  <div class="updates-header">
+    🔥 Recent Updates
   </div>
 
-  <!-- dots -->
-  <div id="dots" class="dots"></div>
-
-  <div class="overlay"></div>
-
-  <!-- CONTENT -->
-  <div class="hero-content">
-    <h2 style="color:#66a3ff;">WELCOME TO</h2>
-    <h1 class="main-heading">GOVT. SR. SEC. SCHOOL SHILLA</h1>
-    <p>Quality Education • Discipline • Excellence 🇮🇳</p>
-
-    <div class="hero-buttons">
-  <a href="public/pub-gallery.html">Gallery</a>
-  <a href="public/faculity.html">Faculty</a>
-  <a href="https://hpbose.org/result.aspx">🎓 Results</a>
-</div>
+  <div id="recentUpdates" class="updates-body">
+    Loading...
   </div>
 
 </section>
 
-<footer class="glass-footer">
 
-  <div class="glass-container">
-
-    <div class="glass-box brand">
-
-  <div class="brand-flex">
-    <img src="1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo" class="school-logo">
-
-    <div>
-      <h2>GSS SCHOOL SHILLA</h2>
-      <p>Empowering students with knowledge, discipline & excellence.</p>
+<!-- ============================================================
+     STATS
+============================================================ -->
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-card reveal">
+      <div class="stat-icon">🎓</div>
+      <div class="stat-number">100+</div>
+      <div class="stat-label">Students Enrolled</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-icon">👨‍🏫</div>
+      <div class="stat-number">12+</div>
+      <div class="stat-label">Qualified Teachers</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-icon">🏆</div>
+      <div class="stat-number">HIGH</div>
+      <div class="stat-label">Board Pass Rate</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-icon">📅</div>
+      <div class="stat-number">10+</div>
+      <div class="stat-label">Years of Excellence</div>
     </div>
   </div>
+</section>
 
+<!-- ============================================================
+     QUICK LINKS CARDS
+============================================================ -->
+<section class="links-section">
+  <div class="section-label">
+    <div class="line"></div>
+    <span>Explore</span>
+    <div class="line right"></div>
+  </div>
+  <h2 class="section-title">Quick Access</h2>
+
+  <div class="cards-grid">
+    <a href="public/pub-notif.html" class="info-card reveal">
+      <div class="card-icon">📢</div>
+      <div class="card-title">Notices & Circulars</div>
+      <div class="card-desc">Stay updated with the latest school announcements, circulars and important news.</div>
+      <div class="card-arrow">View All →</div>
+    </a>
+    <a href="public/result.html" class="info-card reveal">
+      <div class="card-icon">📊</div>
+      <div class="card-title">Internal Results</div>
+      <div class="card-desc">Access unit test, half-yearly and annual examination results for students.</div>
+      <div class="card-arrow">Check Results →</div>
+    </a>
+    <a href="public/downloads.html" class="info-card reveal">
+      <div class="card-icon">📥</div>
+      <div class="card-title">Downloads</div>
+      <div class="card-desc">Download available syllabi, model papers, PYQ's and official documents.</div>
+      <div class="card-arrow">Download →</div>
+    </a>
+    <a href="public/faculity.html" class="info-card reveal">
+      <div class="card-icon">🏫</div>
+      <div class="card-title">Our Faculty</div>
+      <div class="card-desc">Meet our experienced and dedicated teaching staff committed to student growth.</div>
+      <div class="card-arrow">Meet Faculty →</div>
+    </a>
+    <a href="public/pub-gallery.html" class="info-card reveal">
+      <div class="card-icon">🖼️</div>
+      <div class="card-title">Photo Gallery</div>
+      <div class="card-desc">Relive events, sports days, cultural programs and school memories.</div>
+      <div class="card-arrow">View Gallery →</div>
+    </a>
+    <a href="public/contact.html" class="info-card reveal">
+      <div class="card-icon">📞</div>
+      <div class="card-title">Contact Us</div>
+      <div class="card-desc">Reach out to the school office for admissions, queries and information.</div>
+      <div class="card-arrow">Contact →</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============================================================
+     IMPORTANT EXTERNAL LINKS
+============================================================ -->
+<section class="ext-links-section">
+  <div class="section-label">
+    <div class="line"></div>
+    <span>Important Links</span>
+    <div class="line right"></div>
+  </div>
+  <h2 class="section-title" style="margin-bottom:30px;">Official Resources</h2>
+  <div class="ext-grid">
+    <a href="https://www.hpbose.org/" target="_blank" class="ext-chip">🏛️ HPBOSE Official</a>
+    <a href="https://scholarships.gov.in/" target="_blank" class="ext-chip">💰 NSP Scholarship</a>
+    <a href="https://hpbose.org/result.aspx" target="_blank"
+       onclick="return confirm('⚠️ You are leaving this website. Continue?')"
+       class="ext-chip">📋 Board Results</a>
+    <a href="https://hpcalendar.co.in/" target="_blank" class="ext-chip">📅 HP Calendar</a>
+    <a href="https://www.mygov.in/" target="_blank" class="ext-chip">🇮🇳 My Government</a>
+    <a href="https://www.education.gov.in/" target="_blank" class="ext-chip">📚 Edu Ministry</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     VISITOR COUNTER
+============================================================ -->
+<div class="visitor-strip">
+  <div class="visitor-inner">
+    <div class="visitor-icon">👥</div>
+    <div class="visitor-text">
+      <div class="vlabel">Total Visitors</div>
+      <div class="vcount" id="count">—</div>
+    </div>
+  </div>
 </div>
 
-    <div class="glass-box">
-      <h3>🔗 Quick Links</h3>
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-row">
+        <img src="1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo">
+        <div class="brand-name">GSS School Shilla</div>
+      </div>
+      <p>Empowering students with quality education, discipline and a vision for a brighter India.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Quick Links</h4>
       <a href="#">Home</a>
       <a href="public/pub-notif.html">Notices</a>
+      <a href="public/result.html">Results</a>
+      <a href="public/downloads.html">Downloads</a>
       <a href="public/contact.html">Contact</a>
-      <a href="https://www.hpbose.org/Result.aspx">Results</a>
     </div>
 
-    <div class="glass-box">
-      <h3>📌 Important</h3>
-      <a href="https://www.hpbose.org/">HPBOSE</a>
-      <a href="https://scholarships.gov.in/">NSP SCHOLARSHIP</a>
-      <a href="https://hpcalendar.co.in/">Calendar</a>
-      <a href="https://www.mygov.in/">My Govt.</a>
+    <div class="footer-col">
+      <h4>Portals</h4>
+      <a href="admin/login.html">🛠️ Admin</a>
+      <a href="student.html">🎓 Student</a>
+      <a href="teacher.html">👨‍🏫 Teacher</a>
     </div>
 
-    <div class="glass-box">
-    
-      <p> “Education is the key to success and a brighter future.  
-  We inspire students to learn with confidence, discipline, and creativity.  
-  Together, we build responsible leaders for tomorrow.” </p>
-      
+    <div class="footer-col">
+      <h4>Government</h4>
+      <a href="https://www.hpbose.org/" target="_blank">HPBOSE</a>
+      <a href="https://scholarships.gov.in/" target="_blank">NSP Scholarship</a>
+      <a href="https://www.mygov.in/" target="_blank">My Govt.</a>
+      <a href="https://www.education.gov.in/" target="_blank">Edu Ministry</a>
     </div>
-
   </div>
 
-
-
-  
-  
-
-<div class="visitor-box">
-  👥 Visitors:
-  <span id="count">0</span>
-
-  
-</div>
-
-
-
-
-
-  <div class="glass-bottom">
-    © 2026 Govt School | All Rights Reserved  <a href="school_privacy_policy.pdf" style="color: red;"> Privacy & Policy</a>
+  <div class="footer-bottom">
+    <p>© 2026 Govt. Sr. Sec. School Shilla · All Rights Reserved</p>
+    <a href="school_privacy_policy.pdf">Privacy Policy | LAST UPDATED - 18/06/2026</a>
   </div>
-  <div class="dev-credit">
-  <p>Developed by <span>Vikshant Kralta</span></p>
-</div>
 
+ 
+
+  <div class="dev">Session: 2026-2027 &nbsp; | &nbsp; Developed & Designed by <b>Vikshant Kralta</b></div>
 </footer>
-<!-- ================= JS ================= -->
+
+<!-- ============================================================
+     SCRIPTS
+============================================================ -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ================= LOGIN DROPDOWN ================= */
+  /* ---- MOBILE MENU ---- */
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = document.getElementById("navLinks");
 
-  const loginBtn = document.getElementById("loginBtn");
-  const dropdown = document.getElementById("dropdownMenu");
-  const items = document.querySelectorAll(".dropdown-menu a");
-
-  // OPEN / CLOSE
-  loginBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    dropdown.classList.toggle("show");
+  menuToggle.addEventListener("click", () => {
+    const open = navLinks.classList.toggle("active");
+    menuToggle.innerHTML = open ? "✕" : "☰";
   });
 
-  // ITEM CLICK
-  items.forEach(item => {
-    item.addEventListener("click", (e) => {
 
-      e.preventDefault();
-      e.stopPropagation(); // 🔥 MOST IMPORTANT
 
-      // ACTIVE STATE
-      items.forEach(i => i.classList.remove("active"));
-      item.classList.add("active");
-
-      console.log("Selected:", item.innerText);
-
-      // REDIRECT
-      const link = item.getAttribute("data-link");
-      if (link) {
-        window.location.href = link;
-      }
-
-      // CLOSE AFTER SELECT
-      dropdown.classList.remove("show");
+  /* ---- LOGIN DROPDOWNS ---- */
+  function setupDropdown(btnId, menuId) {
+    const btn = document.getElementById(btnId);
+    const menu = document.getElementById(menuId);
+    if (!btn || !menu) return;
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      menu.classList.toggle("show");
     });
-  });
+    document.addEventListener("click", e => {
+      if (!menu.contains(e.target) && !btn.contains(e.target))
+        menu.classList.remove("show");
+    });
+  }
 
-  // OUTSIDE CLICK
-  document.addEventListener("click", (e) => {
-    if (!dropdown.contains(e.target) && e.target !== loginBtn) {
-      dropdown.classList.remove("show");
-    }
-  });
+  setupDropdown("loginBtn", "dropdownMenu");
+  setupDropdown("loginBtnMobile", "dropdownMenuMobile");
+
+
+
+
+
+
 
 
   
-menuToggle.addEventListener("click", () => {
-  navLinks.classList.toggle("active");
+function updateDateTime() {
 
-  if(navLinks.classList.contains("active")){
-    document.body.style.overflow = "hidden";
-    menuToggle.innerHTML = "✕";
-  } else {
-    document.body.style.overflow = "auto";
-    menuToggle.innerHTML = "☰";
-  }
-});
+    const now = new Date();
 
-  /* ================= SLIDER ================= */
+    const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ];
 
-  const slider = document.getElementById("slider");
-  const dotsContainer = document.getElementById("dots");
+    const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
 
-  let slides = [];
-  let index = 0;
-  let interval;
+    const day = days[now.getDay()];
+    const date = now.getDate();
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
 
-  fetch("http://localhost:3000/images")
-    .then(res => res.json())
+    const time = now.toLocaleTimeString('en-IN', {
+        hour12: true
+    });
+
+    document.getElementById('liveDateTime').innerHTML =
+        `📅  ${day}, ${date} ${month} ${year} &nbsp; <br> &nbsp; 🕒  ${time}</br>`;
+}
+
+updateDateTime();
+setInterval(updateDateTime, 1000);
+  /* ---- SLIDER ---- */
+  const sliderEl = document.getElementById("slider");
+  const dotsEl = document.getElementById("dots");
+  const placeholder = document.getElementById("sliderPlaceholder");
+  let slides = [], current = 0, timer;
+
+  fetch("https://gsssshilla.onrender.com/images")
+    .then(r => r.json())
     .then(data => {
-
-      if (!data || data.length === 0) {
-        slider.innerHTML = "<p style='color:white;text-align:center'>No Images</p>";
-        return;
-      }
-
-      // arrows
-      slider.innerHTML = `
-        <div id="prev" class="arrow left">&#10094;</div>
-        <div id="next" class="arrow right">&#10095;</div>
-      `;
-
-      dotsContainer.innerHTML = "";
+      if (!data || !data.length) return;
+      placeholder.remove();
 
       data.forEach((img, i) => {
+        const el = document.createElement("img");
 
-        const image = document.createElement("img");
-        image.src = "http://localhost:3000/uploads/" + img.filename;
-
-        if (i === 0) image.classList.add("active");
-
-        slider.appendChild(image);
+     
+        el.src = img.filename;
+        el.alt = "School image " + (i + 1);
+        if (i === 0) el.classList.add("active");
+        sliderEl.appendChild(el);
 
         const dot = document.createElement("span");
         if (i === 0) dot.classList.add("active");
-
-        dot.addEventListener("click", () => {
-          index = i;
-          showSlide(index);
-        });
-
-        dotsContainer.appendChild(dot);
+        dot.addEventListener("click", () => go(i));
+        dotsEl.appendChild(dot);
       });
 
-      slides = document.querySelectorAll("#slider img");
-
-      document.getElementById("next").addEventListener("click", nextSlide);
-      document.getElementById("prev").addEventListener("click", prevSlide);
-
-      startSlider();
+      slides = sliderEl.querySelectorAll("img");
+      startAuto();
     })
-    .catch(err => console.error("Fetch Error:", err));
+    .catch(() => {});
 
-
-  function showSlide(i) {
-    if (slides.length === 0) return;
-
+  function go(n) {
     slides.forEach(s => s.classList.remove("active"));
-    document.querySelectorAll("#dots span").forEach(d => d.classList.remove("active"));
-
-    slides[i].classList.add("active");
-    document.querySelectorAll("#dots span")[i].classList.add("active");
+    dotsEl.querySelectorAll("span").forEach(d => d.classList.remove("active"));
+    current = (n + slides.length) % slides.length;
+    if (slides[current]) slides[current].classList.add("active");
+    const dotSpans = dotsEl.querySelectorAll("span");
+    if (dotSpans[current]) dotSpans[current].classList.add("active");
   }
 
-  function nextSlide() {
-    index = (index + 1) % slides.length;
-    showSlide(index);
-  }
+  document.getElementById("next").addEventListener("click", () => { clearInterval(timer); go(current + 1); startAuto(); });
+  document.getElementById("prev").addEventListener("click", () => { clearInterval(timer); go(current - 1); startAuto(); });
 
-  function prevSlide() {
-    index = (index - 1 + slides.length) % slides.length;
-    showSlide(index);
-  }
+  function startAuto() { timer = setInterval(() => go(current + 1), 4500); }
 
-  function startSlider() {
-    interval = setInterval(nextSlide, 4000);
-  }
+  /* ---- VISITOR COUNT ---- */
+  fetch("https://gsssshilla.onrender.com/analytics/track")
+    .then(() => fetch("https://gsssshilla.onrender.com/analytics/stats"))
+    .then(r => r.json())
+    .then(data => { document.getElementById("count").innerText = data.total?.toLocaleString() || "—"; })
+    .catch(() => { document.getElementById("count").innerText = "—"; });
+
+  /* ---- SCROLL REVEAL ---- */
+  const revealEls = document.querySelectorAll(".reveal");
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
 
 });
 
@@ -298,54 +1990,83 @@ menuToggle.addEventListener("click", () => {
 
 
 
-
-
-/* =========================
-   TRACK UNIQUE VISITOR
-========================= */
-
-fetch(
-  "http://localhost:3000/analytics/track"
-)
-
+fetch("https://gsssshilla.onrender.com/recent")
 .then(res => res.json())
-
 .then(data => {
 
-  console.log(data);
+  let html = "";
 
-  /* GET STATS */
+  data.forEach(item => {
 
-  return fetch(
-    "http://localhost:3000/analytics/stats"
-  );
+    const created =
+      new Date(item.created_at);
 
-})
+    const now =
+      new Date();
 
-.then(res => res.json())
+    const hours =
+      (now - created) /
+      (1000 * 60 * 60);
 
-.then(data => {
+    const isNew =
+      hours <= 48;
 
-  /* SHOW TOTAL */
+    html += `
 
-  document.getElementById(
-    "count"
-  ).innerText =
-    data.total;
+    <a
+      href="${item.file_url || '#'}"
+      target="_blank"
+      class="update-row"
+    >
 
-})
+      <span class="update-icon">
+        📢
+      </span>
 
-.catch(err => {
+      <span class="update-title">
 
-  console.log(
-    "Visitor Error:",
-    err
-  );
+        ${item.title}
+
+        ${
+          isNew
+          ?
+          '<span class="new-tag">NEW</span>'
+          :
+          ''
+        }
+
+      </span>
+
+      <span class="update-date">
+
+        ${
+          created.toLocaleDateString(
+          "en-IN"
+          )
+        }
+
+      </span>
+
+    </a>
+
+    `;
+
+  });
+
+ document.getElementById(
+    "recentUpdates"
+).innerHTML =
+`
+<div class="updates-scroll">
+    ${html}
+    ${html}
+</div>
+`;
 
 });
+
 
 
 </script>
-
 </body>
 </html>

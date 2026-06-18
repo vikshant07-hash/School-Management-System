@@ -4,318 +4,290 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Secure Admin Login</title>
+<title>Admin Login</title>
 
 <style>
 
-/* ================= GLOBAL ================= */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Arial", sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root{
+
+  /* ========== NEW FRESH THEME ========== */
+  --bg1:#071a2b;      /* midnight blue */
+  --bg2:#0b2a3a;      /* deep ocean */
+
+  --primary:#105f83;  /* aqua */
+  --secondary:#00ffa3;/* neon green */
+  --accent:#ffcc00;   /* gold highlight */
+
+  --glass: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.12);
+
+  --text:#ffffff;
+  --muted:#b6c2cf;
+
+  --shadow: 0 20px 60px rgba(0,0,0,0.6);
 }
 
-body {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* Animated dark gradient background */
-  background: linear-gradient(-45deg, #0f172a, #1e1b4b, #30135c, #0f172a);
-  background-size: 400% 400%;
-  animation: bgMove 12s ease infinite;
-
-  padding: 20px;
-  overflow: hidden;
+/* ================= RESET ================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
 }
 
-/* background animation */
-@keyframes bgMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background: linear-gradient(135deg,var(--bg1),var(--bg2));
+  overflow:hidden;
+  padding:20px;
 }
 
-/* floating glow particles */
+/* floating neon glow */
 body::before,
-body::after {
-  content: "";
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.4;
-  z-index: 0;
+body::after{
+  content:"";
+  position:absolute;
+  width:380px;
+  height:380px;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:0.35;
+  z-index:0;
 }
 
-body::before {
-  background: #a855f7;
-  top: 10%;
-  left: 10%;
-  animation: float1 8s ease-in-out infinite;
+body::before{
+  background:var(--primary);
+  top:10%;
+  left:8%;
 }
 
-body::after {
-  background: #ec4899;
-  bottom: 10%;
-  right: 10%;
-  animation: float2 10s ease-in-out infinite;
-}
-
-@keyframes float1 {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(40px); }
-}
-
-@keyframes float2 {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-40px); }
+body::after{
+  background:var(--secondary);
+  bottom:10%;
+  right:8%;
 }
 
 /* ================= LOGIN BOX ================= */
+.login-box{
+  position:relative;
+  z-index:2;
 
-.login-box {
-  position: relative;
-  z-index: 1;
+  width:100%;
+  max-width:430px;
 
-  width: 100%;
-  max-width: 420px;
+  background:var(--glass);
+  border:1px solid var(--border);
+  backdrop-filter:blur(18px);
 
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(15px);
+  border-radius:22px;
+  padding:32px;
 
-  padding: 30px;
-  border-radius: 18px;
+  box-shadow:var(--shadow);
 
-  box-shadow: 0 0 25px rgba(168, 85, 247, 0.4),
-              0 0 40px rgba(236, 72, 153, 0.2);
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  animation: fadeUp 0.6s ease;
+  animation:fadeUp 0.6s ease;
 }
 
-/* entry animation */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(30px);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+  to{
+    opacity:1;
+    transform:translateY(0);
   }
 }
 
 /* ================= TITLE ================= */
-.login-box h2 {
-  text-align: center;
-  font-size: 24px;
+.login-box h2{
+  text-align:center;
+  font-size:26px;
+  margin-bottom:25px;
 
-  background: linear-gradient(90deg, #a855f7, #ec4899);
-  
-  -webkit-background-clip: text;
-  background-clip: text;
+  font-weight:700;
 
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-
-  margin-bottom: 25px;
-
-  text-decoration: none;   /* 👈 IMPORTANT FIX */
-  border: none;
-  outline: none;
+  background: linear-gradient(90deg,var(--primary),var(--secondary),var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
 /* ================= INPUT ================= */
-
-.input-box {
-  margin-bottom: 15px;
+.input-box{
+  margin-bottom:14px;
 }
 
-.input-box input {
-  width: 100%;
-  padding: 12px;
+.input-box input{
+  width:100%;
+  padding:12px 14px;
 
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius:14px;
+  border:1px solid var(--border);
 
-  border-radius: 10px;
-  outline: none;
+  background:rgba(255,255,255,0.06);
+  color:var(--text);
 
-  color: #fff;
-  font-size: 14px;
+  outline:none;
+  font-size:14px;
 
-  transition: 0.3s;
+  transition:0.3s ease;
 }
 
-.input-box input:focus {
-  border-color: #a855f7;
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
-  transform: scale(1.02);
+.input-box input::placeholder{
+  color:rgba(255,255,255,0.6);
+}
+
+.input-box input:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 18px rgba(0,212,255,0.4);
+  transform:scale(1.02);
 }
 
 /* ================= CAPTCHA ================= */
+.captcha-box{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+ 
+}
 
-.captcha-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+#captchaCanvas{
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.06);
   margin-bottom: 15px;
+ 
 }
 
-#captchaCanvas {
-  background: rgba(255, 255, 255, 0.08);
-  border: 2px dashed #a855f7;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 200px;
+.refresh-btn{
+  width:50px;
+  height:50px;
+
+  border:none;
+  border-radius:12px;
+
+  cursor:pointer;
+
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
+  color:black;
+  font-weight:bold;
+  margin-bottom: 15px;
+
+  transition:0.3s;
 }
 
-.refresh-btn {
-  width: 52px;
-  height: 52px;
-
-  border: none;
-  border-radius: 10px;
-
-  background: linear-gradient(135deg, #a855f7, #ec4899);
-  color: white;
-
-  font-size: 20px;
-  cursor: pointer;
-
-  transition: 0.4s;
-}
-
-.refresh-btn:hover {
-  transform: rotate(180deg) scale(1.1);
-  box-shadow: 0 0 15px #a855f7;
+.refresh-btn:hover{
+  transform:rotate(90deg) scale(1.1);
 }
 
 /* ================= BUTTONS ================= */
+button{
+  width:100%;
+  padding:12px;
 
-button {
-  width: 100%;
-  padding: 12px;
+  border:none;
+  border-radius:14px;
 
-  border: none;
-  border-radius: 10px;
+  cursor:pointer;
+  font-weight:600;
 
-  color: white;
-  font-size: 15px;
-  cursor: pointer;
+  color:#001018;
 
-  margin-top: 10px;
-  transition: 0.3s;
+  transition:0.3s;
+  margin-top:10px;
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:yellow;
 }
 
-button:active {
-  transform: scale(0.98);
+/* SEND OTP */
+#sendOtpBtn{
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  box-shadow:0 10px 25px rgba(0,212,255,0.25);
 }
 
-#sendOtpBtn {
-  background: linear-gradient(135deg, #0f766e, #14b8a6);
-}
-
-#loginBtn {
-  background: linear-gradient(135deg, #a855f7, #ec4899);
-  display: none;
+/* LOGIN */
+#loginBtn{
+  background:linear-gradient(135deg,var(--secondary),var(--accent));
+  display:none;
 }
 
 /* ================= OTP ================= */
-
-#otpSection {
-  display: none;
+#otpSection{
+  display:none;
 }
 
 /* ================= MESSAGE ================= */
-
-.msg {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 14px;
-  font-weight: bold;
+.msg{
+  text-align:center;
+  margin-top:12px;
+  font-size:14px;
+  font-weight:500;
 }
 
-.success { color: #22c55e; }
-.error { color: #ef4444; }
+.success{
+  color:#00ffa3;
+}
+
+.error{
+  color:#ff4d4d;
+}
 
 /* ================= FORGOT ================= */
-
-.forgot {
-  display: block;
-  text-align: right;
-  margin-top: 10px;
-
-  color: #a855f7;
-  font-size: 14px;
-  text-decoration: none;
+.forgot{
+  display:block;
+  text-align:right;
+  margin-top:10px;
+  color:rgb(234, 232, 236);
+  text-decoration:none;
 }
 
-.forgot:hover {
-  text-shadow: 0 0 8px #a855f7;
+.forgot:hover{
+  text-shadow:0 0 10px var(--primary);
+  color: rgb(44, 217, 240);
 }
 
 /* ================= LOADER ================= */
-
-.loader-box {
-  display: none;
-  text-align: center;
-  margin-top: 15px;
+.loader-box{
+  display:none;
+  text-align:center;
+  margin-top:15px;
 }
 
-.loader {
-  width: 40px;
-  height: 40px;
+.loader{
+  width:40px;
+  height:40px;
 
-  border-radius: 50%;
-  border: 4px solid rgba(255,255,255,0.2);
-  border-top: 4px solid #a855f7;
+  border-radius:50%;
+  border:4px solid rgba(255,255,255,0.2);
+  border-top:4px solid var(--primary);
+  border-bottom:4px solid var(--secondary);
 
-  animation: spin 0.8s linear infinite;
-  margin: auto;
+  animation:spin 1s linear infinite;
+  margin:auto;
 }
 
-@keyframes spin {
-  100% { transform: rotate(360deg); }
+@keyframes spin{
+  100%{ transform:rotate(360deg); }
 }
 
-/* ================= RESPONSIVE ================= */
-
-@media (max-width: 768px) {
-  .login-box {
-    max-width: 380px;
-  }
-}
-
-@media (max-width: 480px) {
-  .login-box {
-    padding: 20px;
+/* ================= MOBILE ================= */
+@media(max-width:480px){
+  .login-box{
+    padding:20px;
   }
 
-  .login-box h2 {
-    font-size: 20px;
-  }
-
-  button {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 360px) {
-  .login-box {
-    padding: 15px;
+  .login-box h2{
+    font-size:22px;
   }
 }
 
@@ -332,10 +304,11 @@ button:active {
   <div class="input-box">
 
     <input
-      type="text"
-      id="username"
-      placeholder="Username"
-    >
+  type="text"
+  id="username"
+  placeholder="Username"
+  autocomplete="off"
+>
 
   </div>
 
@@ -344,10 +317,11 @@ button:active {
   <div class="input-box">
 
     <input
-      type="password"
-      id="password"
-      placeholder="Password"
-    >
+  type="password"
+  id="password"
+  placeholder="Password"
+  autocomplete="current-password"
+>
 
   </div>
 
@@ -402,11 +376,12 @@ button:active {
     >
 
       <input
-        type="text"
-        id="otp"
-        placeholder="Enter OTP"
-        maxlength="6"
-      >
+  type="text"
+  id="otp"
+  placeholder="Enter OTP"
+  maxlength="6"
+  autocomplete="off"
+>
 
     </div>
 
@@ -437,7 +412,9 @@ button:active {
 
     <div class="loader"></div>
 
-    <p>Please wait...</p>
+    <p style="color:#ffffff; font-size:14px; margin-top:10px;">
+  Please wait...
+</p>
 
   </div>
 
@@ -451,6 +428,51 @@ button:active {
 </div>
 
 <script>
+
+  let otpTimer = null;
+let otpTimeLeft = 300; // 5 minutes
+// ONLY check once
+const token = localStorage.getItem("token");
+
+if(token){
+  window.location.replace("admin-dashboard.html");
+}
+
+  /* ================= AUTH CHECK ================= */
+
+
+ window.addEventListener("DOMContentLoaded", async () => {
+
+  const token = localStorage.getItem("token");
+
+  if(token){
+    try{
+
+      const res = await fetch(
+        "https://gsssshilla.onrender.com/verify-admin",
+        {
+          method:"GET",
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        }
+      );
+
+      const data = await res.json();
+
+      if(data.success){
+        window.location.replace("admin-dashboard.html");
+      }else{
+        localStorage.removeItem("token");
+      }
+
+    }catch(err){
+      localStorage.removeItem("token");
+    }
+  }
+
+});
+
 
 /* ================= CAPTCHA ================= */
 
@@ -676,15 +698,17 @@ async function sendOTP(){
     return;
   }
 
-  if(password === ""){
+  if(password.length < 8){
 
-    showMessage(
-      "Enter Password",
-      "error"
-    );
+  showMessage(
+    "Invalid Credentials",
+    "error"
+  );
 
-    return;
-  }
+  return;
+}
+
+  
 
   if(captchaInput === ""){
 
@@ -707,10 +731,11 @@ async function sendOTP(){
       "error"
     );
 
-    generateCaptcha();
+   generateCaptcha();
 
-    document.getElementById("captchaInput")
-      .value = "";
+document.getElementById(
+  "captchaInput"
+).value = "";
 
     return;
   }
@@ -722,7 +747,7 @@ async function sendOTP(){
 
   btn.disabled = true;
 
-  btn.innerText = "Checking...";
+  btn.innerText = "OTP Sending...";
 
   showLoader();
 
@@ -730,7 +755,7 @@ async function sendOTP(){
 
     const res = await fetch(
 
-      "http://localhost:3000/send-otp",
+      "https://gsssshilla.onrender.com/send-otp",
 
       {
         method:"POST",
@@ -756,6 +781,7 @@ async function sendOTP(){
     hideLoader();
 
     if(data.success){
+      startOtpTimer();
 
       showMessage(
         "OTP Sent Successfully",
@@ -763,6 +789,9 @@ async function sendOTP(){
       );
 
       btn.innerText = "OTP Sent";
+
+      document.getElementById("username").readOnly = true;
+  document.getElementById("password").readOnly = true;
 
       /* SHOW OTP */
 
@@ -796,7 +825,7 @@ async function sendOTP(){
     btn.innerText = "Send OTP";
 
     showMessage(
-      "Server Error",
+      "Server Error, Try Again after some time!",
       "error"
     );
 
@@ -804,7 +833,59 @@ async function sendOTP(){
 
 }
 
+
+
+
+
+function startOtpTimer(){
+
+  otpTimeLeft = 300;
+
+  const btn = document.getElementById("sendOtpBtn");
+  btn.disabled = true;
+
+  btn.innerText = "OTP Valid: 05:00";
+
+  otpTimer = setInterval(() => {
+
+    otpTimeLeft--;
+
+    const min = String(Math.floor(otpTimeLeft / 60)).padStart(2, "0");
+    const sec = String(otpTimeLeft % 60).padStart(2, "0");
+
+    btn.innerText = `OTP Valid: ${min}:${sec}`;
+
+    if(otpTimeLeft <= 0){
+      clearInterval(otpTimer);
+      resetOtpFlow();
+    }
+
+  }, 1000);
+}
+
+
+function resetOtpFlow(){
+
+  const btn = document.getElementById("sendOtpBtn");
+
+  btn.disabled = false;
+  btn.innerText = "Send OTP";
+
+  document.getElementById("otpSection").style.display = "none";
+  document.getElementById("loginBtn").style.display = "none";
+
+  document.getElementById("otp").value = "";
+
+  showMessage("OTP expired. Please request again.", "error");
+
+  /* CAPTCHA RESET */
+  generateCaptcha();
+  document.getElementById("captchaInput").value = "";
+}
 /* ================= LOGIN ================= */
+/* ================= LOGIN ================= */
+
+
 
 async function login(){
 
@@ -824,15 +905,15 @@ async function login(){
     .trim()
     .toUpperCase();
 
-  if(otp === ""){
+  if(otp.length !== 6){
 
-    showMessage(
-      "Enter OTP",
-      "error"
-    );
+  showMessage(
+    "Invalid OTP",
+    "error"
+  );
 
-    return;
-  }
+  return;
+}
 
   const btn =
     document.getElementById("loginBtn");
@@ -847,7 +928,7 @@ async function login(){
 
     const res = await fetch(
 
-      "http://localhost:3000/login",
+      "https://gsssshilla.onrender.com/login",
 
       {
         method:"POST",
@@ -873,34 +954,32 @@ async function login(){
 
     hideLoader();
 
-    if(data.success){
+   if(data.success){
 
-      showMessage(
-        "Login Successful",
-        "success"
-      );
+  localStorage.setItem("token", data.token);
+  
+sessionStorage.removeItem("token"); // optional cleanup
 
-      btn.innerText = "Success";
+  showMessage("Login Successful", "success");
 
-      setTimeout(()=>{
+  setTimeout(() => {
+    window.location.replace("admin-dashboard.html");
+  }, 1000);
 
-        window.location.href =
-          "admin-dashboard.html";
 
-      },1000);
 
-    }else{
+}else{
 
-      btn.disabled = false;
+  btn.disabled = false;
 
-      btn.innerText = "Login";
+  btn.innerText = "Login";
 
-      showMessage(
-        data.message,
-        "error"
-      );
+  showMessage(
+    data.message,
+    "error"
+  );
 
-    }
+}
 
   }catch(error){
 
@@ -911,14 +990,13 @@ async function login(){
     btn.innerText = "Login";
 
     showMessage(
-      "Server Error",
+      "Server Error, Try Again after some time!",
       "error"
     );
 
   }
 
 }
-
 /* ================= ENTER SUPPORT ================= */
 
 document.addEventListener(

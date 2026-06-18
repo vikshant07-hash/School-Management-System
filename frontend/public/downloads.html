@@ -7,305 +7,1268 @@
 
 <style>
 
-/* ================= THEME ================= */
+/* ========================================
+   MODERN INTERNATIONAL SCHOOL THEME
+======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
 :root{
-  --bg1:#0f172a;
-  --bg2:#1e1b4b;
-  --purple:#8b5cf6;
-  --blue:#2563eb;
-  --text:#fff;
+
+  /* Colors */
+  --primary:#0f2744;
+  --secondary:#1f4e79;
+  --accent:#d4af37;
+
+  --bg:#f6f8fc;
+  --card:#ffffff;
+
+  --text:#1f2937;
+  --text-light:#64748b;
+
+  --border:#e2e8f0;
+
+  /* Effects */
+  --radius:20px;
+
+  --shadow:
+  0 10px 30px rgba(15,39,68,.08);
+
+  --shadow-hover:
+  0 20px 40px rgba(15,39,68,.14);
+
+  --transition:.35s ease;
 }
 
-/* ================= PAGE ================= */
+/* ========================================
+   RESET
+======================================== */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
 body{
-  margin:0;
-  font-family:Poppins,sans-serif;
-  background:linear-gradient(135deg,var(--bg1),var(--bg2));
-  color:var(--text);
-}
 
-/* ================= SECTION ================= */
-.download-section{
-  padding:40px 20px;
-  min-height:100vh;
-}
+  font-family:'Poppins',sans-serif;
 
-/* TITLE */
-.download-section h2{
-  text-align:center;
-  color:#c084fc;
-  margin-bottom:20px;
-}
-
-/* ================= FILTERS ================= */
-.filters{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:25px;
-}
-
-.filters select,
-.filters button{
-  padding:10px 14px;
-  border:none;
-  border-radius:8px;
-  outline:none;
-  font-size:14px;
-}
-
-.filters select{
-  background:#1e293b;
-  color:white;
-}
-
-.filters button{
-  background:linear-gradient(135deg,var(--purple),var(--blue));
-  color:white;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.filters button:hover{
-  transform:scale(1.05);
-}
-
-/* ================= CARD ================= */
-.card{
-  background:rgba(255,255,255,0.05);
-  border-left:4px solid var(--purple);
-  padding:15px;
-  margin:12px auto;
-  border-radius:10px;
-  max-width:600px;
-  transition:0.3s;
-}
-
-.card:hover{
-  transform:translateY(-5px);
-  background:rgba(255,255,255,0.08);
-}
-
-.card h3{
-  margin:0;
-  color:#fff;
-}
-
-.card p{
-  font-size:14px;
-  opacity:0.8;
-}
-
-/* DOWNLOAD BUTTON */
-.card a{
-  display:inline-block;
-  margin-top:10px;
-  padding:8px 14px;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  color:white;
-  border-radius:20px;
-  text-decoration:none;
-  transition:0.3s;
-}
-
-.card a:hover{
-  transform:scale(1.05);
-}
-
-/* ================= NO DATA ================= */
-.no-data{
-  text-align:center;
-  margin-top:30px;
-  padding:15px;
-  border:1px solid rgba(255,255,255,0.2);
-  border-radius:10px;
-  max-width:300px;
-  margin-left:auto;
-  margin-right:auto;
-  color:#c084fc;
-}
-
-/* ================= RESPONSIVE ================= */
-@media(max-width:600px){
-  .filters{
-    flex-direction:column;
-    align-items:center;
-  }
-
-  .card{
-    width:90%;
-  }
-}
-
-h5{
-  color: rgb(240, 255, 34);
-  text-align: center;
-  justify-content: center;
-  margin-top: 50px;
-}
-
-
-
-/* ================= FOOTER BASE ================= */
-.glass-footer {
-  position: relative;
-  overflow: hidden;
-
-background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: #fff;
-  padding: 50px 20px 20px;
-
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-
-  font-family: "Poppins", sans-serif;
-}
-
-/* ================= RGB TOP LIGHT ================= */
-.glass-footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-
-  background: linear-gradient(
-    90deg,
-    #ff004c,
-    #ffcc00,
-    #00ffcc,
-    #0066ff,
-    #ff00ff,
-    #ff004c
+  background:
+  linear-gradient(
+  180deg,
+  #ffffff,
+  #f6f8fc
   );
 
-  background-size: 400% 100%;
-  animation: rgbMove 6s linear infinite;
+  color:var(--text);
 
-  box-shadow: 0 0 15px rgba(255, 0, 100, 0.6),
-              0 0 25px rgba(0, 255, 200, 0.4);
+  overflow-x:hidden;
+  line-height:1.7;
 }
 
-/* RGB animation */
-@keyframes rgbMove {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
+/* ========================================
+   SECTION
+======================================== */
+
+.download-section{
+
+  width:100%;
+  max-width:1200px;
+
+  margin:auto;
+
+  padding:70px 20px;
 }
 
-/* ================= CONTAINER ================= */
-.glass-container {
-  max-width: 1100px;
-  margin: auto;
+/* ========================================
+   HEADING
+======================================== */
+
+.download-section h2{
+
+  text-align:center;
+
+  font-size:42px;
+  font-weight:800;
+
+  color:var(--primary);
+
+  margin-bottom:40px;
+
+  position:relative;
 }
 
-/* ================= MAIN BOX ================= */
-.glass-box.brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 20px;
+.download-section h2::after{
+
+  content:"";
+
+  width:90px;
+  height:4px;
+
+  border-radius:50px;
+
+  background:
+  linear-gradient(
+  90deg,
+  var(--accent),
+  #f4d878
+  );
+
+  position:absolute;
+
+  left:50%;
+  transform:translateX(-50%);
+
+  bottom:-12px;
 }
 
-/* ================= BRAND FLEX ================= */
-.brand-flex {
-  display: flex;
-  align-items: center;
-  gap: 20px;
 
-  background: rgba(255, 255, 255, 0.06);
-  padding: 20px;
-  border-radius: 16px;
+/* ==========================
+   SCHOOL LOGO SECTION
+========================== */
 
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-
-  max-width: 800px;
-  width: 100%;
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-decoration:none;
+    min-width:0;
 }
 
-/* ================= LOGO ================= */
-.school-logo {
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
+/* LOGO IMAGE */
 
-  border-radius: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+.logo img{
+    width:52px;
+    height:52px;
+
+    border-radius:50%;
+    object-fit:cover;
+
+    background:#fff;
+
+    padding:2px;
+
+    border:2px solid #D4AF37;
+
+    box-shadow:
+    0 4px 15px rgba(212,175,55,.25);
+
+    transition:.35s ease;
 }
 
-/* ================= TEXT ================= */
-.brand-flex h2 {
-  margin: 0;
-  font-size: 20px;
-  color: #ffffff;
+.logo img:hover{
+    transform:rotate(8deg) scale(1.08);
+
+    box-shadow:
+    0 8px 20px rgba(212,175,55,.45);
 }
 
-.brand-flex p {
-  margin: 5px 0 0;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+/* TEXT WRAPPER */
+
+.logo-text{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    line-height:1.2;
+
+    white-space:nowrap;
 }
 
-/* ================= FOOTER BOTTOM ================= */
-.glass-bottom {
-  margin-top: 25px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
-  text-align: center;
+/* SCHOOL NAME */
+
+.school-name{
+    font-size:17px;
+    font-weight:800;
+
+    color:#ffffff;
+
+    letter-spacing:.3px;
+
+    text-shadow:
+    0 2px 8px rgba(0,0,0,.25);
 }
 
-/* ================= DEVELOPER CREDIT ================= */
-.dev-credit {
-  margin-top: 10px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
+/* TAGLINE */
+
+.school-tagline{
+    margin-top:2px;
+
+    font-size:11px;
+    font-weight:600;
+
+    color:#D4AF37;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
 }
 
-.dev-credit span {
-  color: #ff4d6d;
-  font-weight: 600;
+/* ==========================
+   TABLET
+========================== */
+
+@media(max-width:768px){
+
+    .logo{
+        gap:10px;
+    }
+
+    .logo img{
+        width:44px;
+        height:44px;
+    }
+
+    .school-name{
+        font-size:14px;
+    }
+
+    .school-tagline{
+        font-size:9px;
+        letter-spacing:.8px;
+    }
 }
 
-/* ================= HOVER EFFECT ================= */
-.brand-flex:hover {
-  transform: translateY(-3px);
-  transition: 0.3s ease;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+/* ==========================
+   SMALL MOBILE
+========================== */
+
+@media(max-width:480px){
+
+    .logo{
+        gap:8px;
+    }
+
+    .logo img{
+        width:38px;
+        height:38px;
+    }
+
+    .school-name{
+        font-size:12px;
+        max-width:150px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .school-tagline{
+        font-size:8px;
+    }
 }
 
-/* ================= RESPONSIVE ================= */
-@media (max-width: 600px) {
-  .brand-flex {
-    flex-direction: column;
-    text-align: center;
-  }
+/* ==========================
+   VERY SMALL MOBILE
+========================== */
 
-  .school-logo {
-    width: 70px;
-    height: 70px;
-  }
+@media(max-width:360px){
+
+    .school-name{
+        font-size:11px;
+        max-width:120px;
+    }
+
+    .school-tagline{
+        display:none;
+    }
+}
+
+
+/* ==========================
+   PREMIUM LOGIN BUTTON
+========================== */
+
+.desktop-login{
+    display:flex;
+    align-items:center;
+}
+
+.login-btn{
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    min-width:120px;
+    height:46px;
+
+    padding:0 24px;
+
+    border:none;
+    border-radius:50px;
+
+    background:linear-gradient(
+        135deg,
+        #D4AF37,
+        #F5D76E
+    );
+
+    color:#081120;
+
+    font-size:14px;
+    font-weight:800;
+    letter-spacing:.5px;
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    transition:.35s ease;
+
+    box-shadow:
+        0 10px 25px rgba(212,175,55,.30);
+}
+
+/* Shine Effect */
+
+.login-btn::before{
+    content:"";
+
+    position:absolute;
+
+    top:-50%;
+    left:-60px;
+
+    width:30px;
+    height:200%;
+
+    background:rgba(255,255,255,.45);
+
+    transform:rotate(25deg);
+
+    transition:.8s;
+}
+
+.login-btn:hover::before{
+    left:150%;
+}
+
+/* Hover */
+
+.login-btn:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 18px 35px rgba(212,175,55,.45);
+}
+
+/* Click */
+
+.login-btn:active{
+    transform:translateY(0);
+}
+
+/* Focus */
+
+.login-btn:focus{
+    outline:none;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .login-btn{
+        width:100%;
+        height:44px;
+        font-size:13px;
+    }
 }
 
 
 /* =========================
-   ANIMATION
+   NAVBAR FIXED VERSION
 ========================= */
-@keyframes glowMove {
-  0% {
-    background-position: 0% 50%;
+
+:root{
+  --shadow-lg:0 18px 40px rgba(0,0,0,.15);
+}
+
+body{
+  padding-top:72px;
+}
+
+.navbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:99999;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  height:72px;
+  padding:0 40px;
+
+  background:rgba(10,22,40,.96);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(201,151,43,.22);
+
+  box-shadow:0 4px 24px rgba(0,0,0,.25);
+}
+
+/* NAV LINKS */
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.nav-links li{
+  list-style:none;
+}
+
+.nav-links a{
+  display:block;
+  text-decoration:none;
+
+  color:#b8cbe4;
+
+  font-size:13.5px;
+  font-weight:500;
+
+  padding:8px 14px;
+
+  border-radius:8px;
+
+  transition:.3s;
+}
+
+.nav-links a:hover{
+  color:#fff;
+  background:rgba(201,151,43,.15);
+}
+
+/* MOBILE LOGIN HIDE */
+
+.mobile-login-item{
+  display:none;
+}
+
+/* DROPDOWN */
+
+.login-dropdown{
+  position:relative;
+}
+
+.dropdown-menu{
+  position:absolute;
+
+  top:calc(100% + 10px);
+  right:0;
+
+  width:220px;
+
+  background:#fff;
+
+  border-radius:14px;
+
+  overflow:hidden;
+
+  border:1px solid rgba(0,0,0,.1);
+
+  box-shadow:var(--shadow-lg);
+
+  opacity:0;
+  visibility:hidden;
+
+  transform:translateY(-10px);
+
+  transition:.3s;
+
+  z-index:999999;
+}
+
+.dropdown-menu.show{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+.dropdown-menu a{
+  display:flex;
+  align-items:center;
+
+  padding:14px 18px;
+
+  color:#111827;
+
+  text-decoration:none;
+}
+
+.dropdown-menu a:hover{
+  background:#f8fafc;
+}
+
+/* HAMBURGER */
+
+.menu-toggle{
+  display:none;
+
+  width:42px;
+  height:42px;
+
+  border-radius:10px;
+
+  background:rgba(255,255,255,.08);
+
+  color:white;
+
+  cursor:pointer;
+
+  align-items:center;
+  justify-content:center;
+
+  font-size:22px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  .navbar{
+    padding:0 16px;
   }
-  100% {
-    background-position: 200% 50%;
+
+  .desktop-login{
+    display:none !important;
+  }
+
+  .mobile-login-item{
+    display:block;
+    width:100%;
+  }
+
+  .menu-toggle{
+    display:flex;
+  }
+
+  .nav-links{
+    position:absolute;
+
+    top:76px;
+    right:16px;
+
+    width:280px;
+
+    flex-direction:column;
+
+    background:#12264d;
+
+    border-radius:16px;
+
+    padding:12px;
+
+    opacity:0;
+    visibility:hidden;
+
+    transform:translateY(-10px);
+
+    transition:.3s;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+  }
+
+  .nav-links.active{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+  }
+
+  .nav-links li{
+    width:100%;
+  }
+
+  .nav-links a{
+    width:100%;
+  }
+
+  .login-btn{
+    width:100%;
+    justify-content:center;
+  }
+
+  .dropdown-menu{
+    position:relative;
+
+    width:100%;
+
+    top:10px;
+    right:auto;
   }
 }
+
+
+
+
+
+/* ========================================
+   FILTER AREA
+======================================== */
+
+.filters{
+
+  display:flex;
+
+  justify-content:center;
+  align-items:center;
+
+  flex-wrap:wrap;
+
+  gap:15px;
+
+  margin-bottom:35px;
+}
+
+.filters select{
+
+  min-width:220px;
+
+  padding:13px 18px;
+
+  border:1px solid var(--border);
+
+  border-radius:14px;
+
+  background:#fff;
+
+  font-size:15px;
+
+  color:var(--text);
+
+  outline:none;
+
+  transition:var(--transition);
+}
+
+.filters select:focus{
+
+  border-color:var(--secondary);
+
+  box-shadow:
+  0 0 0 4px rgba(31,78,121,.08);
+}
+
+/* ========================================
+   BUTTONS
+======================================== */
+
+.filters button,
+.card a{
+
+  border:none;
+
+  cursor:pointer;
+
+  text-decoration:none;
+
+  font-weight:600;
+
+  transition:var(--transition);
+}
+
+.filters button{
+
+  padding:13px 26px;
+
+  border-radius:14px;
+
+  color:white;
+
+  background:
+  linear-gradient(
+  135deg,
+  var(--primary),
+  var(--secondary)
+  );
+}
+
+.filters button:hover{
+
+  transform:
+  translateY(-3px);
+
+  box-shadow:
+  0 15px 25px rgba(15,39,68,.18);
+}
+
+/* ========================================
+   CARD
+======================================== */
+
+.card{
+
+  max-width:850px;
+
+  margin:0 auto 20px;
+
+  padding:25px;
+
+  background:var(--card);
+
+  border-radius:var(--radius);
+
+  border:1px solid #eef2f7;
+
+  box-shadow:var(--shadow);
+
+  position:relative;
+
+  overflow:hidden;
+
+  transition:var(--transition);
+}
+
+.card::before{
+
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:4px;
+
+  background:
+  linear-gradient(
+  90deg,
+  var(--primary),
+  var(--accent)
+  );
+}
+
+.card:hover{
+
+  transform:
+  translateY(-6px);
+
+  box-shadow:
+  var(--shadow-hover);
+}
+
+/* ========================================
+   CARD CONTENT
+======================================== */
+
+.card h3{
+
+  font-size:24px;
+
+  font-weight:700;
+
+  color:var(--primary);
+
+  margin-bottom:10px;
+}
+
+.card p{
+
+  color:var(--text-light);
+
+  font-size:15px;
+
+  margin-bottom:15px;
+}
+
+/* ========================================
+   DOWNLOAD BUTTON
+======================================== */
+
+.card a{
+
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:12px 24px;
+
+  border-radius:50px;
+
+  color:white;
+
+  background:
+  linear-gradient(
+  135deg,
+  #c89d27,
+  #e4c15f
+  );
+}
+
+.card a:hover{
+
+  transform:
+  translateY(-3px);
+
+  box-shadow:
+  0 12px 25px rgba(212,175,55,.25);
+}
+
+/* ========================================
+   NO DATA
+======================================== */
+
+.no-data{
+
+  max-width:350px;
+
+  margin:35px auto;
+
+  padding:20px;
+
+  text-align:center;
+
+  border-radius:16px;
+
+  background:white;
+
+  box-shadow:var(--shadow);
+
+  color:var(--primary);
+}
+
+/* ========================================
+   SMALL TEXT
+======================================== */
+
+h5{
+
+  text-align:center;
+
+  color:var(--secondary);
+
+  margin-top:35px;
+
+  font-size:16px;
+
+  font-weight:500;
+}
+
+/* ========================================
+   FOOTER
+======================================== */
+/* ===================================
+   PREMIUM SCHOOL FOOTER
+=================================== */
+
+.glass-footer{
+
+  background:
+  linear-gradient(
+  135deg,
+  #071a2e,
+  #0f2744
+  );
+
+  color:#fff;
+
+  padding:50px 20px 25px;
+
+  margin-top:60px;
+
+  position:relative;
+
+  overflow:hidden;
+}
+
+/* GOLD TOP BORDER */
+
+.glass-footer::before{
+
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:4px;
+
+  background:
+  linear-gradient(
+  90deg,
+  transparent,
+  #d4af37,
+  transparent
+  );
+}
+
+/* CONTAINER */
+
+.glass-container{
+
+  max-width:1200px;
+
+  margin:auto;
+}
+
+/* MAIN BOX */
+
+.glass-box.brand{
+
+  display:flex;
+  justify-content:center;
+}
+
+/* BRAND CARD */
+
+.brand-flex{
+
+  width:100%;
+  max-width:850px;
+
+  display:flex;
+  align-items:center;
+
+  gap:25px;
+
+  padding:25px 30px;
+
+  background:
+  rgba(255,255,255,0.06);
+
+  backdrop-filter:blur(12px);
+
+  border:
+  1px solid rgba(255,255,255,0.08);
+
+  border-radius:24px;
+
+  transition:.35s ease;
+}
+
+.brand-flex:hover{
+
+  transform:
+  translateY(-4px);
+
+  box-shadow:
+  0 20px 40px rgba(0,0,0,.25);
+}
+
+/* LOGO */
+
+.school-logo{
+
+  width:90px;
+  height:90px;
+
+  object-fit:cover;
+
+  border-radius:50%;
+
+  border:3px solid #d4af37;
+
+  background:#fff;
+
+  padding:4px;
+}
+
+/* SCHOOL NAME */
+
+.brand-flex h2{
+
+  margin:0;
+
+  font-size:26px;
+
+  font-weight:700;
+
+  color:#fff;
+}
+
+/* TAGLINE */
+
+.brand-flex p{
+
+  margin-top:8px;
+
+  color:
+  rgba(255,255,255,.75);
+
+  font-size:15px;
+
+  line-height:1.6;
+}
+
+/* BOTTOM COPYRIGHT */
+
+.glass-bottom{
+
+  text-align:center;
+
+  margin-top:30px;
+
+  font-size:14px;
+
+  color:
+  rgba(255,255,255,.7);
+}
+
+/* DEVELOPER */
+
+.dev-credit{
+
+  text-align:center;
+
+  margin-top:10px;
+}
+
+.dev-credit p{
+
+  font-size:14px;
+
+  color:
+  rgba(255,255,255,.7);
+}
+
+.dev-credit span{
+
+  color:#d4af37;
+
+  font-weight:700;
+
+  letter-spacing:.5px;
+}
+
+/* ===================================
+   MOBILE
+=================================== */
+
+@media(max-width:768px){
+
+  .brand-flex{
+
+      flex-direction:column;
+
+      text-align:center;
+
+      padding:20px;
+  }
+
+  .school-logo{
+
+      width:80px;
+      height:80px;
+  }
+
+  .brand-flex h2{
+
+      font-size:22px;
+  }
+
+  .brand-flex p{
+
+      font-size:14px;
+  }
+
+  .glass-bottom{
+
+      font-size:13px;
+      line-height:1.6;
+  }
+}
+
+@media(max-width:480px){
+
+  .glass-footer{
+
+      padding:40px 15px 20px;
+  }
+
+  .brand-flex{
+
+      border-radius:18px;
+  }
+
+  .brand-flex h2{
+
+      font-size:20px;
+  }
+
+  .school-logo{
+
+      width:70px;
+      height:70px;
+  }
+}
+
+/* ========================================
+   SCROLLBAR
+======================================== */
+
+::-webkit-scrollbar{
+  width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:var(--secondary);
+  border-radius:20px;
+}
+
+::-webkit-scrollbar-track{
+  background:#edf2f7;
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media(max-width:992px){
+
+  .download-section h2{
+      font-size:36px;
+  }
+
+  .card{
+      max-width:100%;
+  }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media(max-width:768px){
+
+  .download-section{
+      padding:50px 15px;
+  }
+
+  .download-section h2{
+      font-size:30px;
+  }
+
+  .filters{
+      flex-direction:column;
+  }
+
+  .filters select,
+  .filters button{
+      width:100%;
+      max-width:350px;
+  }
+
+  .brand-flex{
+      flex-direction:column;
+      text-align:center;
+  }
+
+  .school-logo{
+      width:80px;
+      height:80px;
+  }
+
+  .card{
+      padding:20px;
+  }
+
+  .card h3{
+      font-size:20px;
+  }
+}
+
+/* ========================================
+   SMALL MOBILE
+======================================== */
+
+@media(max-width:480px){
+
+  .download-section h2{
+      font-size:26px;
+  }
+
+  .card{
+      border-radius:16px;
+  }
+
+  .card a{
+      width:100%;
+  }
+}
+
+
+.nav-links a.active{
+  color:#e0aa14 !important;
+  background:rgba(212,175,55,.12);
+  border-radius:8px;
+}
+
 
 </style>
 </head>
 
 <body>
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<header class="navbar">
+
+  <div class="logo">
+    <img src="logo.png" alt="School Logo">
+    <div class="logo-text">
+      <span class="school-name">GSS School Shilla</span>
+      <span class="school-tagline">Est. Himachal Pradesh</span>
+    </div>
+  </div>
+
+ <ul class="nav-links" id="navLinks">
+  <li><a href="../index.html">Home</a></li>
+  <li><a href="./pub-notif.html">Notices</a></li>
+  <li><a href="./result.html">Results</a></li>
+  <li><a href="./downloads.html" class="active">Downloads</a></li>
+  <li><a href="./contact.html">Contact</a></li>
+
+  <li class="mobile-login-item">
+    <div class="login-dropdown">
+      <button class="login-btn" id="loginBtnMobile">
+        Login
+      </button>
+
+      <div class="dropdown-menu" id="dropdownMenuMobile">
+        <a href="../admin/login.html">🛠️ Admin Panel</a>
+        <a href="../no.html">🎓 Student Portal</a>
+        <a href="../no.html">👨‍🏫 Teacher Portal</a>
+      </div>
+    </div>
+  </li>
+</ul>
+
+  <div class="nav-actions">
+
+    <!-- Desktop Login -->
+    <div class="login-dropdown desktop-login">
+      <button class="login-btn" id="loginBtn">
+        Login
+      </button>
+
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="../admin/login.html">🛠️ Admin Panel</a>
+        <a href="../no.html">🎓 Student Portal</a>
+        <a href="../no.html">👨‍🏫 Teacher Portal</a>
+      </div>
+    </div>
+
+    <div class="menu-toggle" id="menuToggle">☰</div>
+
+  </div>
+
+</header>
 
 <section class="download-section">
 
@@ -335,6 +1298,7 @@ background: linear-gradient(135deg, #0f172a, #1e293b);
   <option>2027</option>
   <option>2028</option>
   <option>2029</option>
+  <option>2030</option>
   
 </select>
 
@@ -343,6 +1307,7 @@ background: linear-gradient(135deg, #0f172a, #1e293b);
   <option>Model Paper</option>
   <option>Syllabus</option>
   <option>PYQ</option>
+  <option>Time Table</option>
   <option>Other</option>
 </select>
 
@@ -366,7 +1331,7 @@ background: linear-gradient(135deg, #0f172a, #1e293b);
     <img src="../1778132110413-ChatGPT Image May 7, 2026, 10_56_26 AM.png" alt="School Logo" class="school-logo">
 
     <div>
-      <h2>Govt Sr. Sec. School</h2>
+      <h2>Govt Sr. Sec. School Shilla</h2>
       <p>Empowering students with knowledge, discipline & excellence.</p>
     </div>
  
@@ -374,10 +1339,10 @@ background: linear-gradient(135deg, #0f172a, #1e293b);
 
 
   <div class="glass-bottom">
-    © 2026 Govt. Sr. Sec. School Shilla | All Rights Reserved
+    © 2026 Govt. Sr. Sec. School Shilla
   </div>
   <div class="dev-credit">
-  <p>Developed by <span>Vikshant Kralta</span></p>
+  <p>All Rights Reserved by <span>GSSS SHILLA</span></p>
 </div>
 
 </footer>
@@ -394,7 +1359,7 @@ background: linear-gradient(135deg, #0f172a, #1e293b);
     return;
   }
 
-  let url = `http://localhost:3000/downloads?class=${cls}&year=${year}&category=${category}`;
+  let url = `https://gsssshilla.onrender.com/downloads?class=${cls}&year=${year}&category=${category}`;
 
   fetch(url)
     .then(res => res.json())
@@ -413,13 +1378,83 @@ background: linear-gradient(135deg, #0f172a, #1e293b);
           <div class="card">
             <h3>${d.title}</h3>
             <p>Class: ${d.class} | Year: ${d.year} | ${d.category}</p>
-            <a href="http://localhost:3000/uploads/${d.file}" target="_blank">Download</a>
+            <a href="${d.file}" target="_blank">Download</a>
           </div>
         `;
       });
 
     });
-}</script>
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = document.getElementById("navLinks");
+
+  /* MOBILE MENU */
+
+  menuToggle.addEventListener("click", () => {
+
+    navLinks.classList.toggle("active");
+
+    menuToggle.innerHTML =
+      navLinks.classList.contains("active")
+      ? "✕"
+      : "☰";
+
+  });
+
+  /* CLOSE MENU ON LINK CLICK */
+
+  document.querySelectorAll("#navLinks a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+      navLinks.classList.remove("active");
+      menuToggle.innerHTML = "☰";
+
+    });
+
+  });
+
+  /* DROPDOWN */
+
+  function setupDropdown(btnId, menuId){
+
+    const btn = document.getElementById(btnId);
+    const menu = document.getElementById(menuId);
+
+    if(!btn || !menu) return;
+
+    btn.addEventListener("click",(e)=>{
+
+      e.stopPropagation();
+
+      menu.classList.toggle("show");
+
+    });
+
+    document.addEventListener("click",(e)=>{
+
+      if(
+        !btn.contains(e.target) &&
+        !menu.contains(e.target)
+      ){
+        menu.classList.remove("show");
+      }
+
+    });
+
+  }
+
+  setupDropdown("loginBtn","dropdownMenu");
+  setupDropdown("loginBtnMobile","dropdownMenuMobile");
+
+  load();
+
+});
+
+</script>
 
 </body>
 </html>
